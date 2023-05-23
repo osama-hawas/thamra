@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum BtnType { elvated, outLine, outLineDisable, cansle, reject }
 
@@ -17,7 +18,7 @@ class Btn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding:  EdgeInsets.symmetric(horizontal: 16.w),
       child: type == BtnType.outLine || type == BtnType.outLineDisable
           ? OutlinedButton(
               onPressed: type == BtnType.outLineDisable?null:(){
@@ -31,14 +32,14 @@ class Btn extends StatelessWidget {
                 alignment: Alignment.center,
                 foregroundColor: Color(0xff4C8613),
                 textStyle: TextStyle(
-                  fontSize: 15,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 elevation: 0,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 27),
+                     EdgeInsets.symmetric(vertical: 14.h, horizontal: 27.w),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                 ),
               ),
             )
@@ -54,13 +55,13 @@ class Btn extends StatelessWidget {
                     type == BtnType.cansle ? Color(0xffFFE1E1) : null,
                 alignment: Alignment.center,
                 textStyle: TextStyle(
-                  fontSize: 15,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 elevation: 0,
-                minimumSize: const Size(double.infinity, 60),
+                minimumSize:  Size(double.infinity, 60.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                 ),
               ),
             ),

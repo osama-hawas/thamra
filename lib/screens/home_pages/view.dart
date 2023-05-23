@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thamra/screens/home_pages/fav/view.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
 import 'package:thamra/screens/home_pages/my_order/view.dart';
@@ -13,12 +14,21 @@ class NavView extends StatefulWidget {
 }
 
 class _NavViewState extends State<NavView> {
-  int index = 0;
+  List<String> title = ['الرئيسية', 'طلباتي', 'الإشعارات', 'المفضلة', 'حسابي'];
+  List<String> iconLink = [
+    'COCO-Line-Home.svg',
+    'COCO-Line-Note.svg',
+    'COCO-Duotone-Notification.svg',
+    'Icon ionic-ios-heart-empty.svg',
+    'COCO-Line-User.svg',
+  ];
+
+  int currentIndex = 0;
   List<Widget> pages = [
-    HomeScreen(),
-    MyOrderScreen(),
-    NotificationsScreen(),
-    FavScreen(),
+    const HomeScreen(),
+    const MyOrderScreen(),
+    const NotificationsScreen(),
+    const FavScreen(),
     ProfileScreen(),
   ];
 
@@ -26,38 +36,40 @@ class _NavViewState extends State<NavView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: pages[index],
+        body: pages[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: index,
-          backgroundColor: Theme.of(context).primaryColor,
-          onTap: (value) {
-            index = value;
-            setState(() {});
-          },
-          iconSize: 32,
-          selectedFontSize: 12,
-          selectedLabelStyle:
-              TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-          unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-          ),
-          unselectedItemColor: Color(0xffAED489),
-          selectedIconTheme: IconThemeData(color: Colors.white),
-          fixedColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: 'الرئيسية'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.reorder_outlined), label: 'طلباتي'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_outlined), label: 'الإشعارات'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_rounded), label: 'المفضلة'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'حسابي'),
-          ],
-        ),
+            currentIndex: currentIndex,
+            backgroundColor: Theme.of(context).primaryColor,
+            onTap: (value) {
+              currentIndex = value;
+              setState(() {});
+            },
+            iconSize: 32,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            selectedLabelStyle:
+            const  TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            unselectedLabelStyle:const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            selectedItemColor: Colors.white,
+            unselectedItemColor:const Color(0xffAED489),
+            type: BottomNavigationBarType.fixed,
+            items: List.generate(
+              title.length,
+              (index) => BottomNavigationBarItem(
+                  icon: Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: SvgPicture.asset(
+                      "assets/icons/abb_bar/${iconLink[index]}",
+                      color: currentIndex == index
+                          ? Colors.white
+                          :const Color(0xffAED489),
+                    ),
+                  ),
+                  label: title[index]),
+            )),
       ),
     );
   }

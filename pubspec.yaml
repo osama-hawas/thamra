@@ -42,6 +42,16 @@ dependencies:
   pin_code_fields: ^7.4.0
   circular_countdown_timer: ^0.2.3
   shared_preferences: ^2.1.1
+  flutter_html: ^3.0.0-alpha.6
+  flutter_bloc: ^8.1.2
+  flutter_screenutil:
+  dio: ^5.1.2
+  image_picker: ^0.8.7+5
+  firebase_messaging: ^14.6.1
+  firebase_core: ^2.13.0
+  flutter_svg: ^1.1.6
+
+
 
 
 
@@ -73,6 +83,8 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/icons/home_svg/
+    - assets/icons/abb_bar/
+    - assets/icons/profile_icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
