@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "250502185481",
+    "project_id": "thimar-course-2c46e",
+    "storage_bucket": "thimar-course-2c46e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250502185481:android:8ea4bf2f0f1fdc79bb6ed8",
+        "android_client_info": {
+          "package_name": "com.example.thamra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250502185481-jfrf59cmh8jsrni5gu5se7cqqebcm391.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuXh_mfNIIHHnA6PfOnzmRSEN7rd9tav8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250502185481-jfrf59cmh8jsrni5gu5se7cqqebcm391.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

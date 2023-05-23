@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>250502185481-s6el81bubm052pd1qibld0ukk9ngl5e9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.250502185481-s6el81bubm052pd1qibld0ukk9ngl5e9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAFtJn7dQf5cqR4MgZkCm63nmnGl-ueM5k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>250502185481</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.thamra</string>
+	<key>PROJECT_ID</key>
+	<string>thimar-course-2c46e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>thimar-course-2c46e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:250502185481:ios:1058e2184c083cf9bb6ed8</string>
+</dict>
+</plist>
