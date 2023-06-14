@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/app_routes.dart';
 
 class SplachScreen extends StatefulWidget {
@@ -13,14 +14,24 @@ class SplachScreen extends StatefulWidget {
 }
 
 class _SplachScreenState extends State<SplachScreen> {
-
   @override
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      GoRouter.of(context).pushReplacement(AppRoutes.login);
+// for test
+//       GoRouter.of(context).push(AppRoutes.activateAccount);
+      // GoRouter.of(context).pushReplacement(AppRoutes.signUp);
+      // GoRouter.of(context).pushReplacement(AppRoutes.login);
+      // GoRouter.of(context).pushReplacement(AppRoutes.forgetPass);
+
+      if (CacheHelper.getUserToken() != null) {
+        GoRouter.of(context).pushReplacement(AppRoutes.home);
+      } else {
+        GoRouter.of(context).pushReplacement(AppRoutes.login);
+      }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +46,12 @@ class _SplachScreenState extends State<SplachScreen> {
               ),
               fit: BoxFit.fill),
         ),
-        child: ElasticInLeft
-          (
-          duration:const Duration(seconds: 3),
+        child: ElasticInLeft(
+          duration: const Duration(seconds: 3),
           // delay:const Duration(milliseconds: 500),
           child: Spin(
             duration: const Duration(seconds: 2),
             spins: 2,
-
             child: Center(
               child: Image.asset(
                 'assets/images/logo.png',

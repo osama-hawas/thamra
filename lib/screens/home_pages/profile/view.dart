@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thamra/core/utils/app_routes.dart';
 
@@ -68,57 +69,58 @@ class ProfileScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-                Container(
-                height: 217,
+              Container(
+                height: 217.h,
                 width: double.infinity,
-                margin:const EdgeInsets.only(bottom: 12),
+                margin: EdgeInsets.only(bottom: 12.h),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius:const BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
-                  image:const DecorationImage(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40.r),
+                      bottomRight: Radius.circular(40.r)),
+                  image: const DecorationImage(
                       image: AssetImage('assets/images/Mask Group png.png'),
                       fit: BoxFit.fill),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding:  EdgeInsets.only(top: 32),
+                    Padding(
+                      padding: EdgeInsets.only(top: 32.h),
                       child: Text('حسابي',
-                          style:  TextStyle(
-                              fontSize: 20,
+                          style: TextStyle(
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white)),
                     ),
                     Expanded(
                       child: Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        height: 72,
-                        width: 76,
+                        margin: EdgeInsets.only(top: 20.h),
+                        height: 72.h,
+                        width: 76.w,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           image: DecorationImage(
                               image: NetworkImage(
-                                CacheHelper.getImage(),),
+                                CacheHelper.getImage(),
+                              ),
                               fit: BoxFit.fill),
                         ),
                       ),
                     ),
-                      Padding(
-                      padding:const  EdgeInsets.only(top: 4),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4.h),
                       child: Text(CacheHelper.getName(),
-                          style:const  TextStyle(
-                              fontSize: 14,
+                          style: TextStyle(
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white)),
                     ),
-                      Padding(
-                      padding:const  EdgeInsets.only(top: 4, bottom: 4),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4.h, bottom: 4.h),
                       child: Text(CacheHelper.getPhone(),
-                          style:const  TextStyle(
-                              fontSize: 14,
+                          style: TextStyle(
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
                               color: Color(0xffA2D273)),
                           textDirection: TextDirection.ltr),
@@ -135,14 +137,16 @@ class ProfileScreen extends StatelessWidget {
                       GoRouter.of(context).push(profileItems['route'][index]);
                     },
                     child: Container(
-
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16,),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                      ),
                       // margin: const EdgeInsets.only(top: 15),
                       alignment: Alignment.center,
                       child: Column(
                         children: [
-                          const SizedBox(height: 7,),
+                          SizedBox(
+                            height: 7.h,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,51 +155,60 @@ class ProfileScreen extends StatelessWidget {
                                 profileItems['icon'][index],
                                 fit: BoxFit.fill,
                               ),
-                              const   SizedBox(
-                                width: 9,
+                              SizedBox(
+                                width: 9.w,
                               ),
                               Text(
                                 profileItems['title'][index],
                                 style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w700,
                                     color: Theme.of(context).primaryColor),
                               ),
-                              const   Spacer(),
+                              const Spacer(),
                               Image.asset(
                                 'assets/icons/profile_icon/COCO-Line-Arrow - Left.png',
                                 fit: BoxFit.fill,
-                                color:const Color(0xffB2BCA8),
+                                color: const Color(0xffB2BCA8),
                               ),
                             ],
-                          ),const SizedBox(height: 7,),
-                         const Divider(),
+                          ),
+                          SizedBox(
+                            height: 7.h,
+                          ),
+                          const Divider(),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                margin:const EdgeInsets.symmetric(horizontal: 16),
-                padding:const EdgeInsets.symmetric(vertical: 36),
-                child: Row(
-                  children: [
-                    Text(
-                      'تسجيل الخروج',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    const Spacer(),
-                    Image.asset(
-                      'assets/icons/profile_icon/COCO-Duotone-Turn off.png',
-                      fit: BoxFit.fill,
-                      color:const Color(0xffB2BCA8),
-                    ),
-                  ],
+              GestureDetector(
+                onTap: (){
+                  CacheHelper.logout();
+                  GoRouter.of(context).pushReplacement(AppRoutes.login);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(vertical: 36.h),
+                  child: Row(
+                    children: [
+                      Text(
+                        'تسجيل الخروج',
+                        style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Theme.of(context).primaryColor),
+                      ),
+                      const Spacer(),
+                      Image.asset(
+                        'assets/icons/profile_icon/COCO-Duotone-Turn off.png',
+                        fit: BoxFit.fill,
+                        color: const Color(0xffB2BCA8),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

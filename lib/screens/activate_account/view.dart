@@ -1,13 +1,21 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:thamra/core/data/local/cache_helper.dart';
+import 'package:thamra/core/utils/helper_methods.dart';
 import 'package:thamra/core/widgets/text_under_logo.dart';
+import 'package:thamra/features/active_acount/active_acount_cubit.dart';
 
 import '../../core/utils/app_routes.dart';
 import '../../core/widgets/btn.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
+import '../../features/resend_code/_cubit.dart';
+import '../../features/resend_code/_state.dart';
 
 class ActivateAccountScreen extends StatefulWidget {
   const ActivateAccountScreen({Key? key}) : super(key: key);
@@ -17,64 +25,75 @@ class ActivateAccountScreen extends StatefulWidget {
 }
 
 class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
-  bool isTimeRunning=true;
+  final cubit = KiwiContainer().resolve<ActiveAcountCubit>();
+  bool isTimeRunning = true;
+  late String code;
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Scaffold(
         body: ListView(
           children: [
-            const Logo(),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextUnderLogo(text: 'تفعيل الحساب'),
-            ),SizedBox(height: 10,),
-            const Padding(
+            Logo(),
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'أدخل الكود المكون من 4 أرقام المرسل علي رقم الجوال',
-                style: TextStyle(color: Color(0xff707070), fontSize: 16),
-              ),
+              child: TextUnderLogo(text: 'تفعيل الحساب'),
             ),
-            const SizedBox(
-              height: 6,
+            SizedBox(
+              height: 10.h,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text(
+                'أدخل الكود المكون من 4 أرقام المرسل علي رقم الجوال',
+                style: TextStyle(color: Color(0xff707070), fontSize: 16.sp),
+              ),
+            ),
+            SizedBox(
+              height: 6.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    '+9660548745',
-                    style: TextStyle(color: Color(0xff707070), fontSize: 16),
+                  Text(
+                    CacheHelper.showPhoneFromRegister()!,
+                    style: TextStyle(color: Color(0xff707070), fontSize: 16.sp),
                     textDirection: TextDirection.ltr,
                   ),
-                  const SizedBox(
-                    width: 4,
+                  SizedBox(
+                    width: 4.w,
                   ),
-                  Text(
-                    'تغيير رقم الجوال',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16,
-                        decoration: TextDecoration.underline),
+                  InkWell(
+                    onTap: () {
+                      GoRouter.of(context).pop();
+                    },
+                    child: Text(
+                      'تغيير رقم الجوال',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline),
+                    ),
                   )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: 30.h,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: PinCodeTextField(
                 length: 4,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(15),
-                  fieldHeight: 60,
-                  fieldWidth: 70,
+                  borderRadius: BorderRadius.circular(15.r),
+                  fieldHeight: 65.h,
+                  fieldWidth: 65.w,
                   activeFillColor: Colors.transparent,
                   disabledColor: Colors.transparent,
                   inactiveColor: const Color(0xffF3F3F3),
@@ -82,38 +101,56 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 ),
                 animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
-                onCompleted: (v) {},
+                onCompleted: (value) {
+                  code = value;
+                },
                 appContext: context,
-                onChanged: (value) {},
+                onChanged: (v) {},
               ),
             ),
-            const SizedBox(
-              height: 37,
+            SizedBox(
+              height: 37.h,
             ),
-            Btn(
-                text: 'تأكيد الكود',
-                onPressed: () {
-                  GoRouter.of(context).push(AppRoutes.home);
-                }),
-            const SizedBox(
-              height: 27,
+            BlocConsumer<ActiveAcountCubit, ActiveAcountState>(
+              listener: (context, state) {
+                if (state is ActiveAcountSuccessState) {
+                  showToast(message: "تم تفعيل حسابك بنجاح", context: context);
+                  GoRouter.of(context).push(AppRoutes.login);
+                }
+                if (state is ActiveAcountFailedState) {
+                  showToast(message: "الكود غير صحيح", context: context);
+                }
+              },
+              builder: (context, state) {
+                return Btn(
+                    isLoading: state is ActiveAcountLoadingState,
+                    text: 'تأكيد الكود',
+                    onPressed: () {
+                      if (code != null) {
+                        cubit.activeAcount(code: code);
+                      }
+                    });
+              },
             ),
-            const Text(
+            SizedBox(
+              height: 27.h,
+            ),
+            Text(
               'لم تستلم الكود ؟\n يمكنك إعادة إرسال الكود بعد',
               style: TextStyle(
                 color: Color(0xff707070),
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
               textAlign: TextAlign.center,
             ),
             if (isTimeRunning)
               Padding(
-                padding: const EdgeInsets.only(top: 22),
+                padding: EdgeInsets.only(top: 22.h),
                 child: CircularCountDownTimer(
-                  duration: 10,
+                  duration: 30,
                   initialDuration: 0,
-                  width: 66,
-                  height: 70,
+                  width: 66.w,
+                  height: 70.h,
                   ringColor: const Color(0xffD8D8D8),
                   fillColor: Theme.of(context).primaryColor,
                   backgroundColor: Colors.transparent,
@@ -124,7 +161,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                   controller: CountDownController(),
                   strokeCap: StrokeCap.round,
                   textStyle: TextStyle(
-                      fontSize: 21,
+                      fontSize: 21.sp,
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold),
                   textFormat: CountdownTextFormat.MM_SS,
@@ -136,23 +173,40 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                   },
                 ),
               ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             Center(
-              child: Btn(
-                text: 'إعادة الإرسال',
-                onPressed: () {
-                  isTimeRunning = true;
-                  setState(() {
-
-                  });
-                },
-                type:isTimeRunning? BtnType.outLineDisable:BtnType.outLine,
+              child: BlocProvider(
+                create: (context) => ResendCodeCubit(),
+                child: Builder(builder: (context) {
+                  ResendCodeCubit cubit = BlocProvider.of(context);
+                  return BlocConsumer<ResendCodeCubit, ResendCodeState>(
+                    listener: (context, state) {
+                      if (state is ResendCodeSuccessState) {
+                        showToast(message: state.msg, context: context);
+                      }
+                    },
+                    builder: (context, state) {
+                      return Btn(
+                        isLoading: state is ResendCodeLoadingState,
+                        text: 'إعادة الإرسال',
+                        onPressed: () {
+                          cubit.resendCode();
+                          isTimeRunning = true;
+                          setState(() {});
+                        },
+                        type: isTimeRunning
+                            ? BtnType.outLineDisable
+                            : BtnType.outLine,
+                      );
+                    },
+                  );
+                }),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 45,bottom: 32),
+              padding: EdgeInsets.only(top: 45.h, bottom: 32.h),
               child: TextForLoginOrSignup(
                 text: 'لديك حساب بالفعل ؟',
                 signText: 'تسجيل الدخول',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextUnderLogo extends StatelessWidget {
   final String text;
@@ -9,7 +10,7 @@ class TextUnderLogo extends StatelessWidget {
     return  Text(
       text,
       style: TextStyle(
-          fontSize: 16,
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
           color: Theme.of(context).primaryColor),
     );

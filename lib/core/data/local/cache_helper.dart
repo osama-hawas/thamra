@@ -19,6 +19,12 @@ class CacheHelper {
   static Future<void> removeTitle() async {
     prefs.remove('title');
   }
+  static Future<void> savePhoneFromRegister({required String phone}) async {
+    prefs.setString('registerphone',phone);
+  }
+  static String? showPhoneFromRegister() {
+    return prefs.getString("registerphone") ;
+  }
 
   static Future saveUserData(LoginDataModel model) async {
     prefs.setString("image", model.data.image);
@@ -32,19 +38,53 @@ class CacheHelper {
     prefs.setString("cityName", model.data.city.name);
   }
 
+  static Future updateUserProfile({phone, name, cityId, cityName}) async {
+    prefs.setString("phone", phone);
+    prefs.setString("fullname", name);
+    prefs.setString("cityId", cityId);
+    prefs.setString("cityName", cityName);
+  }
+
+  static String getCityName() {
+    return prefs.getString("cityName") ?? "mansoura";
+  }
+
+  static String getCityId() {
+    return prefs.getString("cityId") ?? "0";
+  }
+
   static String getName() {
     return prefs.getString("fullname") ?? "user";
   }
 
   static String getImage() {
-    return prefs.getString("image") ?? "";
+    return prefs.getString("image") ??
+        "https://sb.kaleidousercontent.com/67418/1920x1545/c5f15ac173/samuel-raita-ridxdghg7pw-unsplash.jpg";
   }
 
   static String getPhone() {
     return prefs.getString("phone") ?? "";
   }
 
-  static String getUserToken() {
-    return prefs.getString("token") ?? "";
+  static String? getUserToken() {
+    return prefs.getString("token");
+  }
+  static Future<void> saveDeviceToken({required String? deviceToken}) async {
+    prefs.setString('deviceToken',deviceToken!);
+  }
+  static String getDeviceToken() {
+    return prefs.getString("deviceToken") ?? "test";
+  }
+
+  static Future<void> saveCode({required String? code}) async {
+    prefs.setString('code',code!);
+  }
+  static String? getCode() {
+    return prefs.getString("code") ;
+  }
+
+
+  static Future<void> logout() async {
+    prefs.clear();
   }
 }

@@ -22,7 +22,6 @@ class Data {
   late final String userType;
   late final String token;
   late final City city;
-  late final Null identityNumber;
   late final int userCartCount;
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -36,8 +35,7 @@ class Data {
     unreadNotifications = json['unread_notifications'];
     userType = json['user_type'];
     token = json['token'];
-    city = City.fromJson(json['city']);
-    identityNumber = null;
+    city = City.fromJson(json['city']??{});
     userCartCount = json['user_cart_count'];
   }
 }
@@ -47,7 +45,7 @@ class City {
   late final String name;
 
   City.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
+    id = json['id']??"0";
+    name = json['name']??"null";
   }
 }

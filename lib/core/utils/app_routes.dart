@@ -18,6 +18,7 @@ import 'package:thamra/screens/splach/view.dart';
 
 import '../../screens/activate_account/view.dart';
 import '../../screens/forget_pass/view.dart';
+import '../../screens/profile_pages/change_lang/change_lang.dart';
 
 abstract class AppRoutes {
   static String splach = '/';
@@ -53,27 +54,27 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: signUp,
-      builder: (context, state) => const SignUpScreen(),
+      builder: (context, state) =>  SignUpScreen(),
     ),
     GoRoute(
       path: forgetPass,
-      builder: (context, state) => const ForgetPassScreen(),
+      builder: (context, state) =>  ForgetPassScreen(),
     ),
     GoRoute(
       path: passCode,
-      builder: (context, state) => const ConfirmPassCodeScreen(),
+      builder: (context, state) =>  ConfirmPassCodeScreen(),
     ),
     GoRoute(
       path: confirmNewPass,
-      builder: (context, state) => const ConfirmNewPassScreen(),
+      builder: (context, state) =>  ConfirmNewPassScreen(),
     ),
     GoRoute(
       path: home,
-      builder: (context, state) =>const NavView(),
+      builder: (context, state) => NavView(),
     ),
     GoRoute(
       path: activateAccount,
-      builder: (context, state) =>const ActivateAccountScreen(),
+      builder: (context, state) => ActivateAccountScreen(),
     ),
     GoRoute(
       path: suggestionPage,
@@ -81,11 +82,11 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: aboutApp,
-      builder: (context, state) =>const AboutAppScreen(),
+      builder: (context, state) => AboutAppScreen(),
     ),
     GoRoute(
       path: privacyscreen,
-      builder: (context, state) =>const PrivacyScreen(),
+      builder: (context, state) => PrivacyScreen(),
     ),
 
 
@@ -93,7 +94,7 @@ abstract class AppRoutes {
 
     GoRoute(
       path: profileinfo,
-      builder: (context, state) =>const ProfileInfoScreen(),
+      builder: (context, state) => ProfileInfoScreen(),
     ),
     GoRoute(
       path: wallet,
@@ -121,7 +122,7 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: changelang,
-      builder: (context, state) =>const HomeScreen(),
+      builder: (context, state) => ChangeLangScreen(),
     ),
     GoRoute(
       path: strokeandtightness,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:thamra/core/widgets/btn.dart';
 import 'package:thamra/core/widgets/input.dart';
 
+import '../../../core/utils/helper_methods.dart';
 import '../../../core/widgets/custom_app_bar_profile.dart';
 
 class SuggestionsScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SuggestionsScreenState extends State<SuggestionsScreen> {
   final contentController = TextEditingController();
 
   bool isSend = false;
-  GlobalKey<FormState> formkey = GlobalKey();
+
 
   @override
   Widget build(BuildContext context) {

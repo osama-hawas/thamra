@@ -80,6 +80,7 @@ class LoginScreen extends StatelessWidget {
                       listener: (context, state) {
                         if (state is LoginSuccessStates) {
                           GoRouter.of(context).push(AppRoutes.home);
+                          showToast(message: "تم تسجيل الدخول بنجاح", context: context);
                         }
                         if (state is LoginFailedStates) {
                           showToast(message: state.msg, context: context);

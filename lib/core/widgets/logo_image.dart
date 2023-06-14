@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Logo extends StatelessWidget {
   const Logo({Key? key}) : super(key: key);
@@ -6,12 +7,12 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 21),
+      padding:  EdgeInsets.only(top: 20.h, bottom: 21.h),
       child: Center(
         child: Image.asset(
           'assets/images/logo.png',
-          height: 125,
-          width: 130,
+          height: 125.h,
+          width: 130.w,
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             homeInput: true,
           ),
           Container(
-            height: 164,
+            height: 164.h,
             width: double.infinity,
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                     fit: BoxFit.fill)),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 28, bottom: 8),
+            padding: EdgeInsets.only(top: 28.h, bottom: 8.h),
             child: Container(
               // color: Colors.amber,
               // height: 140,
@@ -39,23 +40,23 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsetsDirectional.only(start: 16),
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(start: 16.w),
                         child: Text(
                           'الأقسام',
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w700),
+                              fontSize: 15.sp, fontWeight: FontWeight.w700),
                         ),
                       ),
                       Spacer(),
                       Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 20),
+                        padding: EdgeInsetsDirectional.only(end: 20.w),
                         child: InkWell(
                           onTap: () {},
                           child: Text(
                             'عرض الكل',
                             style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColor),
                           ),
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    height: 135,
+                    height: 135.h,
                     child: ListView.builder(
                       itemCount: 10,
                       scrollDirection: Axis.horizontal,
@@ -75,15 +76,17 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsetsDirectional.only(start: 16),
+          Padding(
+            padding: EdgeInsetsDirectional.only(start: 16.w),
             child: Text(
               'الأصناف',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
             ),
           ),
           ProductItem(),
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16.h,
+          ),
         ],
       ),
     ));
