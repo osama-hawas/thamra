@@ -17,7 +17,7 @@ class _SplachScreenState extends State<SplachScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
 // for test
 //       GoRouter.of(context).push(AppRoutes.activateAccount);
       // GoRouter.of(context).pushReplacement(AppRoutes.signUp);

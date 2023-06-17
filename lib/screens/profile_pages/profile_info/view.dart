@@ -12,6 +12,7 @@ import 'package:thamra/core/utils/helper_methods.dart';
 import 'package:thamra/core/widgets/btn.dart';
 import 'package:thamra/core/widgets/input.dart';
 import 'package:thamra/features/edit_profile/edit_profile_cubit.dart';
+import 'package:thamra/features/get_cities/cities_event.dart';
 
 import '../../../core/widgets/custom_app_bar_profile.dart';
 import '../../../features/get_cities/get_cities_cubit.dart';
@@ -25,7 +26,8 @@ class ProfileInfoScreen extends StatefulWidget {
 
 class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   final editProfileCubit = KiwiContainer().resolve<EditProfileCubit>();
-  final getCitiesCubit = KiwiContainer().resolve<GetCitiesCubit>()..getCities();
+  final getCitiesBloc = KiwiContainer().resolve<GetCitiesCubit>()
+    ..add(GetCitiesEvent());
 
   final nameController = TextEditingController(text: CacheHelper.getName());
 
@@ -96,9 +98,10 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                 ),
                         ),
                         Center(
-                            child: SvgPicture.asset(
-                          "assets/icons/camera.svg",
-                        ))
+                          child: SvgPicture.asset(
+                            "assets/icons/camera.svg",
+                          ),
+                        )
                       ]),
                     ),
                   ),
@@ -107,7 +110,8 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               SizedBox(
                 height: 3.h,
               ),
-              BlocBuilder<EditProfileCubit, EditProfileState>(
+              BlocBuilder(
+                bloc: editProfileCubit,
                 builder: (context, state) => Column(
                   children: [
                     Text(CacheHelper.getName(),
@@ -168,78 +172,67 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                   color: Theme.of(context).hintColor),
                             ),
                             Expanded(
-                              child: BlocProvider(
-                                create: (context) =>
-                                    GetCitiesCubit()..getCities(),
-                                child:
-                                    BlocBuilder<GetCitiesCubit, GetCitiesState>(
-                                  builder: (context, state) {
-                                    if (state is GetCitiesLoadingState) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    } else if (state is GetCitiesFailedState) {
-                                      return Center(
-                                        child: Text(
-                                          "Sorry .Try again later",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                              color:
-                                                  Theme.of(context).hintColor),
-                                        ),
-                                      );
-                                    } else if (state is GetCitiesSuccessState) {
-                                      return SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: List.generate(
-                                              state.list.length,
-                                              (index) => GestureDetector(
-                                                    onTap: () {
-                                                      cityId =
-                                                          state.list[index].id;
-                                                      GoRouter.of(context).pop(
-                                                          state.list[index]
-                                                              .name);
-                                                    },
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      margin:
-                                                          EdgeInsets.all(8.r),
-                                                      padding:
-                                                          EdgeInsets.all(16.r),
-                                                      width: double.infinity,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.r),
+                              child:
+                                  BlocBuilder<GetCitiesCubit, GetCitiesState>(
+                                builder: (context, state) {
+                                  if (state is GetCitiesLoadingState) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (state is GetCitiesFailedState) {
+                                    return Center(
+                                      child: Text(
+                                        "Sorry .Try again later",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context).hintColor),
+                                      ),
+                                    );
+                                  } else if (state is GetCitiesSuccessState) {
+                                    return SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: List.generate(
+                                            state.list.length,
+                                            (index) => GestureDetector(
+                                                  onTap: () {
+                                                    cityId =
+                                                        state.list[index].id;
+                                                    GoRouter.of(context).pop(
+                                                        state.list[index].name);
+                                                  },
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    margin: EdgeInsets.all(8.r),
+                                                    padding:
+                                                        EdgeInsets.all(16.r),
+                                                    width: double.infinity,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.r),
+                                                        color: Theme.of(context)
+                                                            .primaryColor
+                                                            .withOpacity(.05)),
+                                                    child: Text(
+                                                      state.list[index].name,
+                                                      style: TextStyle(
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                           color:
                                                               Theme.of(context)
-                                                                  .primaryColor
-                                                                  .withOpacity(
-                                                                      .05)),
-                                                      child: Text(
-                                                        state.list[index].name,
-                                                        style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .hintColor),
-                                                      ),
+                                                                  .hintColor),
                                                     ),
-                                                  )),
-                                        ),
-                                      );
-                                    } else {
-                                      return const Text("wrong");
-                                    }
-                                  },
-                                ),
+                                                  ),
+                                                )),
+                                      ),
+                                    );
+                                  } else {
+                                    return const Text("wrong");
+                                  }
+                                },
                               ),
                             ),
                           ],
@@ -268,10 +261,11 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(bottom: 28.h),
-          child: BlocConsumer<EditProfileCubit, EditProfileState>(
+          child: BlocConsumer(
+            bloc: editProfileCubit,
             listener: (context, state) {
               if (state is EditProfileSuccessState) {
-                showToast(message: state.msg, context: context);
+                showMSG(message: state.msg);
                 CacheHelper.updateUserProfile(
                     name: nameController.text,
                     phone: phoneController.text,

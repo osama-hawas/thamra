@@ -12,7 +12,9 @@ import 'package:thamra/core/widgets/input.dart';
 import 'package:thamra/core/widgets/logo_image.dart';
 import 'package:thamra/core/widgets/text_for_login_or_signup.dart';
 import 'package:thamra/core/widgets/text_under_logo.dart';
+import 'package:thamra/features/get_cities/cities_event.dart';
 import 'package:thamra/features/sign_up/sign_up_cubit.dart';
+import 'package:thamra/features/sign_up/sign_up_event.dart';
 
 import '../../features/get_cities/get_cities_cubit.dart';
 
@@ -24,20 +26,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final getCitiesCubit = KiwiContainer().resolve<GetCitiesCubit>()..getCities();
-  final signUpCubit = KiwiContainer().resolve<SignUpCubit>();
-
-  final nameController = TextEditingController();
-
-  final phoneController = TextEditingController();
-
-  final passController = TextEditingController();
-
-  final confirmPassController = TextEditingController();
-
-  final cityController = TextEditingController();
-
-  String cityId = CacheHelper.getCityId();
+  final getCitiesBloc = KiwiContainer().resolve<GetCitiesCubit>()..add(GetCitiesEvent());
+  final signUpBloc = KiwiContainer().resolve<SignUpCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const Logo(),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
-            child: TextUnderLogo(text: 'مرحبا بك مرة أخرى'),
+            child: const TextUnderLogo(text: 'مرحبا بك مرة أخرى'),
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 22.h),
@@ -59,20 +49,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w300,
-                  color: Color(0xff707070)),
+                  color: const Color(0xff707070)),
             ),
           ),
           Input(
             text: 'اسم المستخدم',
             prefixIcon: 'assets/icons/man.png',
             type: InputType.normal,
-            controller: nameController,
+            controller: signUpBloc.nameController,
           ),
           Input(
             text: 'رقم الجوال',
             prefixIcon: 'assets/icons/phone.png',
             type: InputType.phone,
-            controller: phoneController,
+            controller: signUpBloc.phoneController,
           ),
           StatefulBuilder(builder: (context, setState) {
             return Input(
@@ -103,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Expanded(
                           child: BlocBuilder(
-                            bloc: getCitiesCubit,
+                            bloc: getCitiesBloc,
                             builder: (context, state) {
                               if (state is GetCitiesLoadingState) {
                                 return const Center(
@@ -127,7 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         state.list.length,
                                         (index) => GestureDetector(
                                               onTap: () {
-                                                cityId = state.list[index].id;
+                                                signUpBloc.cityId =
+                                                    state.list[index].id;
                                                 GoRouter.of(context).pop(
                                                     state.list[index].name);
                                               },
@@ -167,11 +158,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 );
                 if (result != null) {
-                  cityController.text = result;
+                  signUpBloc.cityController.text = result;
                 }
                 setState(() {});
               },
-              controller: cityController,
+              controller: signUpBloc.cityController,
             );
           }),
           Input(
@@ -179,45 +170,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
             prefixIcon: 'assets/icons/pass.png',
             isObscure: true,
             type: InputType.pass,
-            controller: passController,
+            controller: signUpBloc.passController,
           ),
           Input(
             text: 'كلمة المرور',
             prefixIcon: 'assets/icons/pass.png',
             isObscure: true,
             type: InputType.pass,
-            controller: confirmPassController,
+            controller: signUpBloc.confirmPassController,
           ),
           BlocConsumer(
-            bloc: signUpCubit,
+            bloc: signUpBloc,
             listener: (context, state) {
               if (state is SignUpSuccessState) {
-                showToast(message: state.msg, context: context);
+                showMSG(message: state.msg);
                 CacheHelper.savePhoneFromRegister(
-                    phone: phoneController.text);
+                    phone: signUpBloc.phoneController.text);
                 GoRouter.of(context).push(AppRoutes.activateAccount);
               }
               if (state is SignUpFailedState) {
-                showToast(message: state.msg, context: context);
+                showMSG(message: state.msg);
               }
+
             },
             builder: (context, state) {
-              return Builder(builder: (context) {
-                SignUpCubit cubit = BlocProvider.of(context);
-                return Btn(
-                    isLoading: state is SignUpLoadingState,
-                    text: 'تسجيل',
-                    onPressed: () async {
-                      if (passController.text == confirmPassController.text) {
-                        await cubit.signUp(
-                            name: nameController.text,
-                            phone: phoneController.text,
-                            pass: passController.text,
-                            confirmPass: confirmPassController.text,
-                            city: cityController.text);
-                      }
-                    });
-              });
+              return Btn(
+                  isLoading: state is SignUpLoadingState,
+                  text: 'تسجيل',
+                  onPressed: () async {
+                    if (signUpBloc.passController.text ==
+                        signUpBloc.confirmPassController.text) {
+                      signUpBloc.add(ClientSignUpEvent());
+                    }
+                    if (signUpBloc.passController.text !=
+                        signUpBloc.confirmPassController.text) {
+                      showMSG(message: "كلمة المرور غير متطابقة");
+                    }
+                  });
             },
           ),
           Padding(

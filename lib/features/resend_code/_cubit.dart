@@ -3,12 +3,15 @@ import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/data/service/dio_helper.dart';
 
 import '_state.dart';
+import 'events.dart';
 
 
-class ResendCodeCubit extends Cubit<ResendCodeState> {
-  ResendCodeCubit() : super(ResendCodeState());
+class ResendCodeCubit extends Bloc<CodeEvents,ResendCodeState> {
+  ResendCodeCubit() : super(ResendCodeState()){
+    on<ResendCodeEvent>(_resendCode);
+  }
 
-  void resendCode() async {
+  void _resendCode(ResendCodeEvent event , Emitter<ResendCodeState> emit) async {
     emit(ResendCodeLoadingState());
     final response = await DioHelper.post("resend_code",
         data: {"phone": CacheHelper.showPhoneFromRegister(),});

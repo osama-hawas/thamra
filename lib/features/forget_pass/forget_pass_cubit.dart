@@ -1,15 +1,22 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:thamra/core/data/service/dio_helper.dart';
+import 'package:thamra/features/forget_pass/forget_pass_event.dart';
 
 part 'forget_pass_state.dart';
 
-class ForgetPassCubit extends Cubit<ForgetPassState> {
-  ForgetPassCubit() : super(ForgetPassState());
+class ForgetPassCubit extends Bloc<ForgetPassEvents, ForgetPassState> {
+  final phoneController = TextEditingController();
 
-  void forgetPass({required String phone}) async {
+  ForgetPassCubit() : super(ForgetPassState()) {
+    on<ForgetMyPassEvent>(_forgetPass);
+  }
+
+  void _forgetPass(
+      ForgetMyPassEvent event, Emitter<ForgetPassState> emit) async {
     emit(ForgetPassLoadingState());
     final response = await DioHelper.post("forget_password", data: {
-      "phone": phone,
+      "phone": phoneController.text,
     });
     if (response.isSuccess) {
       emit(ForgetPassSuccessState(msg: response.message));

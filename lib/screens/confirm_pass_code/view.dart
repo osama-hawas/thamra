@@ -13,9 +13,11 @@ import '../../core/utils/helper_methods.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
 import '../../core/widgets/text_under_logo.dart';
-import '../../features/confirm_pass_code/active_acount_cubit.dart';
+import '../../features/confirm_pass_code/bloc.dart';
+import '../../features/confirm_pass_code/events.dart';
 import '../../features/resend_code/_cubit.dart';
 import '../../features/resend_code/_state.dart';
+import '../../features/resend_code/events.dart';
 
 class ConfirmPassCodeScreen extends StatefulWidget {
   const ConfirmPassCodeScreen({Key? key}) : super(key: key);
@@ -25,10 +27,10 @@ class ConfirmPassCodeScreen extends StatefulWidget {
 }
 
 class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
-  final cubit = KiwiContainer().resolve<ConfirmPassCodeCubit>();
+  final bloc = KiwiContainer().resolve<ConfirmPassCodeCubit>();
+  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeCubit>();
 
   bool isTimeRunning = true;
-  late String code;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                 animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 onCompleted: (value) {
-                  code =value;
+                  bloc.code = value;
                 },
                 appContext: context,
                 onChanged: (v) {},
@@ -106,31 +108,34 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
             SizedBox(
               height: 37.h,
             ),
-        BlocConsumer<ConfirmPassCodeCubit, ConfirmPassCodeState>(
-          listener: (context, state) {
-            if (state is ConfirmPassCodeSuccessState) {
-              showToast(
-                  message: "الكود صحيح", context: context);
-              CacheHelper.saveCode(code: code);
-              GoRouter.of(context).push(AppRoutes.confirmNewPass);
-            }
-            if (state is ConfirmPassCodeFailedState) {
-              showToast(message: "الكود غير صحيح", context: context);
-            }
-          },
-          builder: (context, state) {
-            return Btn(
-                isLoading: state is ConfirmPassCodeLoadingState,
-                text: 'تأكيد الكود',
-                onPressed: () {
-                  if (code != null) {
-                    cubit.confirmPassCode(code: code);
-                  }
-                });
-          },
-        ),
+            BlocConsumer(
+              bloc: bloc,
+              listener: (context, state) {
+                if (state is ConfirmPassCodeSuccessState) {
+                  showMSG(message:  "الكود صحيح");
+                  CacheHelper.saveCode(code: bloc.code);
+                  GoRouter.of(context).push(AppRoutes.confirmNewPass);
+                }
+                if (state is ConfirmPassCodeFailedState) {
+                  showMSG(message: "الكود غير صحيح");
+                }
 
-        SizedBox(
+              },
+              builder: (context, state) {
+                return Btn(
+                    isLoading: state is ConfirmPassCodeLoadingState,
+                    text: 'تأكيد الكود',
+                    onPressed: () {
+                      if (bloc.code != null) {
+                        bloc.add(ConfirmPassCodeEvent());
+                      }else {
+                        showMSG(message: "برجاء إدخال الكود أولا");
+                      }
+
+                    });
+              },
+            ),
+            SizedBox(
               height: 27.h,
             ),
             Text(
@@ -175,34 +180,27 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
               height: 20.h,
             ),
             Center(
-              child: BlocProvider(
-                create: (context) => ResendCodeCubit(),
-                child: Builder(builder: (context) {
-                  ResendCodeCubit cubit = BlocProvider.of(context);
-                  return BlocConsumer<ResendCodeCubit, ResendCodeState>(
-                    listener: (context, state)async {
-                      if (state is ResendCodeSuccessState) {
-                        showToast(message: state.msg, context: context);
-
-                        GoRouter.of(context).push(AppRoutes.confirmNewPass);
-                      }
+              child: BlocConsumer(
+                bloc: reSendCodeBloc,
+                listener: (context, state) async {
+                  if (state is ResendCodeSuccessState) {
+                    showMSG(message: state.msg);
+                  }
+                },
+                builder: (context, state) {
+                  return Btn(
+                    isLoading: state is ResendCodeLoadingState,
+                    text: 'إعادة الإرسال',
+                    onPressed: () {
+                      reSendCodeBloc.add(ResendCodeEvent());
+                      isTimeRunning = true;
+                      setState(() {});
                     },
-                    builder: (context, state) {
-                      return Btn(
-                        isLoading: state is ResendCodeLoadingState,
-                        text: 'إعادة الإرسال',
-                        onPressed: () {
-                          cubit.resendCode();
-                          isTimeRunning = true;
-                          setState(() {});
-                        },
-                        type: isTimeRunning
-                            ? BtnType.outLineDisable
-                            : BtnType.outLine,
-                      );
-                    },
+                    type: isTimeRunning
+                        ? BtnType.outLineDisable
+                        : BtnType.outLine,
                   );
-                }),
+                },
               ),
             ),
             Padding(

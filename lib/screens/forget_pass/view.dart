@@ -6,6 +6,7 @@ import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
 import 'package:thamra/core/widgets/btn.dart';
+import 'package:thamra/features/forget_pass/forget_pass_event.dart';
 
 import '../../core/utils/app_routes.dart';
 import '../../core/widgets/input.dart';
@@ -22,9 +23,7 @@ class ForgetPassScreen extends StatefulWidget {
 }
 
 class _ForgetPassScreenState extends State<ForgetPassScreen> {
-  final cubit = KiwiContainer().resolve<ForgetPassCubit>();
-
-  final phoneController = TextEditingController();
+  final bloc = KiwiContainer().resolve<ForgetPassCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +51,19 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
           Input(
               text: 'رقم الجوال ',
               prefixIcon: 'assets/icons/phone.png',
-              controller: phoneController,
+              controller: bloc.phoneController,
               type: InputType.phone),
-          BlocConsumer<ForgetPassCubit, ForgetPassState>(
-            listener: (context, state)async {
+          BlocConsumer(
+            bloc: bloc,
+            listener: (context, state) async {
               if (state is ForgetPassSuccessState) {
-                showToast(message: state.msg, context: context);
-                await  CacheHelper.savePhoneFromRegister(phone: phoneController.text);
+                showMSG(message: state.msg);
+                await CacheHelper.savePhoneFromRegister(
+                    phone: bloc.phoneController.text);
                 GoRouter.of(context).push(AppRoutes.passCode);
-              }if (state is ForgetPassFailedState) {
-                showToast(message: state.msg, context: context);
+              }
+              if (state is ForgetPassFailedState) {
+                showMSG(message: state.msg);
               }
             },
             builder: (context, state) {
@@ -69,9 +71,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                 isLoading: state is ForgetPassLoadingState,
                 text: 'تأكيد رقم الجوال',
                 onPressed: () {
-
-                  cubit.forgetPass(phone: phoneController.text);
-
+                  bloc.add(ForgetMyPassEvent());
 
                   // GoRouter.of(context).push(AppRoutes.passCode);
                 },

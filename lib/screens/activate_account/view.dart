@@ -14,8 +14,10 @@ import '../../core/utils/app_routes.dart';
 import '../../core/widgets/btn.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
+import '../../features/active_acount/events.dart';
 import '../../features/resend_code/_cubit.dart';
 import '../../features/resend_code/_state.dart';
+import '../../features/resend_code/events.dart';
 
 class ActivateAccountScreen extends StatefulWidget {
   const ActivateAccountScreen({Key? key}) : super(key: key);
@@ -25,9 +27,9 @@ class ActivateAccountScreen extends StatefulWidget {
 }
 
 class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
-  final cubit = KiwiContainer().resolve<ActiveAcountCubit>();
+  final bloc = KiwiContainer().resolve<ActiveAcountCubit>();
+  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeCubit>();
   bool isTimeRunning = true;
-  late String code;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 onCompleted: (value) {
-                  code = value;
+                  bloc.code = value;
                 },
                 appContext: context,
                 onChanged: (v) {},
@@ -126,8 +128,8 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                     isLoading: state is ActiveAcountLoadingState,
                     text: 'تأكيد الكود',
                     onPressed: () {
-                      if (code != null) {
-                        cubit.activeAcount(code: code);
+                      if (bloc.code != null) {
+                        bloc.add(ActiveAcountEvent());
                       }
                     });
               },
@@ -177,32 +179,27 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
               height: 20.h,
             ),
             Center(
-              child: BlocProvider(
-                create: (context) => ResendCodeCubit(),
-                child: Builder(builder: (context) {
-                  ResendCodeCubit cubit = BlocProvider.of(context);
-                  return BlocConsumer<ResendCodeCubit, ResendCodeState>(
-                    listener: (context, state) {
-                      if (state is ResendCodeSuccessState) {
-                        showToast(message: state.msg, context: context);
-                      }
+              child: BlocConsumer(
+                bloc: reSendCodeBloc,
+                listener: (context, state) {
+                  if (state is ResendCodeSuccessState) {
+                    showToast(message: state.msg, context: context);
+                  }
+                },
+                builder: (context, state) {
+                  return Btn(
+                    isLoading: state is ResendCodeLoadingState,
+                    text: 'إعادة الإرسال',
+                    onPressed: () {
+                      reSendCodeBloc.add(ResendCodeEvent());
+                      isTimeRunning = true;
+                      setState(() {});
                     },
-                    builder: (context, state) {
-                      return Btn(
-                        isLoading: state is ResendCodeLoadingState,
-                        text: 'إعادة الإرسال',
-                        onPressed: () {
-                          cubit.resendCode();
-                          isTimeRunning = true;
-                          setState(() {});
-                        },
-                        type: isTimeRunning
-                            ? BtnType.outLineDisable
-                            : BtnType.outLine,
-                      );
-                    },
+                    type: isTimeRunning
+                        ? BtnType.outLineDisable
+                        : BtnType.outLine,
                   );
-                }),
+                },
               ),
             ),
             Padding(

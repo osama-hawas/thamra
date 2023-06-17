@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thamra/screens/login/model.dart';
+
+import '../../../features/login/model.dart';
 
 class CacheHelper {
   static late SharedPreferences prefs;
