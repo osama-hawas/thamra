@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/app_routes.dart';
@@ -12,6 +13,7 @@ import 'package:thamra/core/widgets/text_under_logo.dart';
 
 import '../../features/confirm_new_pass/confirm_new_pass_cubit.dart';
 import '../../features/confirm_new_pass/confirm_new_pass_state.dart';
+import '../../features/confirm_new_pass/events.dart';
 
 class ConfirmNewPassScreen extends StatefulWidget {
   ConfirmNewPassScreen({Key? key}) : super(key: key);
@@ -21,10 +23,7 @@ class ConfirmNewPassScreen extends StatefulWidget {
 }
 
 class _ConfirmNewPassScreenState extends State<ConfirmNewPassScreen> {
-  final cubit = KiwiContainer().resolve<ConfirmNewPassCubit>();
-  final passController = TextEditingController();
-
-  final confirmPassController = TextEditingController();
+  final bloc = KiwiContainer().resolve<ConfirmNewPassCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,61 +32,63 @@ class _ConfirmNewPassScreenState extends State<ConfirmNewPassScreen> {
         body: ListView(
           children: [
             const Logo(),
-            const Padding(
-              padding: EdgeInsetsDirectional.only(start: 19, bottom: 10),
-              child: TextUnderLogo(text: 'نسيت كلمة المرور'),
+             Padding(
+              padding: EdgeInsetsDirectional.only(start: 19.w, bottom: 10.h),
+              child: MainTextStyle(text: 'نسيت كلمة المرور'),
             ),
-            const Padding(
-              padding: EdgeInsetsDirectional.only(start: 20, bottom: 22),
+             Padding(
+              padding: EdgeInsetsDirectional.only(start: 20.w, bottom: 22.h),
               child: Text(
                 'أدخل كلمة المرور الجديدة',
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                     color: Color(0xff707070)),
               ),
             ),
-            Input(
+            MainTextField(
                 text: 'كلمة المرور الجديدة',
                 prefixIcon: 'assets/icons/pass.png',
                 isObscure: true,
-                controller: passController,
+                controller: bloc.passController,
                 type: InputType.pass),
-            Input(
+            MainTextField(
                 text: 'تأكيد كلمة المرور الجديدة',
                 prefixIcon: 'assets/icons/pass.png',
                 isObscure: true,
-                controller: confirmPassController,
+                controller: bloc.confirmPassController,
                 type: InputType.pass),
-            BlocConsumer<ConfirmNewPassCubit, ConfirmNewPassState>(
+            BlocConsumer(
+              bloc: bloc,
               listener: (context, state) {
                 if (state is ConfirmNewPassSuccessState) {
-                  showToast(
-                      message: "تم تغير كلمة المرور بنجاح",
-                      context: context);
+                  showMSG(message: state.msg);
                   GoRouter.of(context).pushReplacement(AppRoutes.login);
                 }
-
+                if (state is ConfirmNewPassFailedState) {
+                  showMSG(message: state.msg);
+                }
               },
               builder: (context, state) {
-                return Btn(
+                return MainButton(
                     text: 'تغيير كلمة المرور',
                     isLoading: state is ConfirmNewPassLoadingState,
                     onPressed: () {
-                      if (passController.text ==
-                          confirmPassController.text) {
-                        cubit.confirmNewPass(pass: passController.text);
-                      }   if (passController.text != confirmPassController.text) {
-                        passController.clear();
-                        confirmPassController.clear();
-                        showToast(
-                            message: "كلمة المرور غير متطابقة", context: context);
+                      if (bloc.passController.text ==
+                          bloc.confirmPassController.text) {
+                        bloc.add(ConfirmNewPassEvent());
+                      }
+                      if (bloc.passController.text !=
+                          bloc.confirmPassController.text) {
+                        bloc.passController.clear();
+                        bloc.confirmPassController.clear();
+                        showMSG(message: "كلمة المرور غير متطابقة");
                       }
                     });
               },
             ),
             Padding(
-              padding: EdgeInsets.only(top: 45),
+              padding: EdgeInsets.only(top: 45.h),
               child: TextForLoginOrSignup(
                 text: 'لديك حساب بالفعل',
                 signText: 'تسجيل الدخول',

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../features/get_categories/model.dart';
+
 class CategoriItem extends StatelessWidget {
-  const CategoriItem({Key? key}) : super(key: key);
+  final CategoryData categoryData;
+
+  const CategoriItem({Key? key, required this.categoryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +27,8 @@ class CategoriItem extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Color(0xffF6F9F3),
                   borderRadius: BorderRadius.circular(12.r)),
-              child: Image.asset(
-                'assets/images/t1.png',
+              child: Image.network(
+                categoryData.media,
                 fit: BoxFit.scaleDown,
               ),
             ),
@@ -32,8 +36,11 @@ class CategoriItem extends StatelessWidget {
               height: 2.h,
             ),
             Text(
-              'الخضار',
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
+              categoryData.name,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),

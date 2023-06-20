@@ -41,7 +41,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
             const Logo(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: TextUnderLogo(
+              child: MainTextStyle(
                 text: 'نسيت كلمة المرور',
               ),
             ),
@@ -68,12 +68,17 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                   SizedBox(
                     width: 4.w,
                   ),
-                  Text(
-                    'تغيير رقم الجوال',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16.sp,
-                        decoration: TextDecoration.underline),
+                  GestureDetector(
+                    onTap: (){
+                      GoRouter.of(context).pop();
+                    },
+                    child: Text(
+                      'تغيير رقم الجوال',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline),
+                    ),
                   )
                 ],
               ),
@@ -85,6 +90,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: PinCodeTextField(
                 length: 4,
+                controller: bloc.code,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
@@ -99,7 +105,11 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                 animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 onCompleted: (value) {
-                  bloc.code = value;
+                  if (bloc.code != null) {
+                    bloc.add(ConfirmPassCodeEvent());
+                  } else {
+                    showMSG(message: "برجاء إدخال الكود أولا");
+                  }
                 },
                 appContext: context,
                 onChanged: (v) {},
@@ -112,26 +122,24 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
               bloc: bloc,
               listener: (context, state) {
                 if (state is ConfirmPassCodeSuccessState) {
-                  showMSG(message:  "الكود صحيح");
-                  CacheHelper.saveCode(code: bloc.code);
+                  showMSG(message: "الكود صحيح");
+                  CacheHelper.saveCode(code: bloc.code.text);
                   GoRouter.of(context).push(AppRoutes.confirmNewPass);
                 }
                 if (state is ConfirmPassCodeFailedState) {
                   showMSG(message: "الكود غير صحيح");
                 }
-
               },
               builder: (context, state) {
-                return Btn(
+                return MainButton(
                     isLoading: state is ConfirmPassCodeLoadingState,
                     text: 'تأكيد الكود',
                     onPressed: () {
                       if (bloc.code != null) {
                         bloc.add(ConfirmPassCodeEvent());
-                      }else {
+                      } else {
                         showMSG(message: "برجاء إدخال الكود أولا");
                       }
-
                     });
               },
             ),
@@ -188,7 +196,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return Btn(
+                  return MainButton(
                     isLoading: state is ResendCodeLoadingState,
                     text: 'إعادة الإرسال',
                     onPressed: () {

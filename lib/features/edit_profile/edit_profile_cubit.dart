@@ -7,12 +7,14 @@ import 'package:thamra/core/data/service/dio_helper.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-  EditProfileCubit() : super(EditProfileState());
+  final DioHelper dioHelper;
+
+  EditProfileCubit(this.dioHelper) : super(EditProfileState());
 
   void updateProfile(
       {File? image, String? name, String? phone, String? cityId}) async {
     emit(EditProfileLoadingState());
-    final response = await DioHelper.post("client/profile", data: {
+    final response = await dioHelper.post("client/profile", data: {
       "image": image == null
           ? null
           : MultipartFile.fromFileSync(image.path,

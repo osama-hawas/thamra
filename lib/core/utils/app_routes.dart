@@ -4,7 +4,6 @@ import 'package:thamra/screens/confirm_pass_code/view.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
 import 'package:thamra/screens/home_pages/view.dart';
 import 'package:thamra/screens/login/view.dart';
-import 'package:thamra/screens/profile_pages/Connect_us/view.dart';
 import 'package:thamra/screens/profile_pages/about_app/view.dart';
 import 'package:thamra/screens/profile_pages/addresses/view.dart';
 import 'package:thamra/screens/profile_pages/faqs/view.dart';
@@ -19,6 +18,7 @@ import 'package:thamra/screens/splach/view.dart';
 import '../../screens/activate_account/view.dart';
 import '../../screens/forget_pass/view.dart';
 import '../../screens/profile_pages/change_lang/change_lang.dart';
+import '../../screens/profile_pages/contact/view.dart';
 
 abstract class AppRoutes {
   static String splach = '/';
@@ -114,7 +114,7 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: contentwithus,
-      builder: (context, state) =>const ConnectUsScreen(),
+      builder: (context, state) => ConnectUsScreen(),
     ),
     GoRoute(
       path: shareapp,

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum InputType { phone, pass, normal }
 
-class Input extends StatefulWidget {
+class MainTextField extends StatefulWidget {
   final String text;
   void Function(String)? onChanged;
   final VoidCallback? onPress;
@@ -15,7 +15,7 @@ class Input extends StatefulWidget {
   final TextEditingController? controller;
   bool isObscure, isVisable = false, homeInput;
 
-  Input(
+  MainTextField(
       {Key? key,
       required this.text,
       this.prefixIcon,
@@ -30,10 +30,10 @@ class Input extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<Input> createState() => _InputState();
+  State<MainTextField> createState() => _MainTextFieldState();
 }
 
-class _InputState extends State<Input> {
+class _MainTextFieldState extends State<MainTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,6 +48,7 @@ class _InputState extends State<Input> {
               return null;
             }
           },
+
           controller: widget.controller,
           enabled: widget.onPress == null,
           minLines: 1,
@@ -56,18 +57,21 @@ class _InputState extends State<Input> {
           obscureText: widget.isObscure,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
+
             filled: true,
             suffixIcon: widget.type == InputType.pass
-                ? IconButton(
-                    onPressed: () {
-                      widget.isObscure = !widget.isObscure;
-                      widget.isVisable = !widget.isVisable;
-                      setState(() {});
-                    },
-                    icon: widget.isVisable
+                ?
+
+            // widget.isObscure = !widget.isObscure;
+            //   widget.isVisable = !widget.isVisable;
+            //   setState(() {});
+
+
+
+                     widget.isVisable
                         ? Icon(Icons.visibility_sharp)
-                        : Icon(Icons.visibility_off_sharp),
-                  )
+                        : Icon(Icons.visibility_off_sharp)
+
                 : widget.sufixIcon != null
                     ? widget.sufixIcon
                     : null,

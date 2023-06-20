@@ -37,6 +37,7 @@ class CacheHelper {
     prefs.setInt("userCartCount", model.data.userCartCount);
     prefs.setString("cityId", model.data.city.id);
     prefs.setString("cityName", model.data.city.name);
+
   }
 
   static Future updateUserProfile({phone, name, cityId, cityName}) async {
@@ -46,8 +47,8 @@ class CacheHelper {
     prefs.setString("cityName", cityName);
   }
 
-  static String getCityName() {
-    return prefs.getString("cityName") ?? "mansoura";
+  static String? getCityName() {
+    return prefs.getString("cityName") ;
   }
 
   static String getCityId() {
@@ -73,8 +74,8 @@ class CacheHelper {
   static Future<void> saveDeviceToken({required String? deviceToken}) async {
     prefs.setString('deviceToken',deviceToken!);
   }
-  static String getDeviceToken() {
-    return prefs.getString("deviceToken") ?? "test";
+  static String? getDeviceToken() {
+    return prefs.getString("deviceToken") ;
   }
 
   static Future<void> saveCode({required String? code}) async {
@@ -85,7 +86,9 @@ class CacheHelper {
   }
 
 
+
+
   static Future<void> logout() async {
-    prefs.clear();
+   await prefs.clear();
   }
 }

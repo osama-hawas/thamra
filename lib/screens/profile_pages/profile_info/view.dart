@@ -44,7 +44,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formkey,
+      // key: formkey,
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, 70.h),
@@ -134,18 +134,18 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               SizedBox(
                 height: 18.h,
               ),
-              Input(
+              MainTextField(
                 text: "اسم المستخدم",
                 controller: nameController,
                 prefixIcon: "assets/icons/man.png",
               ),
-              Input(
+              MainTextField(
                   text: "رقم الجوال",
                   controller: phoneController,
                   prefixIcon: "assets/icons/phone.png",
                   type: InputType.phone),
               StatefulBuilder(builder: (context, setState) {
-                return Input(
+                return MainTextField(
                   text: "المدينة",
                   prefixIcon: "assets/icons/city.png",
                   onPress: () async {
@@ -172,8 +172,8 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                   color: Theme.of(context).hintColor),
                             ),
                             Expanded(
-                              child:
-                                  BlocBuilder<GetCitiesCubit, GetCitiesState>(
+                              child: BlocBuilder(
+                                bloc: getCitiesBloc,
                                 builder: (context, state) {
                                   if (state is GetCitiesLoadingState) {
                                     return const Center(
@@ -212,9 +212,16 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(16.r),
-                                                        color: Theme.of(context)
-                                                            .primaryColor
-                                                            .withOpacity(.05)),
+                                                        color: state.list[index]
+                                                                    .name ==
+                                                                cityController.text
+                                                            ? Theme.of(context)
+                                                                .primaryColor
+                                                                .withOpacity(.5)
+                                                            : Theme.of(context)
+                                                                .primaryColor
+                                                                .withOpacity(
+                                                                    .05)),
                                                     child: Text(
                                                       state.list[index].name,
                                                       style: TextStyle(
@@ -247,7 +254,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                   controller: cityController,
                 );
               }),
-              Input(
+              MainTextField(
                 text: "كلمة المرور",
                 prefixIcon: "assets/icons/pass.png",
                 sufixIcon: SvgPicture.asset(
@@ -275,7 +282,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               }
             },
             builder: (context, state) {
-              return Btn(
+              return MainButton(
                   isLoading: state is EditProfileLoadingState,
                   text: "تعديل البيانات",
                   onPressed: () {

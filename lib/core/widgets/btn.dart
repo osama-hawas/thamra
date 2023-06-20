@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum BtnType { elvated, outLine, outLineDisable, cansle, reject }
 
-class Btn extends StatelessWidget {
+class MainButton extends StatelessWidget {
   final BtnType type;
   final String text;
   final bool isLoading;
   final VoidCallback onPressed;
 
-  Btn({
+  MainButton({
     Key? key,
     this.type = BtnType.elvated,
     required this.text,

@@ -1,13 +1,41 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:thamra/features/get_product/states.dart';
+import 'package:thamra/features/home_slider/home_slider_bloc.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
 
 import '../../../core/widgets/input.dart';
+import '../../../features/get_categories/bloc.dart';
+import '../../../features/get_categories/events.dart';
+import '../../../features/get_categories/states.dart';
+import '../../../features/get_product/bloc.dart';
+import '../../../features/get_product/events.dart';
+import '../../../features/home_slider/home_slider_event.dart';
+import '../../../features/home_slider/home_slider_state.dart';
 
-class HomeScreen extends StatelessWidget {
+// slider circle avatare
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final sliderBloc = KiwiContainer().resolve<HomeSliderBloc>()
+    ..add(HomeSliderEvent());
+
+  final getCategoriesBloc = KiwiContainer().resolve<CategoriesBloc>()
+    ..add(GetCategoriesEvent());
+  final productIteBloc = KiwiContainer().resolve<GetProductsBloc>()
+    ..add(GetProductEvent());
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +45,38 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(),
-          Input(
+          MainTextField(
             text: 'ابحث عن ماتريد؟',
             prefixIcon: 'assets/icons/search.png',
             onChanged: (value) {},
             homeInput: true,
           ),
-          Container(
-            height: 164.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/testimg.png'),
-                    fit: BoxFit.fill)),
+          BlocConsumer(
+            bloc: sliderBloc,
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is HomeSliderLoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is HomeSliderSuccessState) {
+                return CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    height: 170.h,
+                    viewportFraction: 1,
+                  ),
+                  items: List.generate(
+                      state.list.length,
+                      (index) => Image.network(
+                            state.list[index].image,
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                          )),
+                );
+              } else {
+                return const Center(child: Text("Failed to show Image"));
+              }
+            },
           ),
           Padding(
             padding: EdgeInsets.only(top: 28.h, bottom: 8.h),
@@ -64,13 +111,27 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
-                    height: 135.h,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => CategoriItem(),
-                    ),
+                  BlocConsumer(
+                    bloc: getCategoriesBloc,
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      if (state is CategoriesLoadingState) {
+                        return SizedBox(height: 135.h,);
+                      }
+                      if (state is CategoriesSuccessState) {
+                        return Container(
+                          height: 135.h,
+                          child: ListView.builder(
+                            itemCount: state.list.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) =>
+                                CategoriItem(categoryData: state.list[index]),
+                          ),
+                        );
+                      } else {
+                        return Text("Failed");
+                      }
+                    },
                   ),
                 ],
               ),
@@ -83,7 +144,8 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
             ),
           ),
-          ProductItem(),
+        ProductItem(),
+
           SizedBox(
             height: 16.h,
           ),

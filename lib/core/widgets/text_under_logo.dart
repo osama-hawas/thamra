@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TextUnderLogo extends StatelessWidget {
+class MainTextStyle extends StatelessWidget {
   final String text;
-  const TextUnderLogo({Key? key, required this.text}) : super(key: key);
+  const MainTextStyle({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

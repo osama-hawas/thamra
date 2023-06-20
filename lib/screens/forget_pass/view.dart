@@ -36,7 +36,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
           const Logo(),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 27.w, bottom: 10.h),
-            child: const TextUnderLogo(text: 'نسيت كلمة المرور'),
+            child: const MainTextStyle(text: 'نسيت كلمة المرور'),
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 30.w, bottom: 28.h),
@@ -48,7 +48,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                   color: Theme.of(context).hintColor),
             ),
           ),
-          Input(
+          MainTextField(
               text: 'رقم الجوال ',
               prefixIcon: 'assets/icons/phone.png',
               controller: bloc.phoneController,
@@ -67,7 +67,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
               }
             },
             builder: (context, state) {
-              return Btn(
+              return MainButton(
                 isLoading: state is ForgetPassLoadingState,
                 text: 'تأكيد رقم الجوال',
                 onPressed: () {

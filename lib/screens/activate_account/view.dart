@@ -40,7 +40,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
             Logo(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextUnderLogo(text: 'تفعيل الحساب'),
+              child: MainTextStyle(text: 'تفعيل الحساب'),
             ),
             SizedBox(
               height: 10.h,
@@ -91,6 +91,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
               child: PinCodeTextField(
                 length: 4,
                 animationType: AnimationType.fade,
+                controller: bloc.code,
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.box,
                   borderRadius: BorderRadius.circular(15.r),
@@ -104,7 +105,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 onCompleted: (value) {
-                  bloc.code = value;
+                  bloc.add(ActiveAcountEvent());
                 },
                 appContext: context,
                 onChanged: (v) {},
@@ -113,24 +114,25 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
             SizedBox(
               height: 37.h,
             ),
-            BlocConsumer<ActiveAcountCubit, ActiveAcountState>(
+            BlocConsumer(
+              bloc: bloc,
               listener: (context, state) {
                 if (state is ActiveAcountSuccessState) {
-                  showToast(message: "تم تفعيل حسابك بنجاح", context: context);
+                  showMSG(
+                      message:
+                          state.msg ?? "تم تفعيل الحساب بنجاح");
                   GoRouter.of(context).push(AppRoutes.login);
                 }
                 if (state is ActiveAcountFailedState) {
-                  showToast(message: "الكود غير صحيح", context: context);
+                  showMSG(message: state.msg);
                 }
               },
               builder: (context, state) {
-                return Btn(
+                return MainButton(
                     isLoading: state is ActiveAcountLoadingState,
                     text: 'تأكيد الكود',
                     onPressed: () {
-                      if (bloc.code != null) {
-                        bloc.add(ActiveAcountEvent());
-                      }
+                      bloc.add(ActiveAcountEvent());
                     });
               },
             ),
@@ -187,7 +189,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return Btn(
+                  return MainButton(
                     isLoading: state is ResendCodeLoadingState,
                     text: 'إعادة الإرسال',
                     onPressed: () {

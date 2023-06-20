@@ -1,10 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/widgets/btn.dart';
 import 'package:thamra/core/widgets/input.dart';
 
 import '../../../core/utils/helper_methods.dart';
 import '../../../core/widgets/custom_app_bar_profile.dart';
+import '../../../features/suggestions/bloc.dart';
+import '../../../features/suggestions/events.dart';
+import '../../../features/suggestions/states.dart';
 
 class SuggestionsScreen extends StatefulWidget {
   SuggestionsScreen({Key? key}) : super(key: key);
@@ -14,83 +19,59 @@ class SuggestionsScreen extends StatefulWidget {
 }
 
 class _SuggestionsScreenState extends State<SuggestionsScreen> {
-  final nameController = TextEditingController();
-
-  final phoneController = TextEditingController();
-
-  final titleController = TextEditingController();
-
-  final contentController = TextEditingController();
-
-  bool isSend = false;
-
+  final bloc = KiwiContainer().resolve<SuggestionBloc>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Form(
-        key: formkey,
+        // key: formkey,
         child: Scaffold(
           appBar: const PreferredSize(
               preferredSize: Size.fromHeight(70),
-              child:  CustomAppBarProfile(title: 'الأقتراحات والشكاوي')),
+              child: CustomAppBarProfile(title: 'الأقتراحات والشكاوي')),
           body: ListView(
             children: [
               const SizedBox(
                 height: 32,
               ),
-              Input(text: 'الإسم', controller: nameController),
-              Input(
+              MainTextField(text: 'الإسم', controller: bloc.nameController),
+              MainTextField(
                 text: 'رقم الموبايل',
                 type: InputType.phone,
-                controller: phoneController,
+                controller: bloc.phoneController,
               ),
-              Input(
+              MainTextField(
                 text: 'عنوان الموضوع',
-                controller: titleController,
+                controller: bloc.titleController,
               ),
-              Input(
+              MainTextField(
                 text: 'الموضوع',
                 minLines: 4,
-                controller: contentController,
+                controller: bloc.contentController,
               ),
               const SizedBox(
                 height: 16,
               ),
-              isSend
-                  ?const Center(child: CircularProgressIndicator())
-                  : Btn(
+              BlocConsumer(
+                bloc: bloc,
+                listener: (context, state) {
+                  if (state is SuggestionSuccessState) {
+                    showMSG(message: state.msg);
+                  }
+                  if (state is SuggestionFailedState) {
+                    showMSG(message: state.msg);
+                  }
+                },
+                builder: (context, state) {
+                  return MainButton(
+                      isLoading: state is SuggestionLoadingState,
                       text: 'إرسال',
                       onPressed: () async {
-                        if (formkey.currentState!.validate()) {
-                          isSend = true;
-                        }
-
-                        setState(() {});
-
-                        Response response = await Dio().post(
-                            'https://thimar.amr.aait-d.com/api/contact',
-                            data: {
-                              "fullname": nameController.text,
-                              "phone": phoneController.text,
-                              "title": titleController.text,
-                              "content": contentController.text,
-                            });
-                        nameController.clear();
-                        phoneController.clear();
-                        titleController.clear();
-                        contentController.clear();
-
-                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(response.data["message"]),
-                          ),
-                        );
-                        isSend=false;
-                        setState(() {
-
-                        });
-                      }),
+                        bloc.add(MakeSuggestionEvent());
+                      });
+                },
+              ),
             ],
           ),
         ),

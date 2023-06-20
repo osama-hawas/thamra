@@ -8,6 +8,8 @@ import '../../core/data/service/dio_helper.dart';
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Bloc<SignUpEvent, SignUpStates> {
+  final DioHelper dioHelper;
+
   final nameController = TextEditingController();
 
   final phoneController = TextEditingController();
@@ -20,13 +22,13 @@ class SignUpCubit extends Bloc<SignUpEvent, SignUpStates> {
 
   String cityId = CacheHelper.getCityId();
 
-  SignUpCubit() : super(SignUpStates()){
+  SignUpCubit(this.dioHelper) : super(SignUpStates()){
     on<ClientSignUpEvent>(_signUp);
   }
 
  void _signUp(SignUpEvent event,Emitter<SignUpStates> emit) async {
     emit(SignUpLoadingState());
-    final response = await DioHelper.post(
+    final response = await dioHelper.post(
       "client_register",
       data: {
         "fullname": nameController.text,

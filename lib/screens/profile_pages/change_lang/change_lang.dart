@@ -1,3 +1,5 @@
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thamra/core/widgets/custom_app_bar_profile.dart';
@@ -11,7 +13,8 @@ class ChangeLangScreen extends StatefulWidget {
 }
 
 class _ChangeLangScreenState extends State<ChangeLangScreen> {
-  bool isMarked = true;
+  bool isMarked =  true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +31,24 @@ class _ChangeLangScreenState extends State<ChangeLangScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextUnderLogo(text: "العربية"),
+                  MainTextStyle(text: "العربية"),
                   Spacer(),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
+                      context.setLocale(Locale('ar'));
                       isMarked = true;
                       setState(() {});
                     },
                     child: CircleAvatar(
-                      radius: 12,
+                      radius: 12.r,
                       backgroundColor: isMarked
                           ? Theme.of(context).primaryColor
                           : Theme.of(context).hintColor,
                       child: CircleAvatar(
-                        radius: 10,
+                        radius: 10.r,
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
-                          radius: 8,
+                          radius: 8.r,
                           backgroundColor: isMarked
                               ? Theme.of(context).primaryColor
                               : Theme.of(context).hintColor,
@@ -63,10 +67,12 @@ class _ChangeLangScreenState extends State<ChangeLangScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextUnderLogo(text: "English"),
+                  MainTextStyle(text: "English"),
                   Spacer(),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
+                      context.setLocale(Locale('en'));
+
                       isMarked = false;
                       setState(() {});
                     },
@@ -89,7 +95,8 @@ class _ChangeLangScreenState extends State<ChangeLangScreen> {
                   ),
                 ],
               ),
-            )
+            ),
+            Text("hello".tr()),
           ],
         ),
       ),

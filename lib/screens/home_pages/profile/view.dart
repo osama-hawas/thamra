@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/app_routes.dart';
+import 'package:thamra/core/utils/helper_methods.dart';
+import 'package:thamra/features/logout/bloc.dart';
+import 'package:thamra/features/logout/events.dart';
+import 'package:thamra/features/logout/states.dart';
 
 import '../../../core/data/local/cache_helper.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final logoutBloc = KiwiContainer().resolve<LogoutBloc>();
   Map<String, dynamic> profileItems = {
     "icon": [
       'assets/icons/profile_icon/COCO-Duotone-User.png',
@@ -183,33 +195,47 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: (){
-                  CacheHelper.logout();
-                  GoRouter.of(context).pushReplacement(AppRoutes.login);
+              BlocConsumer(
+                bloc: logoutBloc,
+                listener: (context, state) {
+                  if (state is LogoutSuccessState) {
+                    showMSG(message: state.msg);
+                    GoRouter.of(context).pushReplacement(AppRoutes.login);
+                  }
+                  if (state is LogoutFailedState) {
+                    showMSG(message: state.msg);
+                  }
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  padding: EdgeInsets.symmetric(vertical: 36.h),
-                  child: Row(
-                    children: [
-                      Text(
-                        'تسجيل الخروج',
-                        style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Theme.of(context).primaryColor),
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      logoutBloc.add(LogoutEvent());
+
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      padding: EdgeInsets.symmetric(vertical: 36.h),
+                      child: Row(
+                        children: [
+                          Text(
+                            'تسجيل الخروج',
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          const Spacer(),
+                          Image.asset(
+                            'assets/icons/profile_icon/COCO-Duotone-Turn off.png',
+                            fit: BoxFit.fill,
+                            color: const Color(0xffB2BCA8),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      Image.asset(
-                        'assets/icons/profile_icon/COCO-Duotone-Turn off.png',
-                        fit: BoxFit.fill,
-                        color: const Color(0xffB2BCA8),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

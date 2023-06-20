@@ -1,61 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:thamra/screens/profile_pages/privacy/cubit.dart';
-import 'package:thamra/screens/profile_pages/privacy/states.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:thamra/features/privacy/bloc.dart';
+import 'package:thamra/features/privacy/events.dart';
 
 import '../../../core/widgets/custom_app_bar_profile.dart';
+import '../../../features/privacy/states.dart';
 
-class PrivacyScreen extends StatelessWidget {
+class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({Key? key}) : super(key: key);
 
   @override
+  State<PrivacyScreen> createState() => _PrivacyScreenState();
+}
+
+class _PrivacyScreenState extends State<PrivacyScreen> {
+  final bloc = KiwiContainer().resolve<PrivacyBloc>()..add(GetPrivacyEvent());
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PrivacyCubit(),
-      child: Builder(
-
-          builder: (context) {
-            PrivacyCubit cubit = BlocProvider.of(context);
-            cubit.getPolicies();
-            return SafeArea(
-              child: Scaffold(
-                  appBar:const  PreferredSize(
-                      preferredSize: Size.fromHeight(70),
-                      child: CustomAppBarProfile(title: 'سياسة الخصوصية')),
-                  body: BlocBuilder(
-                    bloc: cubit,
-                    builder: (context, state) {
-                    if (state is PrivacyloadingState) {
-                        return const  Center
-                          (
-                          child: CircularProgressIndicator(),
-                        );
-                    }
-                    else if (state is PrivacysuccessState) {
-                      return  ListView(
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(13),
-                            child: Html(data: cubit.data),
-                          )
-                        ]
-                        ,
-                      );
-                    }  else{
-                      return const Text('Failed',style: TextStyle(fontSize: 50),);
-                    }
-                  },)
-
-              ),
-            );
-          }
-      ),
+    return SafeArea(
+      child: Scaffold(
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(70.h),
+              child: CustomAppBarProfile(title: 'سياسة الخصوصية')),
+          body: BlocBuilder(
+            bloc: bloc,
+            builder: (context, state) {
+              if (state is PrivacyloadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is PrivacysuccessState) {
+                return ListView(
+                  children: [
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(13.r),
+                      child: Html(data: bloc.data),
+                    )
+                  ],
+                );
+              } else {
+                return Text(
+                  'Failed',
+                  style: TextStyle(fontSize: 50.sp),
+                );
+              }
+            },
+          )),
     );
   }
 }
-
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thamra/screens/home_pages/fav/view.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
@@ -44,14 +45,14 @@ class _NavViewState extends State<NavView> {
               currentIndex = value;
               setState(() {});
             },
-            iconSize: 32,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
+            iconSize: 32.sp,
+            selectedFontSize: 12.sp,
+            unselectedFontSize: 12.sp,
             selectedLabelStyle:
-            const  TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-            unselectedLabelStyle:const TextStyle(
+              TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),
+            unselectedLabelStyle: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: 12.sp,
             ),
             selectedItemColor: Colors.white,
             unselectedItemColor:const Color(0xffAED489),
@@ -60,7 +61,7 @@ class _NavViewState extends State<NavView> {
               title.length,
               (index) => BottomNavigationBarItem(
                   icon: Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
+                    padding:  EdgeInsets.only(bottom: 6.h),
                     child: SvgPicture.asset(
                       "assets/icons/abb_bar/${iconLink[index]}",
                       color: currentIndex == index

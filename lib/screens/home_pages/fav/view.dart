@@ -26,7 +26,7 @@ class _FavScreenState extends State<FavScreen> {
             key: formkey,
             child: Padding(
               padding: const EdgeInsets.only(top: 18),
-              child: Input(
+              child: MainTextField(
                 text: 'add text',
                 prefixIcon: 'assets/icons/search.png',
                 onChanged: (value) {
@@ -46,7 +46,7 @@ class _FavScreenState extends State<FavScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
-                child: Btn(
+                child: MainButton(
                     text: 'Add',
                     onPressed: () {
                       if (formkey.currentState!.validate()) {}
@@ -102,7 +102,7 @@ class _NotivayItemState extends State<NotivayItem> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 80, vertical: 8),
-                        child: Btn(
+                        child: MainButton(
                             text: 'delete',
                             onPressed: () {
                               CacheHelper.removeTitle();

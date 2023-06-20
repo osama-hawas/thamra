@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 
 class DioHelper {
-  static final _dio =
+  final _dio =
       Dio(BaseOptions(baseUrl: 'https://thimar.amr.aait-d.com/api/', headers: {
     "Accept": "application/json",
     "Authorization": "Bearer ${CacheHelper.getUserToken()}",
   }));
 
-  static Future<CustomResponse> get(String endPoint,
+  Future<CustomResponse> get(String endPoint,
       {Map<String, dynamic>? data}) async {
     print(data);
 
@@ -25,7 +25,7 @@ class DioHelper {
       );
       print(response.data);
       return CustomResponse(
-          message: response.data["status"],
+          message: response.data["message"],
           isSuccess: true,
           response: response);
     } on DioError catch (ex) {
@@ -39,7 +39,7 @@ class DioHelper {
     }
   }
 
-  static Future<CustomResponse> post(String endPoint,
+  Future<CustomResponse> post(String endPoint,
       {Map<String, dynamic>? data}) async {
     print(data);
 

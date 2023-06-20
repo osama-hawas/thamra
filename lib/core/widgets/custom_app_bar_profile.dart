@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomAppBarProfile extends StatelessWidget {
@@ -8,19 +9,19 @@ class CustomAppBarProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leadingWidth: 50,
+      leadingWidth: 50.w,
       elevation: 0,
       backgroundColor: Colors.transparent,
       centerTitle: true,
       leading: Container(
 
-        margin: const EdgeInsetsDirectional.only(start: 16, top: 8, bottom: 8),
+        margin:  EdgeInsetsDirectional.only(start: 16.w, top: 8.h, bottom: 8.h),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(9.r),
             color: Theme.of(context).primaryColor.withOpacity(.13)),
         child: InkWell(
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding:  EdgeInsets.all(8.r),
             child: Image.asset('assets/icons/Arrow - Right 2.png'),
           ),
           onTap: () {GoRouter.of(context).pop();},
@@ -30,7 +31,7 @@ class CustomAppBarProfile extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).primaryColor),
       ),

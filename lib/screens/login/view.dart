@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/app_routes.dart';
@@ -22,6 +23,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final bloc = KiwiContainer().resolve<LoginBloc>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,28 +33,28 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Logo(),
+            const  Logo(),
               Padding(
                 padding:
-                const EdgeInsetsDirectional.only(start: 16, bottom: 10),
-                child: TextUnderLogo(text: 'مرحبا بك مرة أخرى'),
+                     EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
+                child: MainTextStyle(text: 'مرحبا بك مرة أخرى'),
               ),
-              const Padding(
-                padding: EdgeInsetsDirectional.only(start: 16, bottom: 28),
+               Padding(
+                padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 28.h),
                 child: Text(
                   'يمكنك تسجيل الدخول الأن',
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w300,
                       color: Color(0xff707070)),
                 ),
               ),
-              Input(
+              MainTextField(
                   controller: bloc.phoneController,
                   text: 'رقم الجوال ',
                   prefixIcon: 'assets/icons/phone.png',
                   type: InputType.phone),
-              Input(
+              MainTextField(
                 controller: bloc.passController,
                 text: 'كلمة المرور',
                 prefixIcon: 'assets/icons/pass.png',
@@ -63,16 +65,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        end: 16, bottom: 22),
+                    padding:
+                         EdgeInsetsDirectional.only(end: 16.w, bottom: 22.h),
                     child: InkWell(
                       onTap: () {
                         GoRouter.of(context).push(AppRoutes.forgetPass);
                       },
-                      child: const Text(
+                      child:  Text(
                         'نسيت كلمة المرور ؟',
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w300,
                             color: Color(0xff707070)),
                       ),
@@ -84,11 +86,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   listener: (context, state) {
                     if (state is LoginSuccessStates) {
                       GoRouter.of(context).push(AppRoutes.home);
-                      // showToast(message: "تم تسجيل الدخول بنجاح", context: context);
-                      showMSG(message: "تم تسجيل الدخول بنجاح" );
+
+                      showMSG(
+                          message: state.msg == ""
+                              ? "تم تسجيل الدخول بنجاح"
+                              : state.msg);
                     }
                     if (state is LoginFailedStates) {
-                      showToast(message: state.msg, context: context);
+                      showMSG(message: state.msg);
                     }
                   },
                   bloc: bloc,
@@ -98,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      return Btn(
+                      return MainButton(
                         text: 'تسجيل الدخول',
                         onPressed: () {
                           bloc.add(LoginEvent());
@@ -107,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   }),
               Padding(
-                padding: const EdgeInsets.only(top: 45),
+                padding:  EdgeInsets.only(top: 45.w),
                 child: TextForLoginOrSignup(
                     text: 'ليس لديك حساب ؟',
                     signText: ' تسجيل الأن',

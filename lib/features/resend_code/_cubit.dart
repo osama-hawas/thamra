@@ -7,13 +7,15 @@ import 'events.dart';
 
 
 class ResendCodeCubit extends Bloc<CodeEvents,ResendCodeState> {
-  ResendCodeCubit() : super(ResendCodeState()){
+  final DioHelper dioHelper;
+
+  ResendCodeCubit(this.dioHelper) : super(ResendCodeState()){
     on<ResendCodeEvent>(_resendCode);
   }
 
   void _resendCode(ResendCodeEvent event , Emitter<ResendCodeState> emit) async {
     emit(ResendCodeLoadingState());
-    final response = await DioHelper.post("resend_code",
+    final response = await dioHelper.post("resend_code",
         data: {"phone": CacheHelper.showPhoneFromRegister(),});
     if (response.isSuccess) {
       emit(ResendCodeSuccessState(msg: response.message));

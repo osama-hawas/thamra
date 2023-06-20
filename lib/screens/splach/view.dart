@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/app_routes.dart';
@@ -55,8 +56,8 @@ class _SplachScreenState extends State<SplachScreen> {
             child: Center(
               child: Image.asset(
                 'assets/images/logo.png',
-                height: 188,
-                width: 173,
+                height: 188.h,
+                width: 173.w,
               ),
             ),
           ),

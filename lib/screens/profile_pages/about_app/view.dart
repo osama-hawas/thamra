@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/screens/profile_pages/about_app/states.dart';
 
@@ -21,8 +22,8 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: const PreferredSize(
-              preferredSize: Size.fromHeight(70),
+          appBar:  PreferredSize(
+              preferredSize: Size.fromHeight(70.h),
               child: CustomAppBarProfile(title: 'عن التطبيق')),
           body: BlocBuilder(
             bloc: cubit,
@@ -36,11 +37,11 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                   children: [
                     Image.asset(
                       'assets/images/logo.png',
-                      height: 160,
-                      width: 160,
+                      height: 160.h,
+                      width: 160.w,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(13),
+                      padding:  EdgeInsets.all(13.r),
                       child: Html(
                         data: cubit.data,
                       ),
@@ -48,9 +49,9 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                   ],
                 );
               } else {
-                return const Text(
+                return  Text(
                   'Failed',
-                  style: TextStyle(fontSize: 50),
+                  style: TextStyle(fontSize: 50.sp),
                 );
               }
             },

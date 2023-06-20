@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextForLoginOrSignup extends StatelessWidget {
   final String text, signText;
@@ -16,7 +17,7 @@ class TextForLoginOrSignup extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor),
         ),
@@ -25,7 +26,7 @@ class TextForLoginOrSignup extends StatelessWidget {
           child: Text(
             signText,
             style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor),
           ),
