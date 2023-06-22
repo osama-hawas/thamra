@@ -67,6 +67,36 @@ class DioHelper {
       );
     }
   }
+  Future<CustomResponse> delete(String endPoint,
+      {Map<String, dynamic>? data}) async {
+    print(data);
+
+    try {
+      final response = await _dio.delete(
+        endPoint,
+        data: data,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${CacheHelper.getUserToken()}",
+            "Accept": "application/json"
+          },
+        ),
+      );
+      print(response.data);
+      return CustomResponse(
+          message: response.data["message"],
+          isSuccess: true,
+          response: response);
+    } on DioError catch (ex) {
+      print(ex.response?.data);
+      return CustomResponse(
+        message: ex.response?.data is! List
+            ? ex.response?.data["message"] ?? "failed"
+            : "failed",
+        isSuccess: false,
+      );
+    }
+  }
 }
 
 class CustomResponse {
@@ -77,3 +107,4 @@ class CustomResponse {
   CustomResponse(
       {this.response, required this.message, required this.isSuccess});
 }
+

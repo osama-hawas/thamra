@@ -1,8 +1,10 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/data/service/dio_helper.dart';
 import 'package:thamra/features/active_acount/active_acount_cubit.dart';
+import 'package:thamra/features/add_address/bloc.dart';
 import 'package:thamra/features/confirm_new_pass/confirm_new_pass_cubit.dart';
 import 'package:thamra/features/confirm_pass_code/bloc.dart';
+import 'package:thamra/features/delete_address/bloc.dart';
 import 'package:thamra/features/edit_profile/edit_profile_cubit.dart';
 import 'package:thamra/features/forget_pass/forget_pass_cubit.dart';
 import 'package:thamra/features/get_cities/get_cities_cubit.dart';
@@ -12,6 +14,7 @@ import 'package:thamra/features/sign_up/sign_up_cubit.dart';
 import 'package:thamra/screens/profile_pages/about_app/cubit.dart';
 
 import '../features/add_to_cart/bloc.dart';
+import '../features/get_addresses/bloc.dart';
 import '../features/get_categories/bloc.dart';
 import '../features/get_product/bloc.dart';
 import '../features/login/login_bloc.dart';
@@ -40,5 +43,8 @@ void initKiwi() {
   container.registerFactory((c) => CategoriesBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetProductsBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => AddToCartBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => GetAddressesBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => DeleteAddressesBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => AddAddressBloc(c.resolve<DioHelper>()));
 
 }

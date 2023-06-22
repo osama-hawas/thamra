@@ -23,7 +23,7 @@ class CategoriItem extends StatelessWidget {
             Container(
               height: 73.h,
               width: 73.w,
-              padding: EdgeInsets.all(18.r),
+              padding: EdgeInsets.all(14.r),
               decoration: BoxDecoration(
                   color: Color(0xffF6F9F3),
                   borderRadius: BorderRadius.circular(12.r)),

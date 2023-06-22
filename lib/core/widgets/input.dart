@@ -51,10 +51,10 @@ class _MainTextFieldState extends State<MainTextField> {
 
           controller: widget.controller,
           enabled: widget.onPress == null,
-          minLines: 1,
-          maxLines: widget.minLines,
+          minLines: widget.minLines,
+          maxLines: widget.isObscure?1:null,
           textInputAction: TextInputAction.next,
-          obscureText: widget.isObscure,
+          obscureText:  widget.isObscure,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
 

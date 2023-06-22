@@ -2,9 +2,11 @@ import 'package:go_router/go_router.dart';
 import 'package:thamra/screens/confirm_new_pass/view.dart';
 import 'package:thamra/screens/confirm_pass_code/view.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
+import 'package:thamra/screens/home_pages/notifications/view.dart';
 import 'package:thamra/screens/home_pages/view.dart';
 import 'package:thamra/screens/login/view.dart';
 import 'package:thamra/screens/profile_pages/about_app/view.dart';
+import 'package:thamra/screens/profile_pages/add_address/view.dart';
 import 'package:thamra/screens/profile_pages/addresses/view.dart';
 import 'package:thamra/screens/profile_pages/faqs/view.dart';
 import 'package:thamra/screens/profile_pages/paiement/view.dart';
@@ -43,10 +45,11 @@ abstract class AppRoutes {
   static String changelang = '/changelang';
   static String strokeandtightness = '/strokeandtightness';
   static String rateapp = '/rateapp';
+  static String addAddress = '/addAddress';
   static GoRouter router = GoRouter(routes: [
     GoRoute(
       path: splach,
-      builder: (context, state) => const SplachScreen(),
+      builder: (context, state) =>  SplachScreen(),
     ),
     GoRoute(
       path: login,
@@ -131,6 +134,9 @@ abstract class AppRoutes {
     GoRoute(
       path: rateapp,
       builder: (context, state) =>const HomeScreen(),
+    ),GoRoute(
+      path: addAddress,
+      builder: (context, state) =>const AddAddressScreen(),
     ),
   ]);
 }

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:thamra/features/get_product/states.dart';
 import 'package:thamra/features/home_slider/home_slider_bloc.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
@@ -55,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             bloc: sliderBloc,
             listener: (context, state) {},
             builder: (context, state) {
-              if (state is HomeSliderLoadingState) {
+              if (state is HomeSliderLoadingState || sliderBloc.data == null) {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is HomeSliderSuccessState) {
@@ -115,8 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     bloc: getCategoriesBloc,
                     listener: (context, state) {},
                     builder: (context, state) {
-                      if (state is CategoriesLoadingState) {
-                        return SizedBox(height: 135.h,);
+                      if (state is CategoriesLoadingState ||
+                          getCategoriesBloc.data == null) {
+                        return SizedBox(
+                          height: 135.h,
+                        );
                       }
                       if (state is CategoriesSuccessState) {
                         return Container(
@@ -144,8 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
             ),
           ),
-        ProductItem(),
-
+          ProductItem(),
           SizedBox(
             height: 16.h,
           ),

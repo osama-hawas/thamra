@@ -9,10 +9,10 @@ class AddToCartBloc extends Bloc<CartEvents, AddToCartStates> {
   final DioHelper dioHelper;
 
   AddToCartBloc(this.dioHelper) : super(AddToCartStates()) {
-    on<AddToCartEvent>(_getSliderImg);
+    on<AddToCartEvent>(_addToCart);
   }
 
-  void _getSliderImg(
+  void _addToCart(
       AddToCartEvent event, Emitter<AddToCartStates> emit) async {
     emit(AddToCartLoadingState());
     final response = await dioHelper.post("client/cart", data: {

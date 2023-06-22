@@ -16,6 +16,7 @@ void showMSG({required String message}){
 
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
+
       timeInSecForIosWeb: 1,
       backgroundColor:const Color(0xff4C8613),
       textColor: Colors.white,
