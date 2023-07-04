@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:thamra/core/widgets/btn.dart';
+import 'package:thamra/core/widgets/main_button.dart';
 import 'package:thamra/core/widgets/custom_app_bar_profile.dart';
-import 'package:thamra/core/widgets/text_under_logo.dart';
+import 'package:thamra/core/widgets/main_text_style.dart';
 
-import '../../../core/widgets/input.dart';
+import '../../../core/widgets/main_text_field.dart';
 
 class ConnectUsScreen extends StatelessWidget {
   const ConnectUsScreen({Key? key}) : super(key: key);

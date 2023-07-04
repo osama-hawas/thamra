@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/btn.dart';
+import 'package:thamra/core/widgets/main_button.dart';
 import 'package:thamra/features/forget_pass/forget_pass_event.dart';
 
 import '../../core/utils/app_routes.dart';
-import '../../core/widgets/input.dart';
+import '../../core/widgets/main_text_field.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
-import '../../core/widgets/text_under_logo.dart';
+import '../../core/widgets/main_text_style.dart';
 import '../../features/forget_pass/forget_pass_cubit.dart';
 
 class ForgetPassScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class ForgetPassScreen extends StatefulWidget {
 }
 
 class _ForgetPassScreenState extends State<ForgetPassScreen> {
-  final bloc = KiwiContainer().resolve<ForgetPassCubit>();
+  final bloc = KiwiContainer().resolve<ForgetPassBloc>();
 
   @override
   Widget build(BuildContext context) {

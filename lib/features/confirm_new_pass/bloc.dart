@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/data/service/dio_helper.dart';
 
-import 'confirm_new_pass_state.dart';
+import 'states.dart';
 import 'events.dart';
 
-class ConfirmNewPassCubit extends Bloc<NewPass, ConfirmNewPassState> {
+class ConfirmNewPassBloc extends Bloc<NewPassEvents, ConfirmNewPassState> {
   final DioHelper dioHelper;
 
   final passController = TextEditingController();
 
   final confirmPassController = TextEditingController();
 
-  ConfirmNewPassCubit(this.dioHelper) : super(ConfirmNewPassState()) {
+  ConfirmNewPassBloc(this.dioHelper) : super(ConfirmNewPassState()) {
     on<ConfirmNewPassEvent>(_confirmNewPass);
   }
 

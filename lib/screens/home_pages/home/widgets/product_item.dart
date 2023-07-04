@@ -11,6 +11,7 @@ import 'package:thamra/features/get_product/states.dart';
 import '../../../../features/add_to_cart/events.dart';
 import '../../../../features/get_product/bloc.dart';
 import '../../../../features/get_product/events.dart';
+import '../../../product/view.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({Key? key}) : super(key: key);
@@ -43,7 +44,13 @@ class _ProductItemState extends State<ProductItem> {
               if (state is GetProductsSuccessState) {
                 id = state.list[index].categoryId;
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductScreen(),
+                        ));
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(16.r),
                     child: Column(

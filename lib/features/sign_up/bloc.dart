@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:thamra/features/sign_up/sign_up_event.dart';
+import 'package:thamra/features/sign_up/events.dart';
 
 import '../../core/data/local/cache_helper.dart';
 import '../../core/data/service/dio_helper.dart';
 
-part 'sign_up_state.dart';
+part 'states.dart';
 
-class SignUpCubit extends Bloc<SignUpEvent, SignUpStates> {
+class SignUpBloc extends Bloc<SignUpEvents, SignUpStates> {
   final DioHelper dioHelper;
 
   final nameController = TextEditingController();
@@ -22,11 +22,11 @@ class SignUpCubit extends Bloc<SignUpEvent, SignUpStates> {
 
   String cityId = CacheHelper.getCityId();
 
-  SignUpCubit(this.dioHelper) : super(SignUpStates()){
+  SignUpBloc(this.dioHelper) : super(SignUpStates()){
     on<ClientSignUpEvent>(_signUp);
   }
 
- void _signUp(SignUpEvent event,Emitter<SignUpStates> emit) async {
+ void _signUp(SignUpEvents event,Emitter<SignUpStates> emit) async {
     emit(SignUpLoadingState());
     final response = await dioHelper.post(
       "client_register",

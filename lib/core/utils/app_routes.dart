@@ -1,10 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:thamra/screens/cart/view.dart';
 import 'package:thamra/screens/confirm_new_pass/view.dart';
 import 'package:thamra/screens/confirm_pass_code/view.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
-import 'package:thamra/screens/home_pages/notifications/view.dart';
 import 'package:thamra/screens/home_pages/view.dart';
 import 'package:thamra/screens/login/view.dart';
+import 'package:thamra/screens/order_info/view.dart';
 import 'package:thamra/screens/profile_pages/about_app/view.dart';
 import 'package:thamra/screens/profile_pages/add_address/view.dart';
 import 'package:thamra/screens/profile_pages/addresses/view.dart';
@@ -18,6 +19,7 @@ import 'package:thamra/screens/sign_up/view.dart';
 import 'package:thamra/screens/splach/view.dart';
 
 import '../../screens/activate_account/view.dart';
+import '../../screens/categories/view.dart';
 import '../../screens/forget_pass/view.dart';
 import '../../screens/profile_pages/change_lang/change_lang.dart';
 import '../../screens/profile_pages/contact/view.dart';
@@ -46,10 +48,13 @@ abstract class AppRoutes {
   static String strokeandtightness = '/strokeandtightness';
   static String rateapp = '/rateapp';
   static String addAddress = '/addAddress';
+  static String catigories = '/catigories';
+  static String orderInfo = '/orderinfo';
+  static String cart = '/cart';
   static GoRouter router = GoRouter(routes: [
     GoRoute(
       path: splach,
-      builder: (context, state) =>  SplachScreen(),
+      builder: (context, state) => SplachScreen(),
     ),
     GoRoute(
       path: login,
@@ -57,19 +62,19 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: signUp,
-      builder: (context, state) =>  SignUpScreen(),
+      builder: (context, state) => SignUpScreen(),
     ),
     GoRoute(
       path: forgetPass,
-      builder: (context, state) =>  ForgetPassScreen(),
+      builder: (context, state) => ForgetPassScreen(),
     ),
     GoRoute(
       path: passCode,
-      builder: (context, state) =>  ConfirmPassCodeScreen(),
+      builder: (context, state) => ConfirmPassCodeScreen(),
     ),
     GoRoute(
       path: confirmNewPass,
-      builder: (context, state) =>  ConfirmNewPassScreen(),
+      builder: (context, state) => ConfirmNewPassScreen(),
     ),
     GoRoute(
       path: home,
@@ -91,29 +96,25 @@ abstract class AppRoutes {
       path: privacyscreen,
       builder: (context, state) => PrivacyScreen(),
     ),
-
-
-
-
     GoRoute(
       path: profileinfo,
       builder: (context, state) => ProfileInfoScreen(),
     ),
     GoRoute(
       path: wallet,
-      builder: (context, state) =>const WalletScreen(),
+      builder: (context, state) => const WalletScreen(),
     ),
     GoRoute(
       path: adresses,
-      builder: (context, state) =>const AddressesScreen(),
+      builder: (context, state) => const AddressesScreen(),
     ),
     GoRoute(
       path: paiements,
-      builder: (context, state) =>const PaiementsScreen(),
+      builder: (context, state) => const PaiementsScreen(),
     ),
     GoRoute(
       path: faqs,
-      builder: (context, state) =>const FAQsScreen(),
+      builder: (context, state) => const FAQsScreen(),
     ),
     GoRoute(
       path: contentwithus,
@@ -121,7 +122,7 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: shareapp,
-      builder: (context, state) =>const HomeScreen(),
+      builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
       path: changelang,
@@ -129,14 +130,25 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: strokeandtightness,
-      builder: (context, state) =>const HomeScreen(),
+      builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
       path: rateapp,
-      builder: (context, state) =>const HomeScreen(),
-    ),GoRoute(
+      builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
       path: addAddress,
-      builder: (context, state) =>const AddAddressScreen(),
+      builder: (context, state) => const AddAddressScreen(),
+    ),
+    GoRoute(
+      path: catigories,
+      builder: (context, state) => CategoryScreen(),
+    ),GoRoute(
+      path: orderInfo,
+      builder: (context, state) => OrderInfoScreen(),
+    ),GoRoute(
+      path: cart,
+      builder: (context, state) => CartScreen(),
     ),
   ]);
 }

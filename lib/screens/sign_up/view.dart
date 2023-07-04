@@ -7,16 +7,16 @@ import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/app_routes.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/btn.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:thamra/core/widgets/main_button.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
 import 'package:thamra/core/widgets/logo_image.dart';
 import 'package:thamra/core/widgets/text_for_login_or_signup.dart';
-import 'package:thamra/core/widgets/text_under_logo.dart';
-import 'package:thamra/features/get_cities/cities_event.dart';
-import 'package:thamra/features/sign_up/sign_up_cubit.dart';
-import 'package:thamra/features/sign_up/sign_up_event.dart';
+import 'package:thamra/core/widgets/main_text_style.dart';
+import 'package:thamra/features/get_cities/events.dart';
+import 'package:thamra/features/sign_up/bloc.dart';
+import 'package:thamra/features/sign_up/events.dart';
 
-import '../../features/get_cities/get_cities_cubit.dart';
+import '../../features/get_cities/bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -28,9 +28,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<FormState> formKey = GlobalKey();
 
-  final getCitiesBloc = KiwiContainer().resolve<GetCitiesCubit>()
+  final getCitiesBloc = KiwiContainer().resolve<GetCitiesBloc>()
     ..add(GetCitiesEvent());
-  final signUpBloc = KiwiContainer().resolve<SignUpCubit>();
+  final signUpBloc = KiwiContainer().resolve<SignUpBloc>();
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thamra/core/utils/app_routes.dart';
 
 import 'address_bottom_sheet.dart';
 
@@ -35,9 +37,10 @@ class CustomAppBar extends StatelessWidget {
           const Spacer(),
           Expanded(
             flex: 2,
-            child: GestureDetector(onTap:(){
-              showModelBottomSheet(context);
-            } ,
+            child: GestureDetector(
+              onTap: () {
+                showModelBottomSheet(context);
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -65,7 +68,9 @@ class CustomAppBar extends StatelessWidget {
           const Spacer(),
           Badge(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).push(AppRoutes.cart);
+              },
               child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(8.r),

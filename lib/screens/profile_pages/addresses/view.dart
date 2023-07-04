@@ -10,7 +10,7 @@ import 'package:thamra/core/widgets/custom_app_bar_profile.dart';
 
 import '../../../core/utils/app_routes.dart';
 import '../../../core/utils/helper_methods.dart';
-import '../../../core/widgets/text_under_logo.dart';
+import '../../../core/widgets/main_text_style.dart';
 import '../../../features/delete_address/bloc.dart';
 import '../../../features/delete_address/events.dart';
 import '../../../features/delete_address/states.dart';

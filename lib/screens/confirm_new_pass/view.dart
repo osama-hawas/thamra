@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/app_routes.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/btn.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:thamra/core/widgets/main_button.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
 import 'package:thamra/core/widgets/logo_image.dart';
 import 'package:thamra/core/widgets/text_for_login_or_signup.dart';
-import 'package:thamra/core/widgets/text_under_logo.dart';
+import 'package:thamra/core/widgets/main_text_style.dart';
 
-import '../../features/confirm_new_pass/confirm_new_pass_cubit.dart';
-import '../../features/confirm_new_pass/confirm_new_pass_state.dart';
+import '../../features/confirm_new_pass/bloc.dart';
+import '../../features/confirm_new_pass/states.dart';
 import '../../features/confirm_new_pass/events.dart';
 
 class ConfirmNewPassScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class ConfirmNewPassScreen extends StatefulWidget {
 }
 
 class _ConfirmNewPassScreenState extends State<ConfirmNewPassScreen> {
-  final bloc = KiwiContainer().resolve<ConfirmNewPassCubit>();
+  final bloc = KiwiContainer().resolve<ConfirmNewPassBloc>();
 
   @override
   Widget build(BuildContext context) {

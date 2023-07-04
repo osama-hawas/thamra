@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thamra/core/utils/app_routes.dart';
 
 import '../../../../features/get_categories/model.dart';
 
-class CategoriItem extends StatelessWidget {
+class CategoriesItem extends StatelessWidget {
   final CategoryData categoryData;
 
-  const CategoriItem({Key? key, required this.categoryData}) : super(key: key);
+  const CategoriesItem({Key? key, required this.categoryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+
+GoRouter.of(context).push(AppRoutes.catigories,extra: categoryData);
+      },
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsetsDirectional.only(

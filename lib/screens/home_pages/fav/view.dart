@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:thamra/core/data/local/cache_helper.dart';
-import 'package:thamra/core/widgets/btn.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:thamra/core/widgets/main_product_item.dart';
+
+import '../../../features/fav/bloc.dart';
+import '../../../features/fav/events.dart';
+import '../../../features/fav/states.dart';
 
 class FavScreen extends StatefulWidget {
   const FavScreen({Key? key}) : super(key: key);
@@ -11,111 +17,71 @@ class FavScreen extends StatefulWidget {
 }
 
 class _FavScreenState extends State<FavScreen> {
-  GlobalKey<FormState> formkey = GlobalKey();
-  late List<String> titleList = [];
-
-  late String title;
+  final bloc = KiwiContainer().resolve<GetFavBloc>()
+    ..add(GetFavProductEvents());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 80,
-          title: Form(
-            key: formkey,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 18),
-              child: MainTextField(
-                text: 'add text',
-                prefixIcon: 'assets/icons/search.png',
-                onChanged: (value) {
-                  title = value;
-                },
-              ),
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
-                child: MainButton(
-                    text: 'Add',
-                    onPressed: () {
-                      if (formkey.currentState!.validate()) {}
-                      if (title != null) {
-                        CacheHelper.addTitle(title);
-                      } else {
-                        print('error');
-                      }
-                      setState(() {});
-                    }),
-              ),
+          body: SingleChildScrollView(
+        child: BlocBuilder(
+          bloc: bloc,
+          builder: (context, state) {
 
-                Column(
-                  children: List.generate(1 , (index) => NotivayItem()),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class NotivayItem extends StatefulWidget {
-  const NotivayItem({Key? key}) : super(key: key);
-
-  @override
-  State<NotivayItem> createState() => _NotivayItemState();
-}
-
-class _NotivayItemState extends State<NotivayItem> {
-  bool show = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      margin:
-          EdgeInsetsDirectional.only(start: 16, end: 16, bottom: 16, top: 32),
-      child: show
-          ? Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        CacheHelper.showTitle(),
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 80, vertical: 8),
-                        child: MainButton(
-                            text: 'delete',
-                            onPressed: () {
-                              CacheHelper.removeTitle();
-                              show = false;
-                              setState(() {});
-                            }),
-                      ),
-                    ],
+            if (state is GetFavSuccessState ) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 24.h,
                   ),
-                )
-              ],
-            )
-          : null,
+                  Text(
+                    "المفضلة",
+                    style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w900,
+                        color: Theme.of(context).primaryColor),
+                  ),
+                  SizedBox(
+                    height: 24.h,
+                  ),
+                  GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.list.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: double.minPositive,
+                          childAspectRatio: 163 / 215),
+                      itemBuilder: ((context, index) {
+                        return MainProductItem(favProductData: state.list[index],);
+                      })),
+                ],
+              );
+            } else {
+              return Column(
+                children: List.generate(
+                    4,
+                        (index) => Padding(
+                      padding: EdgeInsets.all(8.r),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white10,
+                        child: Container(
+                          height: 97.h,
+                          decoration: BoxDecoration(
+                              color: Colors.white10,
+                              borderRadius: BorderRadius.circular(11)),
+                        ),
+                      ),
+                    )),
+              );
+            }
+
+          },
+        ),
+      )),
     );
   }
 }

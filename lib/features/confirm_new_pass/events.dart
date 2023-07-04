@@ -1,3 +1,3 @@
-class NewPass {}
+class NewPassEvents {}
 
-class ConfirmNewPassEvent extends NewPass {}
+class ConfirmNewPassEvent extends NewPassEvents {}

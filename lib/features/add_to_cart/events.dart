@@ -1,3 +1,3 @@
 
- class CartEvents {}
- class AddToCartEvent extends CartEvents {}
+ class CartProductEvents {}
+ class AddToCartEvent extends CartProductEvents {}

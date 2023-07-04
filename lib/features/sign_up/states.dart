@@ -1,4 +1,4 @@
-part of 'sign_up_cubit.dart';
+part of 'bloc.dart';
 
 class SignUpStates {}
 

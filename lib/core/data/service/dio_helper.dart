@@ -7,7 +7,10 @@ class DioHelper {
     "Accept": "application/json",
     "Authorization": "Bearer ${CacheHelper.getUserToken()}",
   }));
-
+Map<String,dynamic>get headers=>  {
+  "Authorization": "Bearer ${CacheHelper.getUserToken()}",
+  "Accept": "application/json"
+};
   Future<CustomResponse> get(String endPoint,
       {Map<String, dynamic>? data}) async {
     print(data);
@@ -17,10 +20,7 @@ class DioHelper {
         endPoint,
         data: data,
         options: Options(
-          headers: {
-            "Authorization": "Bearer ${CacheHelper.getUserToken()}",
-            "Accept": "application/json"
-          },
+          headers: headers
         ),
       );
       print(response.data);

@@ -5,12 +5,12 @@ import 'package:thamra/features/forget_pass/forget_pass_event.dart';
 
 part 'forget_pass_state.dart';
 
-class ForgetPassCubit extends Bloc<ForgetPassEvents, ForgetPassState> {
+class ForgetPassBloc extends Bloc<ForgetPassEvents, ForgetPassState> {
   final DioHelper dioHelper;
 
   final phoneController = TextEditingController();
 
-  ForgetPassCubit(this.dioHelper) : super(ForgetPassState()) {
+  ForgetPassBloc(this.dioHelper) : super(ForgetPassState()) {
     on<ForgetMyPassEvent>(_forgetPass);
   }
 

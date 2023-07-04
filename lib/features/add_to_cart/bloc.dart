@@ -4,7 +4,7 @@ import 'package:thamra/features/add_to_cart/states.dart';
 import '../../core/data/service/dio_helper.dart';
 import 'events.dart';
 
-class AddToCartBloc extends Bloc<CartEvents, AddToCartStates> {
+class AddToCartBloc extends Bloc<CartProductEvents, AddToCartStates> {
   late int productId;
   final DioHelper dioHelper;
 

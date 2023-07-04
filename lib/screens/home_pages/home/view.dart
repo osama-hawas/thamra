@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thamra/features/home_slider/home_slider_bloc.dart';
+import 'package:thamra/features/home_slider/bloc.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
 
-import '../../../core/widgets/input.dart';
+import '../../../core/widgets/main_text_field.dart';
 import '../../../features/get_categories/bloc.dart';
 import '../../../features/get_categories/events.dart';
 import '../../../features/get_categories/states.dart';
 import '../../../features/get_product/bloc.dart';
 import '../../../features/get_product/events.dart';
-import '../../../features/home_slider/home_slider_event.dart';
-import '../../../features/home_slider/home_slider_state.dart';
+import '../../../features/home_slider/events.dart';
+import '../../../features/home_slider/states.dart';
 
 // slider circle avatare
 
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: state.list.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) =>
-                                CategoriItem(categoryData: state.list[index]),
+                                CategoriesItem(categoryData: state.list[index]),
                           ),
                         );
                       } else {

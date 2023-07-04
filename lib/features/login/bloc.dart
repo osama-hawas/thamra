@@ -6,21 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/data/local/cache_helper.dart';
 import '../../core/data/service/dio_helper.dart';
-import 'login_event.dart';
-import 'login_state.dart';
+import 'events.dart';
+import 'states.dart';
 import 'model.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginStates> {
+class LoginBloc extends Bloc<LoginEvents, LoginStates> {
   final DioHelper dioHelper;
 
   LoginBloc(this.dioHelper) : super(LoginStates()) {
-    on<LoginEvent>(_login);
+    on<LoginEvents>(_login);
   }
 
-  final phoneController = TextEditingController(text: "01008125361");
+  final phoneController = TextEditingController(text: "550011223344");
   final passController = TextEditingController(text: "123456789");
 
-  Future<void> _login(LoginEvent event, Emitter<LoginStates> emit) async {
+  Future<void> _login(LoginEvents event, Emitter<LoginStates> emit) async {
     final deviceToken = await FirebaseMessaging.instance.getToken();
     CacheHelper.saveDeviceToken(deviceToken: deviceToken);
     emit(LoginLoadingStates());

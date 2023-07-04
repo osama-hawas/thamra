@@ -7,16 +7,16 @@ import 'package:kiwi/kiwi.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/app_routes.dart';
-import 'package:thamra/core/widgets/btn.dart';
+import 'package:thamra/core/widgets/main_button.dart';
 
 import '../../core/utils/helper_methods.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
-import '../../core/widgets/text_under_logo.dart';
+import '../../core/widgets/main_text_style.dart';
 import '../../features/confirm_pass_code/bloc.dart';
 import '../../features/confirm_pass_code/events.dart';
-import '../../features/resend_code/_cubit.dart';
-import '../../features/resend_code/_state.dart';
+import '../../features/resend_code/bloc.dart';
+import '../../features/resend_code/states.dart';
 import '../../features/resend_code/events.dart';
 
 class ConfirmPassCodeScreen extends StatefulWidget {
@@ -27,8 +27,8 @@ class ConfirmPassCodeScreen extends StatefulWidget {
 }
 
 class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
-  final bloc = KiwiContainer().resolve<ConfirmPassCodeCubit>();
-  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeCubit>();
+  final bloc = KiwiContainer().resolve<ConfirmPassCodeBloc>();
+  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeBloc>();
 
   bool isTimeRunning = true;
 

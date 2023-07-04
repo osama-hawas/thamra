@@ -9,13 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/btn.dart';
-import 'package:thamra/core/widgets/input.dart';
-import 'package:thamra/features/edit_profile/edit_profile_cubit.dart';
-import 'package:thamra/features/get_cities/cities_event.dart';
+import 'package:thamra/core/widgets/main_button.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
+import 'package:thamra/features/edit_profile/bloc.dart';
+import 'package:thamra/features/get_cities/events.dart';
 
 import '../../../core/widgets/custom_app_bar_profile.dart';
-import '../../../features/get_cities/get_cities_cubit.dart';
+import '../../../features/edit_profile/events.dart';
+import '../../../features/get_cities/bloc.dart';
 
 class ProfileInfoScreen extends StatefulWidget {
   ProfileInfoScreen({Key? key}) : super(key: key);
@@ -25,19 +26,9 @@ class ProfileInfoScreen extends StatefulWidget {
 }
 
 class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
-  final editProfileCubit = KiwiContainer().resolve<EditProfileCubit>();
-  final getCitiesBloc = KiwiContainer().resolve<GetCitiesCubit>()
+  final editProfileCubit = KiwiContainer().resolve<EditProfileBloc>();
+  final getCitiesBloc = KiwiContainer().resolve<GetCitiesBloc>()
     ..add(GetCitiesEvent());
-
-  final nameController = TextEditingController(text: CacheHelper.getName());
-
-  final phoneController = TextEditingController(text: CacheHelper.getPhone());
-
-  final cityController = TextEditingController(text: CacheHelper.getCityName());
-
-  String cityId = CacheHelper.getCityId();
-
-  File? selectedImage;
 
   bool isUpdate = false;
 
@@ -66,7 +57,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                       final image = await ImagePicker.platform.pickImage(
                           source: ImageSource.camera, imageQuality: 30);
                       if (image != null) {
-                        selectedImage = File(image.path);
+                        editProfileCubit.selectedImage = File(image.path);
                       }
                       setState(() {});
                     },
@@ -83,9 +74,9 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                             Colors.black.withOpacity(.32),
                             BlendMode.darken,
                           ),
-                          child: selectedImage != null
+                          child: editProfileCubit.selectedImage != null
                               ? Image.file(
-                                  selectedImage!,
+                                  editProfileCubit.selectedImage!,
                                   height: 90.h,
                                   width: 90.h,
                                   fit: BoxFit.fill,
@@ -136,12 +127,12 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               ),
               MainTextField(
                 text: "اسم المستخدم",
-                controller: nameController,
+                controller: editProfileCubit.nameController,
                 prefixIcon: "assets/icons/man.png",
               ),
               MainTextField(
                   text: "رقم الجوال",
-                  controller: phoneController,
+                  controller: editProfileCubit.phoneController,
                   prefixIcon: "assets/icons/phone.png",
                   type: InputType.phone),
               StatefulBuilder(builder: (context, setState) {
@@ -197,7 +188,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                             state.list.length,
                                             (index) => GestureDetector(
                                                   onTap: () {
-                                                    cityId =
+                                                    editProfileCubit.cityId =
                                                         state.list[index].id;
                                                     GoRouter.of(context).pop(
                                                         state.list[index].name);
@@ -214,7 +205,9 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                                                 .circular(16.r),
                                                         color: state.list[index]
                                                                     .name ==
-                                                                cityController.text
+                                                                editProfileCubit
+                                                                    .cityController
+                                                                    .text
                                                             ? Theme.of(context)
                                                                 .primaryColor
                                                                 .withOpacity(.5)
@@ -247,11 +240,11 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                       ),
                     );
                     if (result != null) {
-                      cityController.text = result;
+                      editProfileCubit.cityController.text = result;
                     }
                     setState(() {});
                   },
-                  controller: cityController,
+                  controller: editProfileCubit.cityController,
                 );
               }),
               MainTextField(
@@ -274,10 +267,10 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               if (state is EditProfileSuccessState) {
                 showMSG(message: state.msg);
                 CacheHelper.updateUserProfile(
-                    name: nameController.text,
-                    phone: phoneController.text,
-                    cityName: cityController.text,
-                    cityId: cityId);
+                    name: editProfileCubit.nameController.text,
+                    phone: editProfileCubit.phoneController.text,
+                    cityName: editProfileCubit.cityController.text,
+                    cityId: editProfileCubit.cityId);
                 isUpdate = true;
               }
             },
@@ -288,12 +281,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                   onPressed: () {
                     // if (formkey.currentState!.validate()) {
                     //   print("click");
-                    editProfileCubit.updateProfile(
-                      image: selectedImage,
-                      name: nameController.text,
-                      cityId: cityId,
-                      phone: phoneController.text,
-                    );
+                    editProfileCubit.add(EditProfileEvent());
                     // }
                   });
             },

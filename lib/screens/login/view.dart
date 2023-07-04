@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/app_routes.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
 import 'package:thamra/core/widgets/text_for_login_or_signup.dart';
-import 'package:thamra/features/login/login_bloc.dart';
-import 'package:thamra/features/login/login_event.dart';
-import '../../core/widgets/btn.dart';
+import 'package:thamra/features/login/bloc.dart';
+import 'package:thamra/features/login/events.dart';
+import '../../core/widgets/main_button.dart';
 import '../../core/widgets/logo_image.dart';
-import '../../core/widgets/text_under_logo.dart';
-import '../../features/login/login_state.dart';
+import '../../core/widgets/main_text_style.dart';
+import '../../features/login/states.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w300,
-                      color: Color(0xff707070)),
+                      color: Theme.of(context).hintColor),
                 ),
               ),
               MainTextField(
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer(
                   listener: (context, state) {
                     if (state is LoginSuccessStates) {
-                      GoRouter.of(context).push(AppRoutes.home);
+                      GoRouter.of(context).pushReplacement(AppRoutes.home);
 
                       showMSG(
                           message: state.msg == ""
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return MainButton(
                         text: 'تسجيل الدخول',
                         onPressed: () {
-                          bloc.add(LoginEvent());
+                          bloc.add(LoginEvents());
                         },
                       );
                     }

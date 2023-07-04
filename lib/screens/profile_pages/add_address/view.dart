@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/btn.dart';
+import 'package:thamra/core/widgets/main_button.dart';
 import 'package:thamra/core/widgets/custom_app_bar_profile.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
 import 'package:thamra/features/add_address/states.dart';
 
 import '../../../features/add_address/bloc.dart';

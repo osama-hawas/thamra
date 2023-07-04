@@ -1,4 +1,4 @@
-part of 'edit_profile_cubit.dart';
+part of 'bloc.dart';
 
 
  class EditProfileState {}

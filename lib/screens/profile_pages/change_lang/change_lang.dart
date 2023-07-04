@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thamra/core/widgets/custom_app_bar_profile.dart';
-import 'package:thamra/core/widgets/text_under_logo.dart';
+import 'package:thamra/core/widgets/main_text_style.dart';
 
 class ChangeLangScreen extends StatefulWidget {
   ChangeLangScreen({Key? key}) : super(key: key);

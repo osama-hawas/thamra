@@ -12,7 +12,7 @@ import 'package:thamra/features/delete_address/bloc.dart';
 import 'package:thamra/features/delete_address/events.dart';
 import 'package:thamra/features/delete_address/states.dart';
 
-import '../../../../core/widgets/text_under_logo.dart';
+import '../../../../core/widgets/main_text_style.dart';
 import '../../../../features/get_addresses/bloc.dart';
 import '../../../../features/get_addresses/events.dart';
 
@@ -60,7 +60,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                     horizontal: 16.w, vertical: 20.h),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 16.w, vertical: 2.h),
-                                height: 100,
+                                // height: 100,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.r),
@@ -71,41 +71,43 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 4.h,
-                                        ),
-                                        MainTextStyle(
-                                            text: state.list[index].type),
-                                        Text.rich(TextSpan(
-                                          children: [
-                                            TextSpan(
-                                                text:
-                                                    "العنوان : ${state.list[index].location}\n"),
-                                            TextSpan(
-                                                text:
-                                                    "الوصف:${state.list[index].description}\n",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .hintColor)),
-                                            TextSpan(
-                                                text:
-                                                    "رقم الجوال : ${state.list[index].phone}",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .hintColor))
-                                          ],
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              fontSize: 14.sp),
-                                        )),
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 4.h,
+                                          ),
+                                          MainTextStyle(
+                                              text: state.list[index].type),
+                                          Text.rich(TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text:
+                                                      "العنوان : ${state.list[index].location}\n"),
+                                              TextSpan(
+                                                  text:
+                                                      "الوصف:${state.list[index].description}\n",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .hintColor)),
+                                              TextSpan(
+                                                  text:
+                                                      "رقم الجوال : ${state.list[index].phone}",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .hintColor))
+                                            ],
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                fontSize: 14.sp),
+                                          )),
+                                        ],
+                                      ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(top: 9.h),

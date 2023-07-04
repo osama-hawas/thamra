@@ -7,16 +7,16 @@ import 'package:kiwi/kiwi.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:thamra/core/data/local/cache_helper.dart';
 import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/core/widgets/text_under_logo.dart';
-import 'package:thamra/features/active_acount/active_acount_cubit.dart';
+import 'package:thamra/core/widgets/main_text_style.dart';
+import 'package:thamra/features/active_acount/bloc.dart';
 
 import '../../core/utils/app_routes.dart';
-import '../../core/widgets/btn.dart';
+import '../../core/widgets/main_button.dart';
 import '../../core/widgets/logo_image.dart';
 import '../../core/widgets/text_for_login_or_signup.dart';
 import '../../features/active_acount/events.dart';
-import '../../features/resend_code/_cubit.dart';
-import '../../features/resend_code/_state.dart';
+import '../../features/resend_code/bloc.dart';
+import '../../features/resend_code/states.dart';
 import '../../features/resend_code/events.dart';
 
 class ActivateAccountScreen extends StatefulWidget {
@@ -27,8 +27,8 @@ class ActivateAccountScreen extends StatefulWidget {
 }
 
 class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
-  final bloc = KiwiContainer().resolve<ActiveAcountCubit>();
-  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeCubit>();
+  final bloc = KiwiContainer().resolve<ActiveAcountBloc>();
+  final reSendCodeBloc = KiwiContainer().resolve<ResendCodeBloc>();
   bool isTimeRunning = true;
 
   @override
@@ -210,7 +210,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 text: 'لديك حساب بالفعل ؟',
                 signText: 'تسجيل الدخول',
                 onTap: () {
-                  GoRouter.of(context).push(AppRoutes.login);
+                  GoRouter.of(context).pushReplacement(AppRoutes.login);
                 },
               ),
             )

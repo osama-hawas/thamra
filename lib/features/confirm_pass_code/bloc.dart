@@ -10,11 +10,11 @@ import 'events.dart';
 
 part 'states.dart';
 
-class ConfirmPassCodeCubit extends Bloc<PassCodeEvents, ConfirmPassCodeState> {
+class ConfirmPassCodeBloc extends Bloc<PassCodeEvents, ConfirmPassCodeState> {
   final DioHelper dioHelper;
 
   final code=TextEditingController();
-  ConfirmPassCodeCubit(this.dioHelper) : super(ConfirmPassCodeState()){
+  ConfirmPassCodeBloc(this.dioHelper) : super(ConfirmPassCodeState()){
     on<ConfirmPassCodeEvent>(_confirmPassCode);
   }
 

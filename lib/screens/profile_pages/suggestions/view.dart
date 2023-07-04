@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thamra/core/widgets/btn.dart';
-import 'package:thamra/core/widgets/input.dart';
+import 'package:thamra/core/widgets/main_button.dart';
+import 'package:thamra/core/widgets/main_text_field.dart';
 
 import '../../../core/utils/helper_methods.dart';
 import '../../../core/widgets/custom_app_bar_profile.dart';

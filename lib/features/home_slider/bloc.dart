@@ -3,19 +3,19 @@ import 'package:bloc/bloc.dart';
 import 'package:thamra/core/data/service/dio_helper.dart';
 import 'package:thamra/features/home_slider/model.dart';
 
-import 'home_slider_event.dart';
-import 'home_slider_state.dart';
+import 'events.dart';
+import 'states.dart';
 
-class HomeSliderBloc extends Bloc<HomeSliderEvent, HomeSliderState> {
+class HomeSliderBloc extends Bloc<HomeSliderEvent, HomeSliderStates> {
   final DioHelper dioHelper;
   var data;
 
-  HomeSliderBloc(this.dioHelper) : super(HomeSliderState()) {
+  HomeSliderBloc(this.dioHelper) : super(HomeSliderStates()) {
     on<HomeSliderEvent>(_getSliderImg);
   }
 
   void _getSliderImg(
-      HomeSliderEvent event, Emitter<HomeSliderState> emit) async {
+      HomeSliderEvent event, Emitter<HomeSliderStates> emit) async {
     emit(HomeSliderLoadingState());
     final response = await dioHelper.get("sliders");
     if (response.isSuccess) {

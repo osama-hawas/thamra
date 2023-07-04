@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thamra/screens/profile_pages/about_app/states.dart';
 
 import '../../../core/widgets/custom_app_bar_profile.dart';
-import 'cubit.dart';
+import '../../../features/about_app/bloc.dart';
+import '../../../features/about_app/events.dart';
+import '../../../features/about_app/states.dart';
 
 class AboutAppScreen extends StatefulWidget {
   const AboutAppScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class AboutAppScreen extends StatefulWidget {
 }
 
 class _AboutAppScreenState extends State<AboutAppScreen> {
-  final cubit = KiwiContainer().resolve<AboutAppCubit>()..getPolicies();
+  final cubit = KiwiContainer().resolve<AboutAppBloc>()..add(GetAboutAppDataEvent());
 
   @override
   Widget build(BuildContext context) {

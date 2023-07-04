@@ -1,4 +1,4 @@
-part of 'active_acount_cubit.dart';
+part of 'bloc.dart';
 
 class ActiveAcountState {}
 

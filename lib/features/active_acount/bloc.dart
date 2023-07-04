@@ -8,14 +8,14 @@ import 'package:thamra/core/data/service/dio_helper.dart';
 
 import 'events.dart';
 
-part 'active_acount_state.dart';
+part 'states.dart';
 
-class ActiveAcountCubit extends Bloc<AcountEvents, ActiveAcountState> {
+class ActiveAcountBloc extends Bloc<AcountEvents, ActiveAcountState> {
   final DioHelper dioHelper;
 
    TextEditingController code = TextEditingController();
 
-  ActiveAcountCubit(this.dioHelper) : super(ActiveAcountState()) {
+  ActiveAcountBloc(this.dioHelper) : super(ActiveAcountState()) {
     on<ActiveAcountEvent>(_activeAcount);
   }
 
