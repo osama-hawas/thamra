@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class CatigoryProductEvents {}
 class GetCatigoryProductEvent extends CatigoryProductEvents{
   final int id;

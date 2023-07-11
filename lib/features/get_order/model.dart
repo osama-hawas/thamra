@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class OrderModel {
   late final List<OrderData> data;
 

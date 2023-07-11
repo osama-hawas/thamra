@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/features/add_to_cart/states.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
+import '../../core/logic/dio_helper.dart';
+import '../../core/logic/helper_methods.dart';
+part 'events.dart';
+part 'states.dart';
 
 class AddToCartBloc extends Bloc<CartProductEvents, AddToCartStates> {
   late int productId;

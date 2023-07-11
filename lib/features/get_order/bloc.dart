@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
-import 'model.dart';
-import 'states.dart';
+import '../../core/logic/dio_helper.dart';
+part  'states.dart';
+part  'events.dart';
+part  'model.dart';
+
+
 
 class GetOrdersBloc extends Bloc<OrdersEvents, GetOrderStates> {
   final DioHelper dioHelper;

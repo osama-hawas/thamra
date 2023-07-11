@@ -1,3 +1,5 @@
-class LogoutAcountEvents {}
+part of 'bloc.dart';
 
-class LogoutEvent extends LogoutAcountEvents {}
+class LogoutAccountEvents {}
+
+class LogoutEvent extends LogoutAccountEvents {}

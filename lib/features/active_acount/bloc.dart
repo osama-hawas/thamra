@@ -3,23 +3,25 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:thamra/core/data/local/cache_helper.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
+import 'package:thamra/core/logic/cache_helper.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
 
-import 'events.dart';
+import '../../core/logic/helper_methods.dart';
+
+part  'events.dart';
 
 part 'states.dart';
 
-class ActiveAcountBloc extends Bloc<AcountEvents, ActiveAcountState> {
+class ActiveAccountBloc extends Bloc<AcountEvents, ActiveAcountState> {
   final DioHelper dioHelper;
 
    TextEditingController code = TextEditingController();
 
-  ActiveAcountBloc(this.dioHelper) : super(ActiveAcountState()) {
-    on<ActiveAcountEvent>(_activeAcount);
+  ActiveAccountBloc(this.dioHelper) : super(ActiveAcountState()) {
+    on<ActiveAcountEvent>(_send);
   }
 
-  void _activeAcount(
+  void _send(
       ActiveAcountEvent event, Emitter<ActiveAcountState> emit) async {
     emit(ActiveAcountLoadingState());
     final response = await dioHelper.post("verify", data: {
@@ -31,6 +33,7 @@ class ActiveAcountBloc extends Bloc<AcountEvents, ActiveAcountState> {
       "type": Platform.operatingSystem,
     });
     if (response.isSuccess) {
+
       emit(ActiveAcountSuccessState(msg: response.message));
     } else {
       emit(ActiveAcountFailedState(msg: response.message));

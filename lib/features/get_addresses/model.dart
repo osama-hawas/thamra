@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class AddressesModel {
   late final List<AddressData> addressData;
   late final String status;

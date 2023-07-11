@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class LoginDataModel {
   late final Data data;
   late final String status;

@@ -1,3 +1,4 @@
+part of 'bloc.dart';
 
- class HomeEvents {}
+class HomeEvents {}
  class HomeSliderEvent extends HomeEvents {}

@@ -1,4 +1,4 @@
-import 'model.dart';
+part of 'bloc.dart';
 
 class HomeSliderStates {}
 

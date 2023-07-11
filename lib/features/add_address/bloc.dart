@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/features/add_address/states.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
+import '../../core/logic/dio_helper.dart';
+import '../../core/logic/helper_methods.dart';
+part  'events.dart';
+
+part 'states.dart';
 
 class AddAddressBloc extends Bloc<AddressEvents, AddAddressStates> {
   final phoneController = TextEditingController();

@@ -1,10 +1,10 @@
 
 import 'package:bloc/bloc.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
-import 'package:thamra/features/home_slider/model.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
+part  'events.dart';
+part  'states.dart';
+part  'model.dart';
 
-import 'events.dart';
-import 'states.dart';
 
 class HomeSliderBloc extends Bloc<HomeSliderEvent, HomeSliderStates> {
   final DioHelper dioHelper;

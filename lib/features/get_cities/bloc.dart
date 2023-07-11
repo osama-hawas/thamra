@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
-import 'package:thamra/features/get_cities/events.dart';
-import 'package:thamra/features/get_cities/model.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
+
 
 part 'states.dart';
+part 'events.dart';
+part 'model.dart';
 
 class GetCitiesBloc extends Bloc<CitiesEvents, GetCitiesStates> {
   final DioHelper dioHelper;
@@ -16,7 +17,7 @@ class GetCitiesBloc extends Bloc<CitiesEvents, GetCitiesStates> {
     emit(GetCitiesLoadingState());
     final response = await dioHelper.get("cities/1");
     if (response.isSuccess) {
-      final list = await CityData.fromJson(response.response!.data).cityModel;
+      final list = CityData.fromJson(response.response!.data).cityModel;
       emit(GetCitiesSuccessState(list: list));
     } else {
       emit(GetCitiesFailedState());

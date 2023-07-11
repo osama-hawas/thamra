@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:thamra/core/data/local/cache_helper.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
+import 'package:thamra/core/logic/cache_helper.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
 
-import 'states.dart';
-import 'events.dart';
+import '../../core/logic/helper_methods.dart';
+
+part 'states.dart';
+part 'events.dart';
 
 
 class ResendCodeBloc extends Bloc<CodeEvents,ResendCodeStates> {

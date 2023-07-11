@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:thamra/screens/home_pages/fav/view.dart';
+import 'package:thamra/screens/home_pages/fav.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
 import 'package:thamra/screens/home_pages/my_order/view.dart';
 import 'package:thamra/screens/home_pages/notifications/view.dart';
-import 'package:thamra/screens/home_pages/profile/view.dart';
+import 'package:thamra/screens/home_pages/profile.dart';
 
 class NavView extends StatefulWidget {
   const NavView({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _NavViewState extends State<NavView> {
     const MyOrderScreen(),
     const NotificationsScreen(),
     const FavScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
   ];
 
   @override

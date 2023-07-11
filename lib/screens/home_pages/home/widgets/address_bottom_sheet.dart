@@ -6,15 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:thamra/core/utils/app_routes.dart';
-import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/features/delete_address/bloc.dart';
-import 'package:thamra/features/delete_address/events.dart';
-import 'package:thamra/features/delete_address/states.dart';
+import 'package:thamra/core/logic/app_routes.dart';
 
-import '../../../../core/widgets/main_text_style.dart';
+import '../../../../core/design/main_text_style.dart';
+import '../../../../features/delete_address/bloc.dart';
 import '../../../../features/get_addresses/bloc.dart';
-import '../../../../features/get_addresses/events.dart';
 
 Future<dynamic> showModelBottomSheet(BuildContext context) async {
   final bloc = KiwiContainer().resolve<GetAddressesBloc>()
@@ -42,7 +38,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
             SizedBox(
               height: 14.h,
             ),
-            MainTextStyle(text: "العناوين"),
+            const MainTextStyle(text: "العناوين"),
             Expanded(
               child: SingleChildScrollView(
                 child: BlocBuilder(
@@ -115,20 +111,15 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          BlocConsumer(bloc: deleteAddressBloc,
+                                          BlocConsumer(
+                                            bloc: deleteAddressBloc,
                                             listener: (context, state) {
                                               if (state
                                                   is DeleteAddressesSuccessState) {
-                                                showMSG(message: state.msg);
-                                                      bloc.list.removeAt(index);
-                                                      setState((){});
-                                              }
-                                              if (state
-                                                  is DeleteAddressesFailedState) {
-                                                showMSG(message: state.msg);
+                                                bloc.list.removeAt(index);
+                                                setState(() {});
                                               }
                                             },
-
                                             builder: (context, state) {
                                               return GestureDetector(
                                                 onTap: () {
@@ -136,7 +127,6 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                                       bloc.list[index].id;
                                                   deleteAddressBloc.add(
                                                       DeleteAddressesEvent());
-
                                                 },
                                                 child: Container(
                                                   padding: EdgeInsets.all(6.r),
@@ -144,7 +134,8 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             7.r),
-                                                    color: Color(0xffFFD4D4),
+                                                    color:
+                                                        const Color(0xffFFD4D4),
                                                   ),
                                                   child: SvgPicture.asset(
                                                     "assets/icons/delete.svg",
@@ -222,8 +213,9 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 16.h, horizontal: 80.w),
-                    child: MainTextStyle(text: "إضافة عنوان جديد"),
-                    color: Color(0xffF9FCF5),
+
+                    color: Colors.white,
+                    child: const MainTextStyle(text: "إضافة عنوان جديد"),
                   ),
                 ),
               ),

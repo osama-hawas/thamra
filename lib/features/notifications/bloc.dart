@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/features/notifications/states.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
-import 'model.dart';
+import '../../core/logic/dio_helper.dart';
+
+part  'model.dart';
+part  'events.dart';
+part  'states.dart';
 
 class GetNotificationsBloc
     extends Bloc<NotificationsEvents, GetNotificationsStates> {

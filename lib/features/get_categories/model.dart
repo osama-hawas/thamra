@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class CategoriesModel {
   late final List<CategoryData> categoryData;
  

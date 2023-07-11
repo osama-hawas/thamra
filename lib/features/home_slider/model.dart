@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class ImageSliderModel {
   late final List<ImageModel> data;
 

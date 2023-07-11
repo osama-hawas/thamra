@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
-import 'model.dart';
-import 'states.dart';
+import '../../core/logic/dio_helper.dart';
+part  'events.dart';
+part  'states.dart';
+part  'model.dart';
+
 
 class GetProductsBloc extends Bloc<ProductsEvents, GetProductsState> {
   final DioHelper dioHelper;

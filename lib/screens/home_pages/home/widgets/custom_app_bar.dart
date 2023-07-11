@@ -1,9 +1,8 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thamra/core/utils/app_routes.dart';
+import 'package:thamra/core/logic/app_routes.dart';
 
 import 'address_bottom_sheet.dart';
 
@@ -66,30 +65,17 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Badge(
-            child: GestureDetector(
-              onTap: () {
-                GoRouter.of(context).push(AppRoutes.cart);
-              },
-              child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(8.r),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.r),
-                      color: Color(0xff4C8613).withOpacity(.13)),
-                  child: SvgPicture.asset("assets/icons/cart-home.svg")),
-            ),
-            badgeStyle: BadgeStyle(
-              badgeColor: Theme.of(context).primaryColor,
-            ),
-            badgeContent: Text(
-              '3',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 8.sp,
-                  fontWeight: FontWeight.bold),
-            ),
-            position: BadgePosition.custom(start: 2.w, top: -11.h),
+          GestureDetector(
+            onTap: () {
+              GoRouter.of(context).push(AppRoutes.cart);
+            },
+            child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    color: const Color(0xff4C8613).withOpacity(.13)),
+                child: SvgPicture.asset("assets/icons/cart-home.svg")),
           ),
         ],
       ),

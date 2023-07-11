@@ -8,14 +8,10 @@ import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
 
-import '../../../core/widgets/main_text_field.dart';
+import '../../../core/design/main_text_field.dart';
 import '../../../features/get_categories/bloc.dart';
-import '../../../features/get_categories/events.dart';
-import '../../../features/get_categories/states.dart';
+
 import '../../../features/get_product/bloc.dart';
-import '../../../features/get_product/events.dart';
-import '../../../features/home_slider/events.dart';
-import '../../../features/home_slider/states.dart';
 
 // slider circle avatare
 
@@ -42,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomAppBar(),
+          const CustomAppBar(),
           MainTextField(
             text: 'ابحث عن ماتريد؟',
             prefixIcon: 'assets/icons/search.png',
@@ -78,64 +74,60 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 28.h, bottom: 8.h),
-            child: Container(
-              // color: Colors.amber,
-              // height: 140,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(start: 16.w),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.only(start: 16.w),
+                      child: Text(
+                        'الأقسام',
+                        style: TextStyle(
+                            fontSize: 15.sp, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: EdgeInsetsDirectional.only(end: 20.w),
+                      child: InkWell(
+                        onTap: () {},
                         child: Text(
-                          'الأقسام',
+                          'عرض الكل',
                           style: TextStyle(
-                              fontSize: 15.sp, fontWeight: FontWeight.w700),
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).primaryColor),
                         ),
                       ),
-                      Spacer(),
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(end: 20.w),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Text(
-                            'عرض الكل',
-                            style: TextStyle(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryColor),
-                          ),
+                    )
+                  ],
+                ),
+                BlocConsumer(
+                  bloc: getCategoriesBloc,
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is CategoriesLoadingState ||
+                        getCategoriesBloc.data == null) {
+                      return SizedBox(
+                        height: 135.h,
+                      );
+                    }
+                    if (state is CategoriesSuccessState) {
+                      return SizedBox(
+                        height: 135.h,
+                        child: ListView.builder(
+                          itemCount: state.list.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
+                              CategoriesItem(categoryData: state.list[index]),
                         ),
-                      )
-                    ],
-                  ),
-                  BlocConsumer(
-                    bloc: getCategoriesBloc,
-                    listener: (context, state) {},
-                    builder: (context, state) {
-                      if (state is CategoriesLoadingState ||
-                          getCategoriesBloc.data == null) {
-                        return SizedBox(
-                          height: 135.h,
-                        );
-                      }
-                      if (state is CategoriesSuccessState) {
-                        return Container(
-                          height: 135.h,
-                          child: ListView.builder(
-                            itemCount: state.list.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) =>
-                                CategoriesItem(categoryData: state.list[index]),
-                          ),
-                        );
-                      } else {
-                        return Text("Failed");
-                      }
-                    },
-                  ),
-                ],
-              ),
+                      );
+                    } else {
+                      return const Text("Failed");
+                    }
+                  },
+                ),
+              ],
             ),
           ),
           Padding(
@@ -145,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
             ),
           ),
-          ProductItem(),
+          const ProductItem(),
           SizedBox(
             height: 16.h,
           ),

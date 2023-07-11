@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:thamra/core/utils/helper_methods.dart';
-import 'package:thamra/features/add_to_cart/bloc.dart';
-import 'package:thamra/features/add_to_cart/states.dart';
-import 'package:thamra/features/get_product/states.dart';
 
-import '../../../../features/add_to_cart/events.dart';
+import 'package:thamra/features/add_to_cart/bloc.dart';
+
+
+
 import '../../../../features/get_product/bloc.dart';
-import '../../../../features/get_product/events.dart';
+
 import '../../../product/view.dart';
 
 class ProductItem extends StatefulWidget {
@@ -48,7 +47,7 @@ class _ProductItemState extends State<ProductItem> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductScreen(),
+                          builder: (context) => ProductScreen(productData: state.list[index]),
                         ));
                   },
                   child: Padding(
@@ -75,8 +74,7 @@ class _ProductItemState extends State<ProductItem> {
                                   borderRadius: BorderRadiusDirectional.only(
                                       bottomStart: Radius.circular(7.r))),
                               child: Text(
-                                  "%" +
-                                      "${((state.list[index].discount) * 100).toInt()}",
+                                  "%" "${((state.list[index].discount) * 100).toInt()}",
                                   style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w900,
@@ -98,21 +96,20 @@ class _ProductItemState extends State<ProductItem> {
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context).hintColor)),
                               TextSpan(
-                                  text: "${state.list[index].price}" + "ر.س",
+                                  text: "${state.list[index].price}" "ر.س",
                                   style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w900,
                                       color: Theme.of(context).primaryColor)),
                               TextSpan(
                                   text:
-                                      "${state.list[index].priceBeforeDiscount}" +
-                                          "ر.س",
+                                      "${state.list[index].priceBeforeDiscount}" "ر.س",
                                   style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       decorationThickness: 1.5,
                                       fontSize: 13.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: Color(0xff61B80C))),
+                                      color: const Color(0xff61B80C))),
                             ]),
                             style: TextStyle(
                                 fontSize: 16.sp,
@@ -125,12 +122,12 @@ class _ProductItemState extends State<ProductItem> {
                           child: BlocConsumer(
                             bloc: addToCartBloc,
                             listener: (context, state) {
-                              if (state is AddToCartSuccessState) {
-                                showMSG(message: state.msg);
-                              }
-                              if (state is AddToCartFailedState) {
-                                showMSG(message: state.msg);
-                              }
+                              // if (state is AddToCartSuccessState) {
+                              //   showMSG(message: state.msg);
+                              // }
+                              // if (state is AddToCartFailedState) {
+                              //   showMSG(message: state.msg);
+                              // }
                             },
                             builder: (context, state) {
                               return ElevatedButton(
@@ -138,9 +135,8 @@ class _ProductItemState extends State<ProductItem> {
                                   addToCartBloc.productId = id;
                                   addToCartBloc.add(AddToCartEvent());
                                 },
-                                child: Text("أضف للسلة"),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xff61B80C),
+                                  backgroundColor: const Color(0xff61B80C),
                                   foregroundColor: Colors.white,
                                   alignment: Alignment.center,
                                   textStyle: TextStyle(
@@ -153,6 +149,7 @@ class _ProductItemState extends State<ProductItem> {
                                     borderRadius: BorderRadius.circular(9.r),
                                   ),
                                 ),
+                                child: const Text("أضف للسلة"),
                               );
                             },
                           ),

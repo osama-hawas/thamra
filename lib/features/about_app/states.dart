@@ -1,3 +1,4 @@
+part of 'bloc.dart';
 class AboutAppStates{}
 class AboutApploadingState extends AboutAppStates{}
 class AboutAppsuccessState extends AboutAppStates{}

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/widgets/main_text_style.dart';
+import '../../../core/design/main_text_style.dart';
+
 
 class CartItem extends StatelessWidget {
   const CartItem({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class CartItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.016),
-              offset: Offset(0, 6),
+              offset: const Offset(0, 6),
               blurStyle: BlurStyle.inner,
               blurRadius: 17,
             )
@@ -29,7 +30,7 @@ class CartItem extends StatelessWidget {
             height: 78.h,
             width: 92.w,
             decoration: BoxDecoration(
-              image: DecorationImage(
+              image: const DecorationImage(
                   image: AssetImage("assets/images/item.png"),
                   fit: BoxFit.scaleDown),
               borderRadius: BorderRadius.circular(15),
@@ -40,11 +41,11 @@ class CartItem extends StatelessWidget {
           ),
           Column(
             children: [
-              MainTextStyle(text: "طماطم"),
+             const MainTextStyle(text: "طماطم"),
               SizedBox(
                 height: 4.h,
               ),
-              Text("45" + "ر.س",
+              Text("45" "ر.س",
                   style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
@@ -107,14 +108,14 @@ class CartItem extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () {},
             child: Container(
               padding: EdgeInsets.all(6.r),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7.r),
-                color: Color(0xffFFD4D4),
+                color: const Color(0xffFFD4D4),
               ),
               child: SvgPicture.asset(
                 "assets/icons/delete.svg",

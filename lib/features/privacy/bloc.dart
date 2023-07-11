@@ -1,9 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/features/privacy/states.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
+import '../../core/logic/dio_helper.dart';
+part  'events.dart';
+part  'states.dart';
+
 
 class PrivacyBloc extends Bloc<PrivacyEvents, PrivacyStates> {
   final DioHelper dioHelper;

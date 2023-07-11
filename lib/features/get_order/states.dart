@@ -1,7 +1,7 @@
+part of 'bloc.dart';
 
 
 
-import 'model.dart';
 
 class GetOrderStates {}
 

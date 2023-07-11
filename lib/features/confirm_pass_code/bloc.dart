@@ -1,14 +1,14 @@
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:thamra/core/data/local/cache_helper.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
+import 'package:thamra/core/logic/cache_helper.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
 
-import 'events.dart';
+import '../../core/logic/helper_methods.dart';
+
 
 part 'states.dart';
+part 'events.dart';
 
 class ConfirmPassCodeBloc extends Bloc<PassCodeEvents, ConfirmPassCodeState> {
   final DioHelper dioHelper;

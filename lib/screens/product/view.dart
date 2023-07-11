@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:thamra/core/widgets/main_text_style.dart';
+import 'package:kiwi/kiwi.dart';
+
+import 'package:thamra/screens/product/widgets/custom_product_rate.dart';
+
+
+import '../../core/design/main_product_item.dart';
+import '../../core/design/main_text_style.dart';
+import '../../features/get_product/bloc.dart';
+
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  const ProductScreen({Key? key, required this.productData}) : super(key: key);
+  final ProductData productData;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  final bloc = KiwiContainer().resolve<GetProductsBloc>()
+    ..add(GetProductEvent());
+  int count = 1;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,7 +42,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 alignment: AlignmentDirectional.topEnd,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/images/item.png"),
+                        image: NetworkImage(widget.productData.mainImage),
                         fit: BoxFit.fill),
                     borderRadius: BorderRadiusDirectional.only(
                       bottomStart: Radius.circular(40.r),
@@ -60,7 +74,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
                       onTap: () {},
                       child: Container(
@@ -93,10 +107,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   children: [
                     Row(
                       children: [
-                        MainTextStyle(text: "طماطم"),
-                        Spacer(),
+                        MainTextStyle(text: widget.productData.title),
+                        const Spacer(),
                         Text(
-                          "40%",
+                          "${((widget.productData.discount) * 100).toInt()}%",
                           style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.red,
@@ -106,7 +120,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           width: 8.w,
                         ),
                         Text(
-                          "45ر.س",
+                          "${widget.productData.price}ر.س",
                           style: TextStyle(
                               fontSize: 17.sp,
                               color: Theme.of(context).primaryColor,
@@ -116,7 +130,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           width: 3.w,
                         ),
                         Text(
-                          "65ر.س",
+                          "${widget.productData.priceBeforeDiscount}ر.س",
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: Theme.of(context).primaryColor,
@@ -130,64 +144,77 @@ class _ProductScreenState extends State<ProductScreen> {
                     Row(
                       children: [
                         Text(
-                          'السعر / 1كجم',
+                          'السعر / ${widget.productData.unit.name}',
                           style: TextStyle(
                               fontSize: 19.sp,
                               fontWeight: FontWeight.w300,
                               color: Theme.of(context).hintColor),
                         ),
-                        Spacer(),
-                        Container(
-                          padding: EdgeInsets.all(3.r),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7.r),
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(.1)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  padding: EdgeInsets.all(7.r),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7.r),
-                                      color: Colors.white),
-                                  child: Image.asset(
-                                    "assets/icons/add.png",
-                                    height: 12.w,
-                                    width: 12.w,
-                                    fit: BoxFit.scaleDown,
+                        const Spacer(),
+                        StatefulBuilder(
+                          builder: (context, setState) => Container(
+                            padding: EdgeInsets.all(3.r),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7.r),
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(.1)),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    ++count;
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(7.r),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(7.r),
+                                        color: Colors.white),
+                                    child: Image.asset(
+                                      "assets/icons/add.png",
+                                      height: 12.w,
+                                      width: 12.w,
+                                      fit: BoxFit.scaleDown,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                child: Text(
-                                  "5",
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  padding: EdgeInsets.all(7.r),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7.r),
-                                      color: Colors.white),
-                                  child: Image.asset(
-                                    "assets/icons/minus.png",
-                                    height: 12.w,
-                                    width: 12.w,
-                                    fit: BoxFit.scaleDown,
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: Text(
+                                    count.toString(),
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                              ),
-                            ],
+                                GestureDetector(
+                                  onTap: () {
+                                    if (count > 1) {
+                                      --count;
+                                      setState(() {});
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(7.r),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(7.r),
+                                        color: Colors.white),
+                                    child: Image.asset(
+                                      "assets/icons/minus.png",
+                                      height: 12.w,
+                                      width: 12.w,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -205,12 +232,12 @@ class _ProductScreenState extends State<ProductScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                 child: Row(
                   children: [
-                    MainTextStyle(text: "كود المنتج :"),
+                  const  MainTextStyle(text: "كود المنتج :"),
                     SizedBox(
                       width: 14.w,
                     ),
                     Text(
-                      '58248',
+                      widget.productData.code,
                       style: TextStyle(
                           fontSize: 19.sp,
                           fontWeight: FontWeight.w300,
@@ -230,17 +257,73 @@ class _ProductScreenState extends State<ProductScreen> {
                     SizedBox(
                       height: 12.h,
                     ),
-                    MainTextStyle(text: "تفاصيل المنتج"),
+                  const  MainTextStyle(text: "تفاصيل المنتج"),
                     SizedBox(height: 10.h),
                     Text(
-                      "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، ",
+                      widget.productData.description,
                       style: TextStyle(
                           fontSize: 14.sp, color: Theme.of(context).hintColor),
-                    ),SizedBox(height: 16.h,),
-                    MainTextStyle(text: "التقييمات"),
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                       const MainTextStyle(text: "التقييمات"),
+                        InkWell(
+                          onTap: () {},
+                          child: Text(
+                            "عرض الكل",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const CustomProductRate(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      child:const MainTextStyle(text: "منتجات مشابهة"),
+                    ),
+                    BlocBuilder(
+                      bloc: bloc,
+                      builder: (context, state) {
+                        if (state is GetProductsSuccessState) {
+                          return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                    state.list.length,
+                                    (index) => SizedBox(
+                                          height: 200.h,
+                                          width: 130.w,
+                                          child: MainProductItem(
+                                              productData: state.list[index]),
+                                        )),
+                              ));
+                        } else {
+                          return const Text("data");
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
                   ],
                 ),
               )
+            ],
+          ),
+        ),
+        bottomNavigationBar: Container(
+          height: 60.h,
+          color: Theme.of(context).primaryColor,
+          child: Row(
+            children: const [
+
             ],
           ),
         ),

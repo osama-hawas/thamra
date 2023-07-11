@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:thamra/core/data/service/dio_helper.dart';
+import 'package:thamra/core/logic/dio_helper.dart';
 
-import '../../core/data/local/cache_helper.dart';
-import 'events.dart';
+import '../../core/logic/cache_helper.dart';
+import '../../core/logic/helper_methods.dart';
 
 part 'states.dart';
+part 'events.dart';
 
 class EditProfileBloc extends Bloc<ProfileEvents, EditProfileState> {
   final nameController = TextEditingController(text: CacheHelper.getName());

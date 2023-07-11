@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class CatigoryProductModel {
   late final List<CatigoryProductData> data;
 

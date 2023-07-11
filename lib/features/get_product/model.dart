@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class ProductsModel {
   late final List<ProductData> productData;
 

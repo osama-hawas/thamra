@@ -1,4 +1,4 @@
-import 'package:thamra/features/get_categories/model.dart';
+part of 'bloc.dart';
 
 class CategoriesStates {}
 

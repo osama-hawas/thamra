@@ -6,8 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:thamra/screens/home_pages/notifications/widgets/notifications_item.dart';
 
 import '../../../features/notifications/bloc.dart';
-import '../../../features/notifications/events.dart';
-import '../../../features/notifications/states.dart';
+
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);

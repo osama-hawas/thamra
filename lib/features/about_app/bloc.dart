@@ -1,26 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
-import 'states.dart';
+import '../../core/logic/dio_helper.dart';
+
+part 'events.dart';
+
+part 'states.dart';
 
 class AboutAppBloc extends Bloc<AboutAppEvents, AboutAppStates> {
   final DioHelper dioHelper;
 
   AboutAppBloc(this.dioHelper) : super(AboutAppStates()) {
-    on<GetAboutAppDataEvent>(_getData);
+    on<GetAboutAppDataEvent>(_get);
   }
 
   var data;
 
-  Future<void> _getData(
+  Future<void> _get(
       GetAboutAppDataEvent event, Emitter<AboutAppStates> emit) async {
     emit(AboutApploadingState());
-    try {
-      final response = await dioHelper.get('about');
+
+    final response = await dioHelper.get('about');
+    if (response.isSuccess) {
       data = response.response!.data['data']['about'];
       emit(AboutAppsuccessState());
-    } catch (ex) {
+    } else {
       emit(AboutAppfailedState());
     }
   }

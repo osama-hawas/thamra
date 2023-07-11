@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thamra/features/fav/model.dart';
 
-import '../../core/data/service/dio_helper.dart';
-import 'events.dart';
-import 'states.dart';
+import '../../core/logic/dio_helper.dart';
+part  'model.dart';
+part  'events.dart';
+part  'states.dart';
+
 
 class GetFavBloc extends Bloc<FavProductEvents, GetFavStates> {
   final DioHelper dioHelper;

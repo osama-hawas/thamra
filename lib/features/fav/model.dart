@@ -1,3 +1,5 @@
+part of 'bloc.dart';
+
 class FavProductModel {
   late final List<FavProductData> favProductData;
   late final String status;
