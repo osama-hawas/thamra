@@ -51,7 +51,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
           ),
           MainTextField(
               text: 'رقم الجوال ',
-              prefixIcon: 'assets/icons/phone.png',
+              prefixIcon: 'assets/icons/png/phone.png',
               controller: bloc.phoneController,
               type: InputType.phone),
           BlocConsumer(
@@ -60,8 +60,10 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
               if (state is ForgetPassSuccessState) {
 
                 await CacheHelper.savePhoneFromRegister(
-                    phone: bloc.phoneController.text);
-                GoRouter.of(context).push(AppRoutes.passCode);
+                    phone: bloc.phoneController.text).then((value) {
+                  GoRouter.of(context).push(AppRoutes.passCode);
+
+                });
               }
 
             },
@@ -72,7 +74,6 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                 onPressed: () {
                   bloc.add(ForgetMyPassEvent());
 
-                  // GoRouter.of(context).push(AppRoutes.passCode);
                 },
               );
             },

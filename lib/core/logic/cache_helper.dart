@@ -86,7 +86,12 @@ class CacheHelper {
   static String? getCode() {
     return prefs.getString("code") ;
   }
-
+  static Future<void> saveLocation({required String location}) async {
+    prefs.setString('location',location);
+  }
+  static String? getLocation() {
+    return prefs.getString("location") ;
+  }
 
 
 

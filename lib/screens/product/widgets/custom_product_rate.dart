@@ -71,8 +71,6 @@ class _CustomProductRateState extends State<CustomProductRate> {
                                   child: RatingBar.builder(
                                     initialRating: state.list[index].value.toDouble(),
                                     minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
                                     itemSize: 15.r,
                                     ignoreGestures: true,
                                     itemCount: 5,

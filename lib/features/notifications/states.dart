@@ -6,7 +6,7 @@ class GetNotificationsStates {}
 class GetNotificationsLoadingStates extends GetNotificationsStates {}
 
 class GetNotificationsSuccessStates extends GetNotificationsStates {
-  final List<Notifications> list;
+  final List<NotificationsData> list;
 
   GetNotificationsSuccessStates({required this.list});
 }

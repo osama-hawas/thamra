@@ -16,17 +16,17 @@ class NotificationModel {
 
 class Data {
   late final int unreadnotificationsCount;
-  late final List<Notifications> notifications;
+  late final List<NotificationsData> notifications;
 
   Data.fromJson(Map<String, dynamic> json) {
     unreadnotificationsCount = json['unreadnotifications_count'];
     notifications = List.from(json['notifications'])
-        .map((e) => Notifications.fromJson(e))
+        .map((e) => NotificationsData.fromJson(e))
         .toList();
   }
 }
 
-class Notifications {
+class NotificationsData {
   late final String id;
   late final String title;
   late final String body;
@@ -38,7 +38,7 @@ class Notifications {
   late final String readAt;
   late final String image;
 
-  Notifications.fromJson(Map<String, dynamic> json) {
+  NotificationsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     body = json['body'];

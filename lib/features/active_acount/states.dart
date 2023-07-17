@@ -5,10 +5,10 @@ class ActiveAcountState {}
 class ActiveAcountLoadingState extends ActiveAcountState {}
 
 class ActiveAcountSuccessState extends ActiveAcountState {
-  final String? msg;
+  final String msg;
 
-  ActiveAcountSuccessState({this.msg}) {
-    showMSG(message: msg ?? "تم تفعيل الحساب بنجاح");
+  ActiveAcountSuccessState({required this.msg}) {
+    showMSG(message: msg);
   }
 }
 

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
-
+import 'package:thamra/features/get_order/bloc.dart';
 import '../core/design/main_button.dart';
 import '../core/design/main_text_style.dart';
 
-
 class OrderInfoScreen extends StatefulWidget {
-  const OrderInfoScreen({Key? key}) : super(key: key);
+  const OrderInfoScreen({Key? key, required this.orderData, required this.type})
+      : super(key: key);
+  final OrderData orderData;
+  final int? type;
 
   @override
   State<OrderInfoScreen> createState() => _OrderInfoScreenState();
@@ -19,10 +21,8 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 70.h),
-          child: const CustomAppBarProfile(title: "تفاصيل الطلب"),
-        ),
+        appBar: const CustomAppBarProfile(title: "تفاصيل الطلب") ,
+
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "طلب #555",
+                          "طلب #${widget.orderData.id}",
                           style: TextStyle(
                               fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                           height: 2.h,
                         ),
                         Text(
-                          DateTime.now().timeZoneName,
+                          widget.orderData.date,
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
@@ -70,14 +70,15 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                         Row(
                           children: [
                             ...List.generate(
-                              3,
+                              widget.orderData.products.length,
                               (i) => Container(
                                 height: 25.w,
                                 width: 25.w,
                                 margin: EdgeInsets.symmetric(horizontal: 2.w),
                                 decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage("assets/images/t1.png"),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        widget.orderData.products[i].url),
                                     fit: BoxFit.fill,
                                   ),
                                   borderRadius: BorderRadius.circular(11.r),
@@ -124,7 +125,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              "بانتظار الموافقه ",
+                              widget.orderData.status,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold),
@@ -134,7 +135,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                         SizedBox(
                           height: 31.5.h,
                         ),
-                        Text("200" "ر.س",
+                        Text("${widget.orderData.totalPrice}" "ر.س",
                             style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w400,
@@ -149,7 +150,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w),
-                child:const MainTextStyle(text: "عنوان التوصيل"),
+                child: const MainTextStyle(text: "عنوان التوصيل"),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
@@ -184,7 +185,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                             height: 5.h,
                           ),
                           Text(
-                            "شقة 40",
+                            widget.orderData.location ?? "mansoura",
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
@@ -193,22 +194,19 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                           SizedBox(
                             height: 5.h,
                           ),
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              "شارع العليا الرياض 12521السعودية",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black),
-                            ),
+                          Text(
+                            widget.orderData.location ??
+                                "شارع العليا الرياض 12521السعودية",
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
                           ),
                         ],
                       ),
                     ),
-                    const Spacer(),
                     SvgPicture.asset(
-                      "assets/images/map_order.svg",
+                      "assets/icons/svg/map_order.svg",
                       height: 62.h,
                       width: 72.w,
                       fit: BoxFit.scaleDown,
@@ -221,7 +219,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w),
-                child:const MainTextStyle(text: "ملخص الطلب"),
+                child: const MainTextStyle(text: "ملخص الطلب"),
               ),
               SizedBox(
                 height: 19.h,
@@ -245,7 +243,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               color: Theme.of(context).primaryColor),
                         ),
                         const Spacer(),
-                        Text("180" "ر.س",
+                        Text("${widget.orderData.totalPrice}" "ر.س",
                             style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w400,
@@ -265,7 +263,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               color: Theme.of(context).primaryColor),
                         ),
                         const Spacer(),
-                        Text("180" "ر.س",
+                        Text("${widget.orderData.deliveryPrice}" "ر.س",
                             style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w400,
@@ -291,7 +289,9 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               color: Theme.of(context).primaryColor),
                         ),
                         const Spacer(),
-                        Text("180" "ر.س",
+                        Text(
+                            "${(widget.orderData.totalPrice + widget.orderData.deliveryPrice)}"
+                            "ر.س",
                             style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w400,
@@ -326,7 +326,9 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(bottom: 16.r),
           child: MainButton(
-              text: "إلغاء الطلب", onPressed: () {}, type: BtnType.cansle),
+              text: widget.type == 0 ? "إلغاء الطلب" : "تقييم المنتجات",
+              onPressed: () {},
+              type: widget.type == 0 ? BtnType.cansle : BtnType.elvated),
         ),
       ),
     );

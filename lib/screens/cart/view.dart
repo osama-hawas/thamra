@@ -10,9 +10,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 70.h),
-            child: const CustomAppBarProfile(title: "السلة")),
+        appBar:const CustomAppBarProfile(title: "السلة"),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,7 @@ class CartItem extends StatelessWidget {
             width: 92.w,
             decoration: BoxDecoration(
               image: const DecorationImage(
-                  image: AssetImage("assets/images/item.png"),
+                  image: AssetImage("assets/icons/png/logo.png"),
                   fit: BoxFit.scaleDown),
               borderRadius: BorderRadius.circular(15),
             ),
@@ -71,7 +71,7 @@ class CartItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(7.r),
                             color: Colors.white),
                         child: Image.asset(
-                          "assets/icons/add.png",
+                          "assets/icons/png/add.png",
                           height: 10.w,
                           width: 10.w,
                           fit: BoxFit.scaleDown,
@@ -96,7 +96,7 @@ class CartItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(7.r),
                             color: Colors.white),
                         child: Image.asset(
-                          "assets/icons/minus.png",
+                          "assets/icons/png/minus.png",
                           height: 10.w,
                           width: 10.w,
                           fit: BoxFit.scaleDown,
@@ -118,7 +118,7 @@ class CartItem extends StatelessWidget {
                 color: const Color(0xffFFD4D4),
               ),
               child: SvgPicture.asset(
-                "assets/icons/delete.svg",
+                "assets/icons/svg/delete.svg",
                 height: 13.5.w,
                 width: 13.5.w,
                 fit: BoxFit.scaleDown,

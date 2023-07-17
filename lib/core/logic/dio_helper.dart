@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
 
 class DioHelper {
@@ -7,21 +8,21 @@ class DioHelper {
     "Accept": "application/json",
     "Authorization": "Bearer ${CacheHelper.getUserToken()}",
   }));
-Map<String,dynamic>get headers=>  {
-  "Authorization": "Bearer ${CacheHelper.getUserToken()}",
-  "Accept": "application/json"
-};
+
+  Map<String, dynamic> get headers => {
+        "Authorization": "Bearer ${CacheHelper.getUserToken()}",
+        "Accept": "application/json"
+      };
+
   Future<CustomResponse> get(String endPoint,
       {Map<String, dynamic>? data}) async {
-    print(data);
+    debugPrint(data.toString());
 
     try {
       final response = await _dio.get(
         endPoint,
         data: data,
-        options: Options(
-          headers: headers
-        ),
+        options: Options(headers: headers),
       );
       print(response.data);
       return CustomResponse(
@@ -67,6 +68,43 @@ Map<String,dynamic>get headers=>  {
       );
     }
   }
+
+
+
+  Future<CustomResponse> put(String endPoint,
+      {Map<String, dynamic>? data}) async {
+    print(data);
+
+    try {
+      final response = await _dio.put(
+        endPoint,
+        data: FormData.fromMap(data ?? {}),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${CacheHelper.getUserToken()}",
+            "Accept": "application/json"
+          },
+        ),
+      );
+      print(response.data);
+      return CustomResponse(
+          message: response.data["message"],
+          isSuccess: true,
+          response: response);
+    } on DioError catch (ex) {
+      print(ex.response?.data);
+      return CustomResponse(
+        message: ex.response?.data["message"] ?? "failed",
+        isSuccess: false,
+      );
+    }
+  }
+
+
+
+
+
+
   Future<CustomResponse> delete(String endPoint,
       {Map<String, dynamic>? data}) async {
     print(data);
@@ -107,4 +145,3 @@ class CustomResponse {
   CustomResponse(
       {this.response, required this.message, required this.isSuccess});
 }
-

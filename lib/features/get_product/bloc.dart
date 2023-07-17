@@ -18,9 +18,9 @@ class GetProductsBloc extends Bloc<ProductsEvents, GetProductsState> {
     emit(GetProductsLoadingState());
     final response = await dioHelper.get("products");
     if (response.isSuccess) {
-      final PruductDate =
+      final pruductDate =
           ProductsModel.fromJson(response.response!.data).productData;
-      emit(GetProductsSuccessState(list: PruductDate));
+      emit(GetProductsSuccessState(list: pruductDate));
     } else {
       emit(GetProductsFailedState());
     }

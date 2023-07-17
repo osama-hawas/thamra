@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class CustomAppBarProfile extends StatelessWidget {
+class CustomAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBarProfile({Key? key, required this.title}) : super(key: key);
   final String title;
 
@@ -22,7 +22,7 @@ class CustomAppBarProfile extends StatelessWidget {
         child: InkWell(
           child: Padding(
             padding:  EdgeInsets.all(8.r),
-            child: Image.asset('assets/icons/Arrow - Right 2.png'),
+            child: Image.asset('assets/icons/png/right.png'),
           ),
           onTap: () {GoRouter.of(context).pop();},
 
@@ -37,4 +37,7 @@ class CustomAppBarProfile extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(70.h);
 }

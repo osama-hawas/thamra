@@ -21,20 +21,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final logoutBloc = KiwiContainer().resolve<LogoutBloc>();
   Map<String, dynamic> profileItems = {
     "icon": [
-      'assets/icons/profile_icon/COCO-Duotone-User.png',
-      'assets/icons/profile_icon/COCO-Line-Wallet.png',
-      'assets/icons/profile_icon/COCO-Duotone-Location.png',
-      'assets/icons/profile_icon/wallet.png',
-      'assets/icons/profile_icon/COCO-Duotone-Question.png',
-      'assets/icons/profile_icon/COCO-Duotone-Question.png',
-      'assets/icons/profile_icon/COCO-Duotone-Shield - check.png',
-      'assets/icons/profile_icon/contact.png',
-      'assets/icons/profile_icon/COCO-Duotone-Edit -.png',
-      'assets/icons/profile_icon/share.png',
-      'assets/icons/profile_icon/about_app.png',
-      'assets/icons/profile_icon/lang.png',
-      'assets/icons/profile_icon/COCO-Duotone-Note.png',
-      'assets/icons/profile_icon/COCO-Line-Star.png',
+      'assets/icons/png/user.png',
+      'assets/icons/png/wallet.png',
+      'assets/icons/png/location.png',
+      'assets/icons/png/wallet.png',
+      'assets/icons/png/question.png',
+      'assets/icons/png/question.png',
+      'assets/icons/png/check.png',
+      'assets/icons/png/contact.png',
+      'assets/icons/png/edit.png',
+      'assets/icons/png/share.png',
+      'assets/icons/png/about_app.png',
+      'assets/icons/png/lang.png',
+      'assets/icons/png/note.png',
+      'assets/icons/png/star.png',
     ],
     "title": [
       'البيانات الشخصية',
@@ -72,11 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-          statusBarColor: Theme.of(context).primaryColor,
-          statusBarIconBrightness: Brightness.light),
-    );
+
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -92,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottomLeft: Radius.circular(40.r),
                       bottomRight: Radius.circular(40.r)),
                   image: const DecorationImage(
-                      image: AssetImage('assets/images/background_shadow.png'),
+                      image: AssetImage('assets/icons/png/background_shadow.png'),
                       fit: BoxFit.fill),
                 ),
                 child: Column(
@@ -109,7 +106,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(top: 20.h),
-                        height: 72.h,
                         width: 76.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.r),
@@ -180,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               const Spacer(),
                               Image.asset(
-                                'assets/icons/profile_icon/COCO-Line-Arrow - Left.png',
+                                'assets/icons/png/left.png',
                                 fit: BoxFit.fill,
                                 color: const Color(0xffB2BCA8),
                               ),
@@ -226,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           const Spacer(),
                           Image.asset(
-                            'assets/icons/profile_icon/COCO-Duotone-Turn off.png',
+                            'assets/icons/png/turn_off.png',
                             fit: BoxFit.fill,
                             color: const Color(0xffB2BCA8),
                           ),

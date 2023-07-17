@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../features/notifications/bloc.dart';
@@ -7,7 +8,7 @@ import '../../../../features/notifications/bloc.dart';
 class NotificationItem extends StatelessWidget {
   const NotificationItem({Key? key, required this.notification})
       : super(key: key);
-  final Notifications notification;
+  final NotificationsData notification;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class NotificationItem extends StatelessWidget {
 
 
             decoration: BoxDecoration(
-                color: const Color(0xff4C8613).withOpacity(.13),
+                color: Theme.of(context).primaryColor.withOpacity(.13),
                 borderRadius: BorderRadius.circular(9.r)),
             child: Image.network(
               notification.image,
@@ -51,7 +52,7 @@ class NotificationItem extends StatelessWidget {
                   notification.body,
                   style: TextStyle(
                       fontSize: 10.sp,
-                      color: const Color(0xff989898),
+                      color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w500),
                 ),
                 SizedBox(

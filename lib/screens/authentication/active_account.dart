@@ -146,25 +146,19 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 padding: EdgeInsets.only(top: 22.h),
                 child: CircularCountDownTimer(
                   duration: 30,
-                  initialDuration: 0,
                   width: 66.w,
                   height: 70.h,
                   ringColor: const Color(0xffD8D8D8),
                   fillColor: Theme.of(context).primaryColor,
                   backgroundColor: Colors.transparent,
-                  backgroundGradient: null,
                   strokeWidth: 2,
-                  autoStart: true,
                   isReverse: true,
-                  controller: CountDownController(),
                   strokeCap: StrokeCap.round,
                   textStyle: TextStyle(
                       fontSize: 21.sp,
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold),
                   textFormat: CountdownTextFormat.MM_SS,
-                  isReverseAnimation: false,
-                  isTimerTextShown: true,
                   onComplete: () {
                     isTimeRunning = false;
                     setState(() {});

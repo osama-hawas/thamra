@@ -33,116 +33,118 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomAppBar(),
-          MainTextField(
-            text: 'ابحث عن ماتريد؟',
-            prefixIcon: 'assets/icons/search.png',
-            onChanged: (value) {},
-            homeInput: true,
-          ),
-          BlocConsumer(
-            bloc: sliderBloc,
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is HomeSliderLoadingState || sliderBloc.data == null) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state is HomeSliderSuccessState) {
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    height: 170.h,
-                    viewportFraction: 1,
-                  ),
-                  items: List.generate(
-                      state.list.length,
-                      (index) => Image.network(
-                            state.list[index].image,
-                            width: double.infinity,
-                            fit: BoxFit.fill,
-                          )),
-                );
-              } else {
-                return const Center(child: Text("Failed to show Image"));
-              }
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 28.h, bottom: 8.h),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.only(start: 16.w),
-                      child: Text(
-                        'الأقسام',
-                        style: TextStyle(
-                            fontSize: 15.sp, fontWeight: FontWeight.w700),
-                      ),
+    return SafeArea(
+      child: Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CustomAppBar(),
+            MainTextField(
+              text: 'ابحث عن ماتريد؟',
+              prefixIcon: 'assets/icons/png/search.png',
+              onChanged: (value) {},
+              homeInput: true,
+            ),
+            BlocConsumer(
+              bloc: sliderBloc,
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is HomeSliderLoadingState || sliderBloc.data == null) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is HomeSliderSuccessState) {
+                  return CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      height: 170.h,
+                      viewportFraction: 1,
                     ),
-                    const Spacer(),
-                    Padding(
-                      padding: EdgeInsetsDirectional.only(end: 20.w),
-                      child: InkWell(
-                        onTap: () {},
+                    items: List.generate(
+                        state.list.length,
+                        (index) => Image.network(
+                              state.list[index].image,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                            )),
+                  );
+                } else {
+                  return const Center(child: Text("Failed to show Image"));
+                }
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 28.h, bottom: 8.h),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(start: 16.w),
                         child: Text(
-                          'عرض الكل',
+                          'الأقسام',
                           style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).primaryColor),
+                              fontSize: 15.sp, fontWeight: FontWeight.w700),
                         ),
                       ),
-                    )
-                  ],
-                ),
-                BlocConsumer(
-                  bloc: getCategoriesBloc,
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    if (state is CategoriesLoadingState ||
-                        getCategoriesBloc.data == null) {
-                      return SizedBox(
-                        height: 135.h,
-                      );
-                    }
-                    if (state is CategoriesSuccessState) {
-                      return SizedBox(
-                        height: 135.h,
-                        child: ListView.builder(
-                          itemCount: state.list.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) =>
-                              CategoriesItem(categoryData: state.list[index]),
+                      const Spacer(),
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(end: 20.w),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            'عرض الكل',
+                            style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).primaryColor),
+                          ),
                         ),
-                      );
-                    } else {
-                      return const Text("Failed");
-                    }
-                  },
-                ),
-              ],
+                      )
+                    ],
+                  ),
+                  BlocConsumer(
+                    bloc: getCategoriesBloc,
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      if (state is CategoriesLoadingState ||
+                          getCategoriesBloc.data == null) {
+                        return SizedBox(
+                          height: 135.h,
+                        );
+                      }
+                      if (state is CategoriesSuccessState) {
+                        return SizedBox(
+                          height: 135.h,
+                          child: ListView.builder(
+                            itemCount: state.list.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) =>
+                                CategoriesItem(categoryData: state.list[index]),
+                          ),
+                        );
+                      } else {
+                        return const Text("Failed");
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.only(start: 16.w),
-            child: Text(
-              'الأصناف',
-              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+            Padding(
+              padding: EdgeInsetsDirectional.only(start: 16.w),
+              child: Text(
+                'الأصناف',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+              ),
             ),
-          ),
-          const ProductItem(),
-          SizedBox(
-            height: 16.h,
-          ),
-        ],
-      ),
-    ));
+            const ProductItem(),
+            SizedBox(
+              height: 16.h,
+            ),
+          ],
+        ),
+      )),
+    );
   }
 }

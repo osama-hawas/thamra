@@ -23,9 +23,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70.h),
-              child: const CustomAppBarProfile(title: 'سياسة الخصوصية')),
+          appBar: const CustomAppBarProfile(title: 'سياسة الخصوصية'),
           body: BlocBuilder(
             bloc: bloc,
             builder: (context, state) {

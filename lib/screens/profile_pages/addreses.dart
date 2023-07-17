@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
 
 import '../../core/design/main_text_style.dart';
@@ -14,6 +13,7 @@ import '../../core/logic/app_routes.dart';
 import '../../features/delete_address/bloc.dart';
 
 import '../../features/get_addresses/bloc.dart';
+import '../shimmers/shimmer_listview.dart';
 
 class AddressesScreen extends StatefulWidget {
   const AddressesScreen({Key? key}) : super(key: key);
@@ -31,9 +31,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(73.h),
-            child: const CustomAppBarProfile(title: "العناوين")),
+        appBar: const CustomAppBarProfile(title: "العناوين"),
         body: SingleChildScrollView(
           child: BlocBuilder(
               bloc: bloc,
@@ -117,7 +115,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                               color: const Color(0xffFFD4D4),
                                             ),
                                             child: SvgPicture.asset(
-                                              "assets/icons/delete.svg",
+                                              "assets/icons/svg/delete.svg",
                                               height: 13.5.w,
                                               width: 13.5.w,
                                               fit: BoxFit.scaleDown,
@@ -141,7 +139,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                               .withOpacity(.13),
                                         ),
                                         child: SvgPicture.asset(
-                                          "assets/icons/edit.svg",
+                                          "assets/icons/svg/edit.svg",
                                           height: 13.5.w,
                                           width: 13.5.w,
                                           fit: BoxFit.scaleDown,
@@ -159,21 +157,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
                   );
                 } else {
                   return Column(
-                    children: List.generate(
-                        4,
-                        (index) => Padding(
-                              padding: EdgeInsets.all(8.r),
-                              child: Shimmer.fromColors(
-                                baseColor: Colors.grey,
-                                highlightColor: Colors.white10,
-                                child: Container(
-                                  height: 97.h,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white10,
-                                      borderRadius: BorderRadius.circular(11)),
-                                ),
-                              ),
-                            )),
+                    children:
+                        List.generate(4, (index) => const ShimmerListView()),
                   );
                 }
               }),

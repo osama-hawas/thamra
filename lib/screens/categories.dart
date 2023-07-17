@@ -3,19 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
+import 'package:thamra/screens/shimmers/shimmer_grid.dart';
 
 import '../core/design/main_product_item.dart';
 import '../features/get_categories/bloc.dart';
 import '../features/get_catigory_product/bloc.dart';
 
-
 class CategoryScreen extends StatefulWidget {
-
-
-  const CategoryScreen({Key? key, required this.categoryData, })
-      : super(key: key);
+  const CategoryScreen({
+    Key? key,
+    required this.categoryData,
+  }) : super(key: key);
   final CategoryData categoryData;
 
   @override
@@ -26,21 +25,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
   final bloc = KiwiContainer().resolve<GetCatigoryProductBloc>();
 
 
-  _CategoryScreenState();
-
   @override
   void initState() {
     super.initState();
 
-      bloc.add(GetCatigoryProductEvent(id: widget.categoryData.id));
+    bloc.add(GetCatigoryProductEvent(id: widget.categoryData.id));
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 70.h),
-            child: CustomAppBarProfile(title: widget.categoryData.name)),
+        appBar: CustomAppBarProfile(title: widget.categoryData.name),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -53,7 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 child: Row(
                   children: [
                     Image.asset(
-                      "assets/icons/search.png",
+                      "assets/icons/png/search.png",
                       height: 18.w,
                       width: 18.w,
                       fit: BoxFit.scaleDown,
@@ -75,50 +71,43 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             borderRadius: BorderRadius.circular(11.r),
                             color: Theme.of(context).primaryColor),
                         child: SvgPicture.asset(
-                            "assets/icons/profile_icon/search_setting.svg"))
+                            "assets/icons/svg/search_setting.svg"))
                   ],
                 ),
               ),
               BlocBuilder(
-                bloc: bloc,
-                builder: (context, state) {
-                  if (state is GetCatigoryProductSuccessState) {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.list.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: double.minPositive,
-                                childAspectRatio: 163 / 215),
-                        itemBuilder: ((context, index) {
-                          return MainProductItem(
-                            productData: state.list[index],
-                          );
-                        }));
-                  } else {
-                    return Column(
-                      children: List.generate(
-                          4,
-                          (index) => Padding(
-                                padding: EdgeInsets.all(8.r),
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey,
-                                  highlightColor: Colors.white10,
-                                  child: Container(
-                                    height: 97.h,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white10,
-                                        borderRadius:
-                                            BorderRadius.circular(11)),
-                                  ),
-                                ),
-                              )),
-                    );
-                  }
-                },
-              ),
+                  bloc: bloc,
+                  builder: (context, state) {
+                    if (state is GetCatigoryProductSuccessState) {
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.list.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: double.minPositive,
+                                  childAspectRatio: 163 / 215),
+                          itemBuilder: ((context, index) {
+                            return MainProductItem(
+                              productData: state.list[index],
+                            );
+                          }));
+                    } else {
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: double.minPositive,
+                                  childAspectRatio: 163 / 215),
+                          itemBuilder: ((context, index) {
+                            return const ShimmerGrid();
+                          }));
+                    }
+                  })
             ],
           ),
         ),

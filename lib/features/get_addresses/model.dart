@@ -6,7 +6,7 @@ class AddressesModel {
   late final String message;
 
   AddressesModel.fromJson(Map<String, dynamic> json) {
-    addressData = List.from(json['data']).map((e) => AddressData.fromJson(e)).toList()??[];
+    addressData = List.from(json['data']).map((e) => AddressData.fromJson(e)).toList();
     status = json['status'];
     message = json['message'];
   }

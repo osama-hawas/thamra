@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/screens/profile_pages/add_address.dart';
+import 'package:thamra/screens/shimmers/shimmer_listview.dart';
 
 import '../../../../core/design/main_text_style.dart';
 import '../../../../features/delete_address/bloc.dart';
@@ -50,7 +49,11 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                           children: List.generate(
                             bloc.list.length,
                             (index) => GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(
+                                    context, state.list[index].location);
+
+                              },
                               child: Container(
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 16.w, vertical: 20.h),
@@ -138,7 +141,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                                         const Color(0xffFFD4D4),
                                                   ),
                                                   child: SvgPicture.asset(
-                                                    "assets/icons/delete.svg",
+                                                    "assets/icons/svg/delete.svg",
                                                     height: 13.5.w,
                                                     width: 13.5.w,
                                                     fit: BoxFit.scaleDown,
@@ -151,7 +154,16 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                             width: 10.w,
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddAddressScreen(
+                                                            addressData: state
+                                                                .list[index]),
+                                                  ));
+                                            },
                                             child: Container(
                                               padding: EdgeInsets.all(6.r),
                                               decoration: BoxDecoration(
@@ -162,7 +174,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                                     .withOpacity(.13),
                                               ),
                                               child: SvgPicture.asset(
-                                                "assets/icons/edit.svg",
+                                                "assets/icons/svg/edit.svg",
                                                 height: 13.5.w,
                                                 width: 13.5.w,
                                                 fit: BoxFit.scaleDown,
@@ -179,19 +191,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                           ),
                         );
                       } else {
-                        return Padding(
-                          padding: EdgeInsets.all(8.r),
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey,
-                            highlightColor: Colors.white10,
-                            child: Container(
-                              height: 97.h,
-                              decoration: BoxDecoration(
-                                  color: Colors.white10,
-                                  borderRadius: BorderRadius.circular(11)),
-                            ),
-                          ),
-                        );
+                        return const ShimmerListView();
                       }
                     }),
               ),
@@ -201,7 +201,11 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
             ),
             InkWell(
               onTap: () {
-                GoRouter.of(context).push(AppRoutes.addAddress);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>const AddAddressScreen(),
+                    ));
               },
               child: DottedBorder(
                 strokeWidth: 1,
@@ -213,7 +217,6 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 16.h, horizontal: 80.w),
-
                     color: Colors.white,
                     child: const MainTextStyle(text: "إضافة عنوان جديد"),
                   ),

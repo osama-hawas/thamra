@@ -67,7 +67,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 .primaryColor
                                 .withOpacity(.13)),
                         child: Image.asset(
-                          'assets/icons/Arrow - Right 2.png',
+                          'assets/icons/png/right.png',
                           height: 6.h,
                           width: 12.w,
                           fit: BoxFit.scaleDown,
@@ -89,7 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 .primaryColor
                                 .withOpacity(.13)),
                         child: SvgPicture.asset(
-                          'assets/icons/home_svg/Icon ionic-ios-heart-empty.svg',
+                          'assets/icons/svg/heart.svg',
                           fit: BoxFit.scaleDown,
                           color: Theme.of(context).primaryColor,
                         ),
@@ -174,7 +174,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                             BorderRadius.circular(7.r),
                                         color: Colors.white),
                                     child: Image.asset(
-                                      "assets/icons/add.png",
+                                      "assets/icons/png/add.png",
                                       height: 12.w,
                                       width: 12.w,
                                       fit: BoxFit.scaleDown,
@@ -206,7 +206,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                             BorderRadius.circular(7.r),
                                         color: Colors.white),
                                     child: Image.asset(
-                                      "assets/icons/minus.png",
+                                      "assets/icons/png/minus.png",
                                       height: 12.w,
                                       width: 12.w,
                                       fit: BoxFit.scaleDown,

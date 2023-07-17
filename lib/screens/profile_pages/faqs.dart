@@ -20,9 +20,7 @@ class _FAQsScreenState extends State<FAQsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 70.h),
-          child: const CustomAppBarProfile(title: "أسئلة متكررة")),
+      appBar: const CustomAppBarProfile(title: "أسئلة متكررة"),
       body: BlocBuilder(
         bloc: bloc,
         builder: (context, state) {

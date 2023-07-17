@@ -55,20 +55,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             MainTextField(
               text: 'اسم المستخدم',
-              prefixIcon: 'assets/icons/man.png',
+              prefixIcon: 'assets/icons/png/man.png',
               type: InputType.normal,
               controller: bloc.nameController,
             ),
             MainTextField(
               text: 'رقم الجوال',
-              prefixIcon: 'assets/icons/phone.png',
+              prefixIcon: 'assets/icons/png/phone.png',
               type: InputType.phone,
               controller: bloc.phoneController,
             ),
             StatefulBuilder(builder: (context, setState) {
               return MainTextField(
                 text: "المدينة",
-                prefixIcon: "assets/icons/city.png",
+                prefixIcon: "assets/icons/png/city.png",
                 onPress: () async {
                   var result = await showModalBottomSheet(
                     shape: RoundedRectangleBorder(
@@ -176,14 +176,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }),
             MainTextField(
               text: 'كلمة المرور',
-              prefixIcon: 'assets/icons/pass.png',
+              prefixIcon: 'assets/icons/png/pass.png',
               isObscure: true,
               type: InputType.pass,
               controller: bloc.passController,
             ),
             MainTextField(
               text: 'كلمة المرور',
-              prefixIcon: 'assets/icons/pass.png',
+              prefixIcon: 'assets/icons/png/pass.png',
               isObscure: true,
               type: InputType.pass,
               controller: bloc.confirmPassController,
@@ -196,13 +196,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       phone: bloc.phoneController.text);
                   GoRouter.of(context).push(AppRoutes.activateAccount);
                 }
-                if (state is SignUpFailedState) {}
+
               },
               builder: (context, state) {
                 return MainButton(
                     isLoading: state is SignUpLoadingState,
                     text: 'تسجيل',
-                    onPressed: () async {
+                    onPressed: ()  {
                       bloc.add(ClientSignUpEvent());
                     });
               },

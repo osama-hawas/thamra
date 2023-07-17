@@ -23,9 +23,7 @@ class _SuggestionsScreenState extends State<SuggestionsScreen> {
       child: Form(
         // key: formkey,
         child: Scaffold(
-          appBar: const PreferredSize(
-              preferredSize: Size.fromHeight(70),
-              child: CustomAppBarProfile(title: 'الأقتراحات والشكاوي')),
+          appBar:const CustomAppBarProfile(title: 'الأقتراحات والشكاوي'),
           body: ListView(
             children: [
               const SizedBox(

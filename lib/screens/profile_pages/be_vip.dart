@@ -14,9 +14,7 @@ class VipScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 70.h),
-          child: const CustomAppBarProfile(title: " VIP تحويل لحساب ")),
+      appBar: const CustomAppBarProfile(title: " VIP تحويل لحساب "),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 32.w),
         child: Column(
@@ -24,7 +22,7 @@ class VipScreen extends StatelessWidget {
             SizedBox(
               height: 42.h,
             ),
-            Center(child: SvgPicture.asset("assets/icons/vip.svg")),
+            Center(child: SvgPicture.asset("assets/icons/svg/vip.svg")),
             SizedBox(
               height: 13.h,
             ),

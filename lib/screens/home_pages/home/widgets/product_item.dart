@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'package:thamra/features/add_to_cart/bloc.dart';
 
@@ -11,6 +10,7 @@ import 'package:thamra/features/add_to_cart/bloc.dart';
 import '../../../../features/get_product/bloc.dart';
 
 import '../../../product/view.dart';
+import '../../../shimmers/shimmer_grid.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({Key? key}) : super(key: key);
@@ -159,18 +159,7 @@ class _ProductItemState extends State<ProductItem> {
                   ),
                 );
               } else {
-                return Padding(
-                  padding: EdgeInsets.all(8.r),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white10,
-                          borderRadius: BorderRadius.circular(11)),
-                    ),
-                  ),
-                );
+                return const ShimmerGrid();
               }
             }));
       },

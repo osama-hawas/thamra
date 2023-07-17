@@ -26,7 +26,8 @@ class _ConfirmNewPassScreenState extends State<ConfirmNewPassScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return
+      SafeArea(
       child: Scaffold(
         body: ListView(
           children: [
@@ -47,13 +48,13 @@ class _ConfirmNewPassScreenState extends State<ConfirmNewPassScreen> {
             ),
             MainTextField(
                 text: 'كلمة المرور الجديدة',
-                prefixIcon: 'assets/icons/pass.png',
+                prefixIcon: 'assets/icons/png/pass.png',
                 isObscure: true,
                 controller: bloc.passController,
                 type: InputType.pass),
             MainTextField(
                 text: 'تأكيد كلمة المرور الجديدة',
-                prefixIcon: 'assets/icons/pass.png',
+                prefixIcon: 'assets/icons/png/pass.png',
                 isObscure: true,
                 controller: bloc.confirmPassController,
                 type: InputType.pass),

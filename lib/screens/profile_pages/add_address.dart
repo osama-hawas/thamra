@@ -9,13 +9,14 @@ import 'package:kiwi/kiwi.dart';
 
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
 
-
 import '../../core/design/main_button.dart';
 import '../../core/design/main_text_field.dart';
 import '../../features/add_address/bloc.dart';
+import '../../features/get_addresses/bloc.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  const AddAddressScreen({Key? key, this.addressData}) : super(key: key);
+  final AddressData? addressData;
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -25,22 +26,31 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final bloc = KiwiContainer().resolve<AddAddressBloc>();
   late String lat, lng;
   Set<Marker> markers = {};
+  late bool isSelected;
+  late CameraPosition _position;
+  late AddressData? addressData;
 
   final _controller = Completer<GoogleMapController>();
 
-  final CameraPosition _kGooglePlex = const CameraPosition(
-    target: LatLng(31.0199494, 31.3917517),
-    zoom: 14.4746,
-  );
-  bool isSelected = true;
+  @override
+  void initState() {
+    super.initState();
+    addressData = widget.addressData;
+    _position = CameraPosition(
+      target: addressData != null
+          ? LatLng(addressData!.lat, addressData!.lng)
+          :const LatLng(31, 31),
+      zoom: 14.4746,
+    );
+
+    isSelected = addressData!.type == "work" ? true : false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70.h),
-            child: const CustomAppBarProfile(title: "إضافة عنوان")),
+        appBar:  const CustomAppBarProfile(title: "إضافة عنوان"),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,18 +58,29 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               SizedBox(
                 height: 410.h,
                 child: GoogleMap(
+                  zoomControlsEnabled: true,
                   markers: markers,
                   onTap: (argument) {
-                    bloc.lat = argument.latitude.toString();
-                    bloc.lng = argument.longitude.toString();
+                    // bloc.lat = addressData == null
+                    //     ? argument.latitude.toString()
+                    //     : addressData!.lat.toString();
+                    // bloc.lng = addressData == null
+                    //     ? argument.longitude.toString()
+                    //     : addressData!.lng.toString();
                     markers.add(Marker(
                         markerId: const MarkerId("1"),
                         position:
                             LatLng(argument.latitude, argument.longitude)));
-                    setState(() {});
+                    setState(()
+                    {
+
+                      bloc.lat = argument.latitude;
+                      bloc.lng = argument.longitude;
+
+                    });
                   },
                   mapType: MapType.normal,
-                  initialCameraPosition: _kGooglePlex,
+                  initialCameraPosition: _position,
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   },
@@ -92,7 +113,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       child: GestureDetector(
                         onTap: () {
                           isSelected = true;
-                          bloc.tpye = "المنزل";
+                          bloc.tpye = addressData == null
+                              ? "المنزل"
+                              : addressData!.type;
                           setState(() {});
                         },
                         child: Container(
@@ -120,7 +143,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       child: GestureDetector(
                         onTap: () {
                           isSelected = false;
-                          bloc.tpye = "العمل";
+                          bloc.tpye =
+                              addressData == null ? "العمل" : addressData!.type;
                           setState(() {});
                         },
                         child: Container(
@@ -145,13 +169,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 ),
               ),
               MainTextField(
-                  text: "أدخل العنوان", controller: bloc.locationController),
+                  text: addressData == null
+                      ? "أدخل العنوان"
+                      : addressData!.location,
+                  controller: bloc.locationController),
               MainTextField(
-                text: "أدخل رقم الجوال",
+                text: addressData == null
+                    ? "أدخل رقم الجوال"
+                    : addressData!.phone,
                 controller: bloc.phoneController,
               ),
               MainTextField(
-                text: "الوصف",
+                text: addressData == null ? "الوصف" : addressData!.description,
                 controller: bloc.descController,
               ),
             ],
@@ -164,10 +193,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             bloc: bloc,
             listener: (context, state) {
               if (state is AddAddressSuccessState) {
-
                 GoRouter.of(context).pop();
               }
-
             },
             builder: (context, state) {
               return MainButton(

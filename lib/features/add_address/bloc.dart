@@ -11,8 +11,8 @@ class AddAddressBloc extends Bloc<AddressEvents, AddAddressStates> {
   final phoneController = TextEditingController();
   final locationController = TextEditingController();
   final descController = TextEditingController();
-  String? lat;
- String ?lng;
+  double? lat;
+  double ?lng;
    String? tpye;
   final DioHelper dioHelper;
 

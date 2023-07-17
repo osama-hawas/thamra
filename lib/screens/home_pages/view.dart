@@ -17,11 +17,11 @@ class NavView extends StatefulWidget {
 class _NavViewState extends State<NavView> {
   List<String> title = ['الرئيسية', 'طلباتي', 'الإشعارات', 'المفضلة', 'حسابي'];
   List<String> iconLink = [
-    'COCO-Line-Home.svg',
-    'COCO-Line-Note.svg',
-    'COCO-Duotone-Notification.svg',
-    'Icon ionic-ios-heart-empty.svg',
-    'COCO-Line-User.svg',
+    'home.svg',
+    'note_svg.svg',
+    'notification.svg',
+    'heart.svg',
+    'user_svg.svg',
   ];
 
   int currentIndex = 0;
@@ -63,7 +63,7 @@ class _NavViewState extends State<NavView> {
                   icon: Padding(
                     padding:  EdgeInsets.only(bottom: 6.h),
                     child: SvgPicture.asset(
-                      "assets/icons/abb_bar/${iconLink[index]}",
+                      "assets/icons/svg/${iconLink[index]}",
                       color: currentIndex == index
                           ? Colors.white
                           :const Color(0xffAED489),

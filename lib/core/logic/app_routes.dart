@@ -5,7 +5,6 @@ import 'package:thamra/screens/authentication/confirm_pass_code.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
 import 'package:thamra/screens/home_pages/view.dart';
 import 'package:thamra/screens/authentication/login.dart';
-import 'package:thamra/screens/order_info.dart';
 import 'package:thamra/screens/profile_pages/about_app.dart';
 import 'package:thamra/screens/profile_pages/add_address.dart';
 import 'package:thamra/screens/profile_pages/addreses.dart';
@@ -17,7 +16,6 @@ import 'package:thamra/screens/profile_pages/suggestions.dart';
 import 'package:thamra/screens/profile_pages/wallet.dart';
 import 'package:thamra/screens/authentication/sign_up.dart';
 import 'package:thamra/screens/authentication/splach.dart';
-
 import '../../screens/authentication/active_account.dart';
 import '../../screens/authentication/forget_pass.dart';
 import '../../screens/profile_pages/be_vip.dart';
@@ -49,7 +47,6 @@ abstract class AppRoutes {
   static String rateapp = '/rateapp';
   static String addAddress = '/addAddress';
   static String catigories = '/catigories';
-  static String orderInfo = '/orderinfo';
   static String cart = '/cart';
   static String vip = '/vip';
   static GoRouter router = GoRouter(routes: [
@@ -145,10 +142,7 @@ abstract class AppRoutes {
       path: vip,
       builder: (context, state) => const VipScreen(),
     ),
-  GoRoute(
-      path: orderInfo,
-      builder: (context, state) => const OrderInfoScreen(),
-    ),GoRoute(
+    GoRoute(
       path: cart,
       builder: (context, state) => const CartScreen(),
     ),

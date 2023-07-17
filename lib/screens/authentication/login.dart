@@ -13,7 +13,6 @@ import '../../core/design/main_text_field.dart';
 import '../../core/design/main_text_style.dart';
 import '../../core/design/text_for_login_or_signup.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -28,18 +27,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: ListView(children: [
+        body: SingleChildScrollView(child:
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            const  Logo(),
+              const Logo(),
               Padding(
-                padding:
-                     EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
-                child:const MainTextStyle(text: 'مرحبا بك مرة أخرى'),
+                padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
+                child: const MainTextStyle(text: 'مرحبا بك مرة أخرى'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 28.h),
                 child: Text(
                   'يمكنك تسجيل الدخول الأن',
@@ -52,12 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
               MainTextField(
                   controller: bloc.phoneController,
                   text: 'رقم الجوال ',
-                  prefixIcon: 'assets/icons/phone.png',
+                  prefixIcon: 'assets/icons/png/phone.png',
                   type: InputType.phone),
               MainTextField(
                 controller: bloc.passController,
                 text: 'كلمة المرور',
-                prefixIcon: 'assets/icons/pass.png',
+                prefixIcon: 'assets/icons/png/pass.png',
                 isObscure: true,
                 type: InputType.pass,
               ),
@@ -66,12 +64,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Padding(
                     padding:
-                         EdgeInsetsDirectional.only(end: 16.w, bottom: 22.h),
+                        EdgeInsetsDirectional.only(end: 16.w, bottom: 22.h),
                     child: InkWell(
                       onTap: () {
                         GoRouter.of(context).push(AppRoutes.forgetPass);
                       },
-                      child:  Text(
+                      child: Text(
                         'نسيت كلمة المرور ؟',
                         style: TextStyle(
                             fontSize: 16.sp,
@@ -86,28 +84,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   listener: (context, state) {
                     if (state is LoginSuccessStates) {
                       GoRouter.of(context).pushReplacement(AppRoutes.home);
-
-
                     }
-
                   },
                   bloc: bloc,
                   builder: (context, state) {
-                    if (state is LoginLoadingStates) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return MainButton(
-                        text: 'تسجيل الدخول',
-                        onPressed: () {
-                          bloc.add(LoginEvents());
-                        },
-                      );
-                    }
+                    return MainButton(
+                      text: 'تسجيل الدخول',
+                      isLoading: state is LoginLoadingStates,
+                      onPressed: () {
+                        bloc.add(LoginEvents());
+                      },
+                    );
                   }),
               Padding(
-                padding:  EdgeInsets.only(top: 45.w),
+                padding: EdgeInsets.only(top: 45.w),
                 child: TextForLoginOrSignup(
                     text: 'ليس لديك حساب ؟',
                     signText: ' تسجيل الأن',
@@ -117,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-        ]),
+        ),
       ),
     );
   }

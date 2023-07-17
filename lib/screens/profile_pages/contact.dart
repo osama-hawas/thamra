@@ -36,9 +36,7 @@ class _ConnectUsScreenState extends State<ConnectUsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(73.h),
-            child: const CustomAppBarProfile(title: "تواصل معنا")),
+        appBar:  const CustomAppBarProfile(title: "تواصل معنا"),
         body: BlocBuilder(
           bloc: contactBloc,
           builder: (context, state) {
@@ -102,7 +100,7 @@ class _ConnectUsScreenState extends State<ConnectUsScreen> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
-                                        "assets/icons/contact_location.svg",
+                                        "assets/icons/svg/contact_location.svg",
                                         height: 17.w,
                                         width: 17.w,
                                         fit: BoxFit.scaleDown,
@@ -127,7 +125,7 @@ class _ConnectUsScreenState extends State<ConnectUsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SvgPicture.asset(
-                                        "assets/icons/contact_phone.svg",
+                                        "assets/icons/svg/contact_phone.svg",
                                         height: 17.w,
                                         width: 17.w,
                                         fit: BoxFit.scaleDown,

@@ -10,7 +10,7 @@ class Logo extends StatelessWidget {
       padding:  EdgeInsets.only(top: 20.h, bottom: 21.h),
       child: Center(
         child: Image.asset(
-          'assets/images/logo.png',
+          'assets/icons/png/logo.png',
           height: 125.h,
           width: 130.w,
         ),

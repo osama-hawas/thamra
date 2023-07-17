@@ -7,7 +7,6 @@ class MainTextField extends StatefulWidget {
   final String text;
   void Function(String)? onChanged;
   final VoidCallback? onPress;
-  final Widget? sufixIcon;
   final String? prefixIcon;
   final InputType type;
   final int minLines;
@@ -26,7 +25,7 @@ class MainTextField extends StatefulWidget {
       this.minLines = 1,
       this.controller,
       this.onPress,
-      this.sufixIcon})
+      })
       : super(key: key);
 
   @override
@@ -48,42 +47,49 @@ class _MainTextFieldState extends State<MainTextField> {
               return null;
             }
           },
-
           controller: widget.controller,
           enabled: widget.onPress == null,
           minLines: widget.minLines,
-          maxLines: widget.isObscure?1:null,
+          maxLines: widget.isObscure ? 1 : null,
           textInputAction: TextInputAction.next,
-          obscureText:  widget.isObscure,
+          obscureText: widget.isObscure,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
-
             filled: true,
-            suffixIcon: widget.type == InputType.pass
-                ?
 
-            // widget.isObscure = !widget.isObscure;
-            //   widget.isVisable = !widget.isVisable;
-            //   setState(() {});
+            // suffixIcon:widget.type == InputType.pass? ,
 
 
 
-                     widget.isVisable
-                        ? const Icon(Icons.visibility_sharp)
-                        : const Icon(Icons.visibility_off_sharp)
 
-                : widget.sufixIcon,
+
+
+            // suffixIcon: widget.type == InputType.pass?
+            // // widget.isObscure = !widget.isObscure;
+            // //   widget.isVisable = !widget.isVisable;
+            // //   setState(() {});
+            //
+            //
+            //
+            //          widget.isVisable
+            //             ? const Icon(Icons.visibility_sharp)
+            //             : const Icon(Icons.visibility_off_sharp)
+            //
+            //     : widget.sufixIcon,
             fillColor: widget.homeInput
                 ? const Color(0xffB9C9A8).withOpacity(.13)
                 : const Color(0xffFFFFFF),
             labelText: widget.text,
+
             alignLabelWithHint: true,
             labelStyle: TextStyle(
-                color:
-                    widget.homeInput ? const Color(0xffB9C9A8) : const Color(0xffAFAFAF)),
+                color: widget.homeInput
+                    ? const Color(0xffB9C9A8)
+                    : const Color(0xffAFAFAF)),
             icon: widget.type == InputType.phone
                 ? Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: const Color(0xffF3F3F3)),
@@ -91,8 +97,8 @@ class _MainTextFieldState extends State<MainTextField> {
                     ),
                     child: Column(
                       children: [
-                        Image.asset('assets/icons/flag.png'),
-                         SizedBox(
+                        Image.asset('assets/icons/png/flag.png'),
+                        SizedBox(
                           height: 2.h,
                         ),
                         Text(

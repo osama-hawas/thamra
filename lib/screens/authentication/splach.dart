@@ -19,11 +19,6 @@ class _SplachScreenState extends State<SplachScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-// for test
-//       GoRouter.of(context).push(AppRoutes.activateAccount);
-      // GoRouter.of(context).pushReplacement(AppRoutes.signUp);
-      // GoRouter.of(context).pushReplacement(AppRoutes.login);
-      // GoRouter.of(context).pushReplacement(AppRoutes.forgetPass);
 
       if (CacheHelper.getUserToken() != null) {
         GoRouter.of(context).pushReplacement(AppRoutes.home);
@@ -36,14 +31,13 @@ class _SplachScreenState extends State<SplachScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Container(
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/background.png',
+                'assets/icons/png/background.png',
               ),
               fit: BoxFit.fill),
         ),
@@ -55,7 +49,7 @@ class _SplachScreenState extends State<SplachScreen> {
             spins: 2,
             child: Center(
               child: Image.asset(
-                'assets/images/logo.png',
+                'assets/icons/png/logo.png',
                 height: 188.h,
                 width: 173.w,
               ),

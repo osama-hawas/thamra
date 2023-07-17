@@ -22,9 +22,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar:  PreferredSize(
-              preferredSize: Size.fromHeight(70.h),
-              child: const CustomAppBarProfile(title: 'عن التطبيق')),
+          appBar:const CustomAppBarProfile(title: 'عن التطبيق'),
           body: BlocBuilder(
             bloc: cubit,
             builder: (context, state) {
@@ -36,7 +34,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                 return ListView(
                   children: [
                     Image.asset(
-                      'assets/images/logo.png',
+                      'assets/icons/png/logo.png',
                       height: 160.h,
                       width: 160.w,
                     ),
