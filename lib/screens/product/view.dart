@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:thamra/core/design/main_button.dart';
 
 import 'package:thamra/screens/product/widgets/custom_product_rate.dart';
 
-
 import '../../core/design/main_product_item.dart';
 import '../../core/design/main_text_style.dart';
+import '../../core/logic/app_routes.dart';
+import '../../features/add_to_cart/bloc.dart';
 import '../../features/get_product/bloc.dart';
-
+import '../../features/is_fav/bloc.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.productData}) : super(key: key);
@@ -24,7 +25,18 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   final bloc = KiwiContainer().resolve<GetProductsBloc>()
     ..add(GetProductEvent());
+
+  final isFavBloc = KiwiContainer().resolve<IsFavBloc>();
+  final addToCartBloc = KiwiContainer().resolve<AddToCartBloc>();
+
   int count = 1;
+  late bool isFav;
+
+  @override
+  void initState() {
+    super.initState();
+    isFav = widget.productData.isFavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,25 +87,39 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                     ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 32.w,
-                        width: 32.w,
-                        margin: EdgeInsetsDirectional.only(
-                            start: 16.w, top: 22.h, bottom: 8.h),
-                        padding: EdgeInsets.symmetric(vertical: 6.h),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(9.r),
-                            color: Theme.of(context)
-                                .primaryColor
-                                .withOpacity(.13)),
-                        child: SvgPicture.asset(
-                          'assets/icons/svg/heart.svg',
-                          fit: BoxFit.scaleDown,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
+                    BlocBuilder(
+                      bloc: isFavBloc,
+                      builder: (context, state) {
+                        return GestureDetector(
+                          onTap: () {
+                            isFav = !isFav;
+                            isFavBloc.id = widget.productData.id;
+                            if (isFav) {
+                              isFavBloc.endPoint = "add_to_favorite";
+                            } else {
+                              isFavBloc.endPoint = "remove_from_favorite";
+                            }
+                            isFavBloc.add(IsFavEvent());
+                          },
+                          child: Container(
+                              height: 32.w,
+                              width: 32.w,
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 16.w, top: 22.h, bottom: 8.h),
+                              padding: EdgeInsets.symmetric(vertical: 6.h),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9.r),
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(.13)),
+                              child: Icon(
+                                isFav
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_rounded,
+                                color: Theme.of(context).primaryColor,
+                              )),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -151,70 +177,65 @@ class _ProductScreenState extends State<ProductScreen> {
                               color: Theme.of(context).hintColor),
                         ),
                         const Spacer(),
-                        StatefulBuilder(
-                          builder: (context, setState) => Container(
-                            padding: EdgeInsets.all(3.r),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7.r),
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(.1)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    ++count;
+                        Container(
+                          padding: EdgeInsets.all(3.r),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.r),
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(.1)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  ++count;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(7.r),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7.r),
+                                      color: Colors.white),
+                                  child: Image.asset(
+                                    "assets/icons/png/add.png",
+                                    height: 12.w,
+                                    width: 12.w,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: Text(
+                                  count.toString(),
+                                  style: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  if (count > 1) {
+                                    --count;
                                     setState(() {});
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(7.r),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(7.r),
-                                        color: Colors.white),
-                                    child: Image.asset(
-                                      "assets/icons/png/add.png",
-                                      height: 12.w,
-                                      width: 12.w,
-                                      fit: BoxFit.scaleDown,
-                                    ),
+                                  }
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(7.r),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7.r),
+                                      color: Colors.white),
+                                  child: Image.asset(
+                                    "assets/icons/png/minus.png",
+                                    height: 12.w,
+                                    width: 12.w,
+                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: Text(
-                                    count.toString(),
-                                    style: TextStyle(
-                                        fontSize: 15.sp,
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (count > 1) {
-                                      --count;
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(7.r),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(7.r),
-                                        color: Colors.white),
-                                    child: Image.asset(
-                                      "assets/icons/png/minus.png",
-                                      height: 12.w,
-                                      width: 12.w,
-                                      fit: BoxFit.scaleDown,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -232,7 +253,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                 child: Row(
                   children: [
-                  const  MainTextStyle(text: "كود المنتج :"),
+                    const MainTextStyle(text: "كود المنتج :"),
                     SizedBox(
                       width: 14.w,
                     ),
@@ -257,7 +278,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     SizedBox(
                       height: 12.h,
                     ),
-                  const  MainTextStyle(text: "تفاصيل المنتج"),
+                    const MainTextStyle(text: "تفاصيل المنتج"),
                     SizedBox(height: 10.h),
                     Text(
                       widget.productData.description,
@@ -270,7 +291,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                       const MainTextStyle(text: "التقييمات"),
+                        const MainTextStyle(text: "التقييمات"),
                         InkWell(
                           onTap: () {},
                           child: Text(
@@ -286,7 +307,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     const CustomProductRate(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
-                      child:const MainTextStyle(text: "منتجات مشابهة"),
+                      child: const MainTextStyle(text: "منتجات مشابهة"),
                     ),
                     BlocBuilder(
                       bloc: bloc,
@@ -318,15 +339,180 @@ class _ProductScreenState extends State<ProductScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          height: 60.h,
-          color: Theme.of(context).primaryColor,
-          child: Row(
-            children: const [
+        bottomNavigationBar: BlocConsumer(
+          bloc: addToCartBloc,
+          listener: (context, state)async {
+            if (state is AddToCartSuccessState) {
+            await  _addProductToCart(widget.productData);
+            }
+          },
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                addToCartBloc.productId = widget.productData.id;
+                addToCartBloc.amount = count;
+                addToCartBloc.add(AddToCartEvent());
+              },
+              child: Container(
+                height: 60.h,
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                color: Theme.of(context).primaryColor,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 7.w,
+                    ),
+                    Image.asset(
+                      "assets/icons/png/cart_item.png",
+                      fit: BoxFit.fill,
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text(
+                      "إضافة إلي السلة",
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Text(
+                      "${widget.productData.price * count}" "ر.س",
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 
+  Future<dynamic> _addProductToCart(ProductData productData) {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(38.r), topLeft: Radius.circular(38.r))),
+      builder: (context) => Container(
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        height: 202.h,
+        width: double.infinity,
+        child: Column(children: [
+          Row(
+            children: [
+              Container(
+                height: 32.w,
+                width: 32.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9.r),
+                    color: Theme.of(context).primaryColor.withOpacity(.13)),
+                child: Icon(
+                  Icons.check,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              SizedBox(
+                width: 18.w,
+              ),
+              Text(
+                "تم إضافة المنتج بنجاح",
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold),
+              )
             ],
           ),
-        ),
+          Divider(
+            height: 10.h,
+          ),
+          Row(
+            children: [
+              Container(
+                height: 65.h,
+                width: 69.w,
+                clipBehavior: Clip.antiAlias,
+                alignment: AlignmentDirectional.topEnd,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(productData.mainImage),
+                      fit: BoxFit.fill),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+              ),
+              SizedBox(
+                width: 11.w,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    productData.title,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  Text(
+                    "الكمية : $count",
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Theme.of(context).hintColor,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 6.h,
+                  ),
+                  Text(
+                    "${productData.price * count} ر.س ",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w400),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Divider(
+            height: 10.h,
+          ),
+          SizedBox(
+            height: 13.h,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: MainButton(
+                    text: "التحويل إلى السلة",
+                    onPressed: () {
+                      GoRouter.of(context).push(AppRoutes.cart);
+
+                    }),
+              ),
+              Expanded(
+                child: MainButton(
+                  text: "تصفح العروض",
+                  onPressed: () {
+                    GoRouter.of(context).pop();
+                  },
+                  type: BtnType.outLine,
+                ),
+              ),
+            ],
+          ),
+        ]),
       ),
     );
   }

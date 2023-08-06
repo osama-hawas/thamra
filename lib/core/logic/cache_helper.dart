@@ -2,8 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/login/bloc.dart';
 
-
-
 class CacheHelper {
   static late SharedPreferences prefs;
 
@@ -22,11 +20,13 @@ class CacheHelper {
   static Future<void> removeTitle() async {
     prefs.remove('title');
   }
+
   static Future<void> savePhoneFromRegister({required String phone}) async {
-    prefs.setString('registerphone',phone);
+    prefs.setString('registerphone', phone);
   }
+
   static String? showPhoneFromRegister() {
-    return prefs.getString("registerphone") ;
+    return prefs.getString("registerphone");
   }
 
   static Future saveUserData(LoginDataModel model) async {
@@ -39,7 +39,6 @@ class CacheHelper {
     prefs.setInt("userCartCount", model.data.userCartCount);
     prefs.setString("cityId", model.data.city.id);
     prefs.setString("cityName", model.data.city.name);
-
   }
 
   static Future updateUserProfile({phone, name, cityId, cityName}) async {
@@ -50,7 +49,11 @@ class CacheHelper {
   }
 
   static String? getCityName() {
-    return prefs.getString("cityName") ;
+    return prefs.getString("cityName");
+  }
+
+  static int? getCartCount() {
+    return prefs.getInt("userCartCount");
   }
 
   static String getCityId() {
@@ -73,29 +76,32 @@ class CacheHelper {
   static String? getUserToken() {
     return prefs.getString("token");
   }
+
   static Future<void> saveDeviceToken({required String? deviceToken}) async {
-    prefs.setString('deviceToken',deviceToken!);
+    prefs.setString('deviceToken', deviceToken!);
   }
+
   static String? getDeviceToken() {
-    return prefs.getString("deviceToken") ;
+    return prefs.getString("deviceToken");
   }
 
   static Future<void> saveCode({required String? code}) async {
-    prefs.setString('code',code!);
+    prefs.setString('code', code!);
   }
+
   static String? getCode() {
-    return prefs.getString("code") ;
+    return prefs.getString("code");
   }
+
   static Future<void> saveLocation({required String location}) async {
-    prefs.setString('location',location);
+    prefs.setString('location', location);
   }
+
   static String? getLocation() {
-    return prefs.getString("location") ;
+    return prefs.getString("location");
   }
-
-
 
   static Future<void> logout() async {
-   await prefs.clear();
+    await prefs.clear();
   }
 }

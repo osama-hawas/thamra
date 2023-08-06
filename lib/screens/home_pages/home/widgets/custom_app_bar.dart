@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,9 +49,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
               child: GestureDetector(
                 onTap: () async {
                   location = await showModelBottomSheet(context);
-                  if (location !=null) {
+                  if (location != null) {
                     CacheHelper.saveLocation(location: location.toString());
-
                   }
                   setState(() {});
                 },
@@ -86,13 +86,23 @@ class _CustomAppBarState extends State<CustomAppBar> {
               onTap: () {
                 GoRouter.of(context).push(AppRoutes.cart);
               },
-              child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(8.r),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.r),
-                      color: const Color(0xff4C8613).withOpacity(.13)),
-                  child: SvgPicture.asset("assets/icons/svg/cart-home.svg")),
+              child: Badge(
+                badgeStyle: BadgeStyle(
+                  badgeColor: Theme.of(context).primaryColor,
+                ),
+                position: BadgePosition.custom(start: -5.w, top: -11.h),
+                badgeContent: Text(
+                  "${CacheHelper.getCartCount()}",
+                  style: TextStyle(fontSize: 6.sp, color: Colors.white),
+                ),
+                child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: Theme.of(context).primaryColor.withOpacity(.13)),
+                    child: SvgPicture.asset("assets/icons/svg/cart-home.svg")),
+              ),
             ),
           ],
         ),

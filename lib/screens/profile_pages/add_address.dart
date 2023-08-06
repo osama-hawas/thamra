@@ -28,22 +28,22 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Set<Marker> markers = {};
   late bool isSelected;
   late CameraPosition _position;
-  late AddressData? addressData;
+  late AddressData addressData;
 
   final _controller = Completer<GoogleMapController>();
 
   @override
   void initState() {
     super.initState();
-    addressData = widget.addressData;
+    addressData = widget.addressData!;
     _position = CameraPosition(
       target: addressData != null
-          ? LatLng(addressData!.lat, addressData!.lng)
+          ? LatLng(addressData.lat, addressData.lng)
           :const LatLng(31, 31),
       zoom: 14.4746,
     );
 
-    isSelected = addressData!.type == "work" ? true : false;
+    isSelected = addressData.type == "work" ? true : false;
   }
 
   @override
@@ -61,6 +61,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   zoomControlsEnabled: true,
                   markers: markers,
                   onTap: (argument) {
+
+                    
                     // bloc.lat = addressData == null
                     //     ? argument.latitude.toString()
                     //     : addressData!.lat.toString();

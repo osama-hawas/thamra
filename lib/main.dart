@@ -64,7 +64,6 @@ class MyApp extends StatelessWidget {
           //     Directionality(textDirection: mat.TextDirection.rtl, child: child!)),
           theme: ThemeData(
             fontFamily: 'Tajawal',
-            // useMaterial3: true,
             scaffoldBackgroundColor: Colors.white,
             primarySwatch: ColorsGenerate.from(const Color(0xff4C8613)),
             hintColor: const Color(0xffA7A7A7),

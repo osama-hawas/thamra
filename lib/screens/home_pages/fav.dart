@@ -22,57 +22,71 @@ class _FavScreenState extends State<FavScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 24.h,
+          body: Column(
+        children: [
+          SizedBox(
+            height: 24.h,
+          ),
+          Text(
+            "المفضلة",
+            style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w900,
+                color: Theme.of(context).primaryColor),
+          ),
+          SizedBox(
+            height: 24.h,
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                bloc.add(GetFavProductEvents());
+                return await Future.delayed(const Duration(milliseconds: 500));
+              },
+              color: Theme.of(context).primaryColor,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    BlocBuilder(
+                        bloc: bloc,
+                        builder: (context, state) {
+                          if (state is GetFavSuccessState) {
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.list.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: double.minPositive,
+                                        childAspectRatio: 163 / 215),
+                                itemBuilder: ((context, index) {
+                                  return MainProductItem(
+                                    productData: state.list[index],
+                                  );
+                                }));
+                          } else {
+                            return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: 4,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: double.minPositive,
+                                        childAspectRatio: 163 / 215),
+                                itemBuilder: ((context, index) {
+                                  return const ShimmerGrid();
+                                }));
+                          }
+                        })
+                  ],
+                ),
+              ),
             ),
-            Text(
-              "المفضلة",
-              style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w900,
-                  color: Theme.of(context).primaryColor),
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            BlocBuilder(
-                bloc: bloc,
-                builder: (context, state) {
-                  if (state is GetFavSuccessState) {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.list.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: double.minPositive,
-                                childAspectRatio: 163 / 215),
-                        itemBuilder: ((context, index) {
-                          return MainProductItem(
-                            productData: state.list[index],
-                          );
-                        }));
-                  } else {
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: 4,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: double.minPositive,
-                                childAspectRatio: 163 / 215),
-                        itemBuilder: ((context, index) {
-                          return const ShimmerGrid();
-                        }));
-                  }
-                })
-          ],
-        ),
+          ),
+        ],
       )),
     );
   }

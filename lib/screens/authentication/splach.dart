@@ -42,10 +42,10 @@ class _SplachScreenState extends State<SplachScreen> {
               fit: BoxFit.fill),
         ),
         child: ElasticInLeft(
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 2),
           // delay:const Duration(milliseconds: 500),
           child: Spin(
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 1),
             spins: 2,
             child: Center(
               child: Image.asset(

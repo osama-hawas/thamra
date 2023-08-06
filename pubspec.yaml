@@ -60,6 +60,8 @@ dependencies:
   shimmer: ^3.0.0
   dotted_border: ^2.0.0+3
   flutter_rating_bar: ^4.0.1
+  firebase_analytics: ^10.4.4
+  card_swiper: ^3.0.1
 
 
 

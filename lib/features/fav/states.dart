@@ -5,7 +5,7 @@ class GetFavStates {}
 class GetFavLoadingState extends GetFavStates {}
 
 class GetFavSuccessState extends GetFavStates {
- final List<FavProductData> list;
+ final List<ProductData> list;
 
   GetFavSuccessState({required this.list});
 }

@@ -9,7 +9,6 @@ class MainTextStyle extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Text(
       text,
-      // textDirection: TextDirection.ltr,
       style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,

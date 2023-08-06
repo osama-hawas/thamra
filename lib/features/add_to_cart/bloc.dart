@@ -7,6 +7,7 @@ part 'states.dart';
 
 class AddToCartBloc extends Bloc<CartProductEvents, AddToCartStates> {
   late int productId;
+  late int amount ;
   final DioHelper dioHelper;
 
   AddToCartBloc(this.dioHelper) : super(AddToCartStates()) {
@@ -18,7 +19,7 @@ class AddToCartBloc extends Bloc<CartProductEvents, AddToCartStates> {
     emit(AddToCartLoadingState());
     final response = await dioHelper.post("client/cart", data: {
       "product_id": productId,
-      "amount": 1,
+      "amount": amount,
     });
     if (response.isSuccess) {
       emit(AddToCartSuccessState(msg: response.message));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum InputType { phone, pass, normal }
+enum InputType { phone, pass, normal, editPass }
 
 class MainTextField extends StatefulWidget {
   final String text;
@@ -14,19 +14,18 @@ class MainTextField extends StatefulWidget {
   final TextEditingController? controller;
   bool isObscure, isVisable = false, homeInput;
 
-  MainTextField(
-      {Key? key,
-      required this.text,
-      this.prefixIcon,
-      this.isObscure = false,
-      this.onChanged,
-      this.homeInput = false,
-      this.type = InputType.normal,
-      this.minLines = 1,
-      this.controller,
-      this.onPress,
-      })
-      : super(key: key);
+  MainTextField({
+    Key? key,
+    required this.text,
+    this.prefixIcon,
+    this.isObscure = false,
+    this.onChanged,
+    this.homeInput = false,
+    this.type = InputType.normal,
+    this.minLines = 1,
+    this.controller,
+    this.onPress,
+  }) : super(key: key);
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -40,6 +39,9 @@ class _MainTextFieldState extends State<MainTextField> {
       child: GestureDetector(
         onTap: widget.onPress,
         child: TextFormField(
+          keyboardType: widget.type == InputType.phone
+              ? TextInputType.phone
+              : TextInputType.text,
           validator: (data) {
             if (data!.isEmpty) {
               return 'Field is empty';
@@ -56,31 +58,26 @@ class _MainTextFieldState extends State<MainTextField> {
           onChanged: widget.onChanged,
           decoration: InputDecoration(
             filled: true,
-
-            // suffixIcon:widget.type == InputType.pass? ,
-
-
-
-
-
-
-            // suffixIcon: widget.type == InputType.pass?
-            // // widget.isObscure = !widget.isObscure;
-            // //   widget.isVisable = !widget.isVisable;
-            // //   setState(() {});
-            //
-            //
-            //
-            //          widget.isVisable
-            //             ? const Icon(Icons.visibility_sharp)
-            //             : const Icon(Icons.visibility_off_sharp)
-            //
-            //     : widget.sufixIcon,
+            suffixIcon: widget.type == InputType.pass
+                ? GestureDetector(
+                    onTap: () {
+                      widget.isVisable = !widget.isVisable;
+                      widget.isObscure = !widget.isObscure;
+                      setState(() {});
+                    },
+                    child: widget.isVisable
+                        ? const Icon(Icons.visibility_sharp)
+                        : const Icon(Icons.visibility_off_sharp))
+                : widget.type == InputType.editPass
+                    ? Image.asset(
+                        "assets/icons/png/left.png",
+                        fit: BoxFit.scaleDown,
+                      )
+                    : null,
             fillColor: widget.homeInput
                 ? const Color(0xffB9C9A8).withOpacity(.13)
                 : const Color(0xffFFFFFF),
             labelText: widget.text,
-
             alignLabelWithHint: true,
             labelStyle: TextStyle(
                 color: widget.homeInput

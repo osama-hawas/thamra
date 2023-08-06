@@ -11,17 +11,21 @@ import 'package:thamra/features/forget_pass/bloc.dart';
 import 'package:thamra/features/get_cities/bloc.dart';
 import 'package:thamra/features/home_slider/bloc.dart';
 import 'package:thamra/features/resend_code/bloc.dart';
+import 'package:thamra/features/show_cart/bloc.dart';
 import 'package:thamra/features/sign_up/bloc.dart';
+import 'package:thamra/features/update_item_cart_amount/bloc.dart';
 
 import 'active_acount/bloc.dart';
 import 'add_to_cart/bloc.dart';
 import 'contact/bloc.dart';
+import 'delete_from_cart/bloc.dart';
 import 'fav/bloc.dart';
 import 'get_addresses/bloc.dart';
 import 'get_categories/bloc.dart';
 import 'get_catigory_product/bloc.dart';
 import 'get_order/bloc.dart';
 import 'get_product/bloc.dart';
+import 'is_fav/bloc.dart';
 import 'login/bloc.dart';
 import 'logout/bloc.dart';
 import 'notifications/bloc.dart';
@@ -60,4 +64,8 @@ void initKiwi() {
   container.registerFactory((c) => GetProductRateBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => FAQsBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetContactBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => IsFavBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => ShowCartBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => DeleteFromCartBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => UpdateCartAmountBloc(c.resolve<DioHelper>()));
 }

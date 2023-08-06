@@ -18,5 +18,8 @@ class AddToCartSuccessState extends AddToCartStates {
 class AddToCartFailedState extends AddToCartStates {
   final String msg;
 
-  AddToCartFailedState({required this.msg});
+  AddToCartFailedState({required this.msg}){
+    showMSG(message: msg);
+
+  }
 }

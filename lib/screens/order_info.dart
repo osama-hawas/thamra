@@ -70,8 +70,11 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                         Row(
                           children: [
                             ...List.generate(
-                              widget.orderData.products.length,
-                              (i) => Container(
+                              widget.orderData.products.length > 3
+                                  ? 3
+                                  : widget.orderData.products.length,
+                              (i) =>
+                                  Container(
                                 height: 25.w,
                                 width: 25.w,
                                 margin: EdgeInsets.symmetric(horizontal: 2.w),
@@ -85,6 +88,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                                 ),
                               ),
                             ),
+                            if (widget.orderData.products.length > 3)
                             Container(
                               alignment: Alignment.center,
                               height: 25.w,
@@ -97,7 +101,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  "+2",
+                                  " ${(widget.orderData.products.length - 3)}""+",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold),

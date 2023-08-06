@@ -78,7 +78,7 @@ class DioHelper {
     try {
       final response = await _dio.put(
         endPoint,
-        data: FormData.fromMap(data ?? {}),
+        data: FormData.fromMap(data??{}),
         options: Options(
           headers: {
             "Authorization": "Bearer ${CacheHelper.getUserToken()}",

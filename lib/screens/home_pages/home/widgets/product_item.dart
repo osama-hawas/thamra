@@ -133,6 +133,7 @@ class _ProductItemState extends State<ProductItem> {
                               return ElevatedButton(
                                 onPressed: () {
                                   addToCartBloc.productId = id;
+                                  addToCartBloc.amount = 1;
                                   addToCartBloc.add(AddToCartEvent());
                                 },
                                 style: ElevatedButton.styleFrom(

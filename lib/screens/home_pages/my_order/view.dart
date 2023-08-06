@@ -144,7 +144,9 @@ class _Item extends StatelessWidget {
                     child: Row(
                       children: [
                         ...List.generate(
-                          orderData.products.length,
+                          orderData.products.length > 3
+                              ? 3
+                              : orderData.products.length,
                           (i) => Container(
                             height: 25.w,
                             width: 25.w,
@@ -158,25 +160,26 @@ class _Item extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 25.w,
-                          width: 25.w,
-                          margin: EdgeInsets.symmetric(horizontal: 2.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffEDF5E6),
-                            borderRadius: BorderRadius.circular(7.r),
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              "+2",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold),
+                        if (orderData.products.length > 3)
+                          Container(
+                            alignment: Alignment.center,
+                            height: 25.w,
+                            width: 25.w,
+                            margin: EdgeInsets.symmetric(horizontal: 2.w),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffEDF5E6),
+                              borderRadius: BorderRadius.circular(7.r),
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                " ${(orderData.products.length - 3)}""+",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   )

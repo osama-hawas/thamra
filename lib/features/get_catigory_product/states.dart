@@ -6,7 +6,7 @@ class GetCatigoryProductStates {}
 class GetCatigoryProductLoadingState extends GetCatigoryProductStates {}
 
 class GetCatigoryProductSuccessState extends GetCatigoryProductStates {
-  final List<CatigoryProductData> list;
+  final List<ProductData> list;
 
   GetCatigoryProductSuccessState({required this.list});
 }

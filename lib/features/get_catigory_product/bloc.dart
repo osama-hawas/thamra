@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/logic/dio_helper.dart';
+import '../get_product/bloc.dart';
 part  'events.dart';
 part  'states.dart';
 part  'model.dart';

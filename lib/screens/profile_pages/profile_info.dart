@@ -89,7 +89,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                         ),
                         Center(
                           child: SvgPicture.asset(
-                            "assets/icons/svg/camera.svg",color: Colors.red,
+                            "assets/icons/svg/camera.svg",color: Colors.white,
                           ),
                         )
                       ]),
@@ -273,6 +273,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               MainTextField(
                 text: "كلمة المرور",
                 prefixIcon: "assets/icons/png/pass.png",
+                type: InputType.editPass,
 
                 onPress: () {
                   Navigator.push(context, MaterialPageRoute(

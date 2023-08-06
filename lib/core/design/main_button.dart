@@ -20,12 +20,14 @@ class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return SizedBox(
-        height: 30.w,
-        width: 30.w,
-        child: const FittedBox(
-          fit: BoxFit.scaleDown,
-          child: CircularProgressIndicator(),
+      return Center(
+        child: SizedBox(
+          height: 30.w,
+          width: 30.w,
+          child: const FittedBox(
+            fit: BoxFit.scaleDown,
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
 
@@ -80,7 +82,7 @@ class MainButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.r),
             ),
           ),
-          child: Text(text),
+          child: FittedBox(child: Text(text),fit: BoxFit.scaleDown,),
         ),
       );
     }

@@ -41,7 +41,6 @@ class LoginBloc extends Bloc<LoginEvents, LoginStates> {
       final model = LoginDataModel.fromJson(json: resp.response!.data);
       emit(LoginSuccessStates(msg: resp.message));
       CacheHelper.saveUserData(model);
-      // showToast(message:resp.message);
 
     } else {
       // showToast(message: resp.message);
