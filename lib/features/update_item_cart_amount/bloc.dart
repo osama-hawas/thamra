@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thamra/core/logic/dio_helper.dart';
 
+import '../../core/logic/helper_methods.dart';
+
 
 part 'states.dart';
 
@@ -22,11 +24,12 @@ class UpdateCartAmountBloc
     final response = await dioHelper.put("client/cart/${event.id}", data: {
       'amount': event.amount ,
     });
+    print(response.response!.data);
     if (response.isSuccess) {
       emit(UpdateCartAmountSuccessState());
 
     } else {
-      emit(UpdateCartAmountFailedState());
+      emit(UpdateCartAmountFailedState(msg:response.message ));
 
     }
   }

@@ -58,37 +58,39 @@ class _AddressesScreenState extends State<AddressesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 4.h,
-                                  ),
-                                  MainTextStyle(text: state.list[index].type),
-                                  Text.rich(TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text:
-                                              "العنوان : ${state.list[index].location}\n"),
-                                      TextSpan(
-                                          text:
-                                              "الوصف:${state.list[index].description}\n",
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).hintColor)),
-                                      TextSpan(
-                                          text:
-                                              "رقم الجوال : ${state.list[index].phone}",
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).hintColor))
-                                    ],
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 14.sp),
-                                  )),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    MainTextStyle(text: state.list[index].type),
+                                    Text.rich(TextSpan(
+                                      children: [
+                                        TextSpan(
+                                            text:
+                                                "العنوان : ${state.list[index].location}\n"),
+                                        TextSpan(
+                                            text:
+                                                "الوصف:${state.list[index].description}\n",
+                                            style: TextStyle(
+                                                color:
+                                                    Theme.of(context).hintColor)),
+                                        TextSpan(
+                                            text:
+                                                "رقم الجوال : ${state.list[index].phone}",
+                                            style: TextStyle(
+                                                color:
+                                                    Theme.of(context).hintColor))
+                                      ],
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 14.sp),
+                                    )),
+                                  ],
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 9.h),

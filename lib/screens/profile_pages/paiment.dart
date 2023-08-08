@@ -1,71 +1,62 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:thamra/core/design/custom_app_bar_profile.dart';
 
-class PaiementsScreen extends StatefulWidget {
+import '../../core/design/main_text_style.dart';
+
+class PaiementsScreen extends StatelessWidget {
   const PaiementsScreen({Key? key}) : super(key: key);
 
   @override
-  State<PaiementsScreen> createState() => _PaiementsScreenState();
-}
-
-class _PaiementsScreenState extends State<PaiementsScreen> {
-  final audioPlayer = AudioPlayer();
-
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    start: 16,
-                    end: 16,
-                    bottom: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        "الفاتحة",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Theme
-                                .of(context)
-                                .primaryColor),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                          onPressed: () async {
-                          await  audioPlayer.play(UrlSource(
-                                "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3"));
-                          },
-                          icon: Icon(
-                            Icons.play_circle_fill_sharp,
-                            color: Theme
-                                .of(context)
-                                .primaryColor,
-                            size: 32,
-                          )),IconButton(
-                          onPressed: () async {
-                            await  audioPlayer.pause();
-                          },
-                          icon: Icon(
-                            Icons.pause_circle,
-                            color: Theme
-                                .of(context)
-                                .primaryColor,
-                            size: 32,
-                          ))
-                    ],
-                  ),
-                )
-              ],
+    return Scaffold(
+      appBar: const CustomAppBarProfile(title: "الدفع"),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 40.h,
             ),
-          ),
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Image.asset("assets/icons/png/wallet-visa.PNG"),
+            ),
+            SizedBox(
+              height: 40.h,
+            ),
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Image.asset("assets/icons/png/wallet_master.PNG"),
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            DottedBorder(
+              strokeWidth: 1,
+              borderType: BorderType.RRect,
+              color: Theme.of(context).primaryColor,
+              radius: Radius.circular(15.r),
+              dashPattern: const [4],
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.h, horizontal: 80.w),
+                  color: Theme.of(context).primaryColor.withOpacity(.16),
+                  child: const Center(child: MainTextStyle(text: "اشحن الآن")),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

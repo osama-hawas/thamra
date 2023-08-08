@@ -21,6 +21,8 @@ import '../../screens/authentication/forget_pass.dart';
 import '../../screens/profile_pages/be_vip.dart';
 import '../../screens/profile_pages/change_lang.dart';
 import '../../screens/profile_pages/contact.dart';
+import '../../screens/profile_pages/paiement_now_from_wallet.dart';
+import '../../screens/profile_pages/transaction_history_from_wallet.dart';
 
 abstract class AppRoutes {
   static String splach = '/';
@@ -49,6 +51,8 @@ abstract class AppRoutes {
   static String catigories = '/catigories';
   static String cart = '/cart';
   static String vip = '/vip';
+  static String paiementNowScreen = '/PaiementNowScreen';
+  static String transactionHistory = '/transactionHistory';
   static GoRouter router = GoRouter(routes: [
     GoRoute(
       path: splach,
@@ -145,6 +149,13 @@ abstract class AppRoutes {
     GoRoute(
       path: cart,
       builder: (context, state) => const CartScreen(),
+    ),
+    GoRoute(
+      path: paiementNowScreen,
+      builder: (context, state) => const PaiementNowScreen(),
+    ), GoRoute(
+      path: transactionHistory,
+      builder: (context, state) => const TransactionsHistoryScreen(),
     ),
   ]);
 }

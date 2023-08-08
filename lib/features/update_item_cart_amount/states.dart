@@ -13,9 +13,9 @@ class UpdateCartAmountSuccessState extends UpdateCartAmountStates {
 }
 
 class UpdateCartAmountFailedState extends UpdateCartAmountStates {
-  // final String msg;
+  final String msg;
 
-  // UpdateCartAmountFailedState({required this.msg}) {
-  //   showMSG(message: msg);
-  // }
+  UpdateCartAmountFailedState({required this.msg}) {
+    showMSG(message: msg);
+  }
 }

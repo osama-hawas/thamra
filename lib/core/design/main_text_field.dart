@@ -34,10 +34,10 @@ class MainTextField extends StatefulWidget {
 class _MainTextFieldState extends State<MainTextField> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(start: 16.w, end: 16.w, bottom: 16.h),
-      child: GestureDetector(
-        onTap: widget.onPress,
+    return GestureDetector(
+      onTap: widget.onPress,
+      child: Padding(
+        padding:  EdgeInsets.symmetric(vertical: 16.h),
         child: TextFormField(
           keyboardType: widget.type == InputType.phone
               ? TextInputType.phone
@@ -120,7 +120,10 @@ class _MainTextFieldState extends State<MainTextField> {
                 borderSide: const BorderSide(color: Color(0xffF3F3F3))),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.r),
-              borderSide: const BorderSide(color: Color(0xffF3F3F3)),
+
+              borderSide: const BorderSide(
+                color: Color(0xffF3F3F3),
+              ),
             ),
           ),
         ),

@@ -72,13 +72,13 @@ class DioHelper {
 
 
   Future<CustomResponse> put(String endPoint,
-      {Map<String, dynamic>? data}) async {
+      { Map<String, dynamic>? data}) async {
     print(data);
 
     try {
       final response = await _dio.put(
         endPoint,
-        data: FormData.fromMap(data??{}),
+        data: data,
         options: Options(
           headers: {
             "Authorization": "Bearer ${CacheHelper.getUserToken()}",
@@ -86,7 +86,7 @@ class DioHelper {
           },
         ),
       );
-      print(response.data);
+
       return CustomResponse(
           message: response.data["message"],
           isSuccess: true,
