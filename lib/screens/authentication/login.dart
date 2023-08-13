@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(child:
-          Column(
+        body: SingleChildScrollView(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -47,18 +47,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Theme.of(context).hintColor),
                 ),
               ),
-              MainTextField(
-                  controller: bloc.phoneController,
-                  text: 'رقم الجوال ',
-                  prefixIcon: 'assets/icons/png/phone.png',
-                  type: InputType.phone),
-              MainTextField(
-                controller: bloc.passController,
-                text: 'كلمة المرور',
-                prefixIcon: 'assets/icons/png/pass.png',
-                isObscure: true,
-                type: InputType.pass,
-              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    children: [
+                      MainTextField(
+                          controller: bloc.phoneController,
+                          text: 'رقم الجوال ',
+                          prefixIcon: 'assets/icons/png/phone.png',
+                          type: InputType.phone),
+                      MainTextField(
+                        controller: bloc.passController,
+                        text: 'كلمة المرور',
+                        prefixIcon: 'assets/icons/png/pass.png',
+                        isObscure: true,
+                        type: InputType.pass,
+                      ),
+                    ],
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

@@ -17,6 +17,11 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   final bloc = KiwiContainer().resolve<GetOrdersBloc>()
     ..add(GetOrderEvent(endPoint: "current"));
   int? type = 0;
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,4 +236,5 @@ class _Item extends StatelessWidget {
       ),
     );
   }
+
 }

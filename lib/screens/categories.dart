@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
 import 'package:thamra/screens/shimmers/shimmer_grid.dart';
 
 import '../core/design/main_product_item.dart';
+import '../core/logic/app_routes.dart';
 import '../features/get_categories/bloc.dart';
 import '../features/get_catigory_product/bloc.dart';
 
@@ -23,7 +25,6 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   final bloc = KiwiContainer().resolve<GetCatigoryProductBloc>();
-
 
   @override
   void initState() {
@@ -47,24 +48,35 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     borderRadius: BorderRadius.circular(15.r),
                     color: Theme.of(context).primaryColor.withOpacity(.13)),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      "assets/icons/png/search.png",
-                      height: 18.w,
-                      width: 18.w,
-                      fit: BoxFit.scaleDown,
+                    GestureDetector(
+                      onTap: () {
+                        GoRouter.of(context).push(AppRoutes.searchScreen);
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/icons/png/search.png",
+                            height: 18.w,
+                            width: 18.w,
+                            fit: BoxFit.scaleDown,
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Text(
+                            "ابحث عن ماتريد؟",
+                            style: TextStyle(
+                                fontSize: 15.sp,
+                                color: const Color(0xffB9C9A8),
+                                fontWeight: FontWeight.w400),
+                          ),
+
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Text(
-                      "ابحث عن ماتريد؟",
-                      style: TextStyle(
-                          fontSize: 15.sp,
-                          color: const Color(0xffB9C9A8),
-                          fontWeight: FontWeight.w400),
-                    ),
-                    const Spacer(),
+
                     Container(
                         padding: EdgeInsets.all(10.r),
                         decoration: BoxDecoration(

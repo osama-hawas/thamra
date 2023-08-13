@@ -14,6 +14,7 @@ import '../../features/delete_address/bloc.dart';
 
 import '../../features/get_addresses/bloc.dart';
 import '../shimmers/shimmer_listview.dart';
+import 'add_address.dart';
 
 class AddressesScreen extends StatefulWidget {
   const AddressesScreen({Key? key}) : super(key: key);
@@ -44,11 +45,12 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       (index) => GestureDetector(
                         onTap: () {},
                         child: Container(
+
                           margin: EdgeInsets.symmetric(
                               horizontal: 16.w, vertical: 20.h),
                           padding: EdgeInsets.symmetric(
                               horizontal: 16.w, vertical: 2.h),
-                          height: 100,
+
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.r),
@@ -130,7 +132,16 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                       width: 10.w,
                                     ),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddAddressScreen(
+                                                      addressData: state
+                                                          .list[index]),
+                                            ));
+                                      },
                                       child: Container(
                                         padding: EdgeInsets.all(6.r),
                                         decoration: BoxDecoration(

@@ -27,30 +27,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   late String lat, lng;
   Set<Marker> markers = {};
   late bool isSelected;
-  late CameraPosition _position;
-  late AddressData addressData;
 
   final _controller = Completer<GoogleMapController>();
 
   @override
   void initState() {
     super.initState();
-    addressData = widget.addressData!;
-    _position = CameraPosition(
-      target: addressData != null
-          ? LatLng(addressData.lat, addressData.lng)
-          :const LatLng(31, 31),
-      zoom: 14.4746,
-    );
+    if (widget.addressData != null) {
+      print(widget.addressData!.type);
+      print("*" * 30);
 
-    isSelected = addressData.type == "work" ? true : false;
+      isSelected = widget.addressData!.type == "work" ? true : false;
+    } else {
+      isSelected = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar:  const CustomAppBarProfile(title: "إضافة عنوان"),
+        appBar: const CustomAppBarProfile(title: "إضافة عنوان"),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,8 +58,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   zoomControlsEnabled: true,
                   markers: markers,
                   onTap: (argument) {
-
-                    
                     // bloc.lat = addressData == null
                     //     ? argument.latitude.toString()
                     //     : addressData!.lat.toString();
@@ -73,16 +68,19 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         markerId: const MarkerId("1"),
                         position:
                             LatLng(argument.latitude, argument.longitude)));
-                    setState(()
-                    {
-
+                    setState(() {
                       bloc.lat = argument.latitude;
                       bloc.lng = argument.longitude;
-
                     });
                   },
                   mapType: MapType.normal,
-                  initialCameraPosition: _position,
+                  initialCameraPosition: CameraPosition(
+                    target: widget.addressData != null
+                        ? LatLng(widget.addressData!.lat.toDouble(),
+                            widget.addressData!.lng.toDouble())
+                        : const LatLng(31, 31),
+                    zoom: 14.4746,
+                  ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   },
@@ -115,9 +113,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       child: GestureDetector(
                         onTap: () {
                           isSelected = true;
-                          bloc.tpye = addressData == null
+                          bloc.tpye = widget.addressData == null
                               ? "المنزل"
-                              : addressData!.type;
+                              : widget.addressData!.type;
                           setState(() {});
                         },
                         child: Container(
@@ -145,8 +143,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       child: GestureDetector(
                         onTap: () {
                           isSelected = false;
-                          bloc.tpye =
-                              addressData == null ? "العمل" : addressData!.type;
+                          bloc.tpye = widget.addressData == null
+                              ? "العمل"
+                              : widget.addressData!.type;
                           setState(() {});
                         },
                         child: Container(
@@ -170,21 +169,26 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ],
                 ),
               ),
-              MainTextField(
-                  text: addressData == null
-                      ? "أدخل العنوان"
-                      : addressData!.location,
-                  controller: bloc.locationController),
-              MainTextField(
-                text: addressData == null
-                    ? "أدخل رقم الجوال"
-                    : addressData!.phone,
-                controller: bloc.phoneController,
-              ),
-              MainTextField(
-                text: addressData == null ? "الوصف" : addressData!.description,
-                controller: bloc.descController,
-              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Column(children: [MainTextField(
+                    text: widget.addressData == null
+                        ? "أدخل العنوان"
+                        : widget.addressData!.location,
+                    controller: bloc.locationController),
+                  MainTextField(
+                    text: widget.addressData == null
+                        ? "أدخل رقم الجوال"
+                        : widget.addressData!.phone,
+                    controller: bloc.phoneController,
+                  ),
+                  MainTextField(
+                    text: widget.addressData == null
+                        ? "الوصف"
+                        : widget.addressData!.description,
+                    controller: bloc.descController,
+                  ),],),
+              )
             ],
           ),
         ),

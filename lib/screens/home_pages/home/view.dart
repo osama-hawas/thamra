@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/features/home_slider/bloc.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
@@ -9,6 +10,7 @@ import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
 
 import '../../../core/design/main_text_field.dart';
+import '../../../core/logic/app_routes.dart';
 import '../../../features/get_categories/bloc.dart';
 
 import '../../../features/get_product/bloc.dart';
@@ -38,18 +40,23 @@ class _HomeScreenState extends State<HomeScreen> {
           body: Column(
         children: [
           const CustomAppBar(),
-          MainTextField(
-            text: 'ابحث عن ماتريد؟',
-            prefixIcon: 'assets/icons/png/search.png',
-            onChanged: (value) {},
-            homeInput: true,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: MainTextField(
+              text: 'ابحث عن ماتريد؟',
+              prefixIcon: 'assets/icons/png/search.png',
+              homeInput: true,
+              onPress: () {
+                GoRouter.of(context).push(AppRoutes.searchScreen);
+              },
+            ),
           ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-              sliderBloc.add(HomeSliderEvent());
-              getCategoriesBloc.add(GetCategoriesEvent());
-              productIteBloc.add(GetProductEvent());
+                sliderBloc.add(HomeSliderEvent());
+                getCategoriesBloc.add(GetCategoriesEvent());
+                productIteBloc.add(GetProductEvent());
                 return await Future.delayed(const Duration(milliseconds: 500));
               },
               color: Theme.of(context).primaryColor,
@@ -58,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 6.h,),
+                    SizedBox(
+                      height: 6.h,
+                    ),
                     BlocConsumer(
                       bloc: sliderBloc,
                       listener: (context, state) {},

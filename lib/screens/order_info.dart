@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
+import 'package:thamra/features/cancel_order/bloc.dart';
 import 'package:thamra/features/get_order/bloc.dart';
+import 'package:thamra/screens/product_rate.dart';
 import '../core/design/main_button.dart';
 import '../core/design/main_text_style.dart';
 
@@ -17,12 +21,13 @@ class OrderInfoScreen extends StatefulWidget {
 }
 
 class _OrderInfoScreenState extends State<OrderInfoScreen> {
+  final cancelOrderBloc = KiwiContainer().resolve<CancelOrderBloc>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBarProfile(title: "تفاصيل الطلب") ,
-
+        appBar: const CustomAppBarProfile(title: "تفاصيل الطلب"),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,8 +78,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               widget.orderData.products.length > 3
                                   ? 3
                                   : widget.orderData.products.length,
-                              (i) =>
-                                  Container(
+                              (i) => Container(
                                 height: 25.w,
                                 width: 25.w,
                                 margin: EdgeInsets.symmetric(horizontal: 2.w),
@@ -89,25 +93,26 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                               ),
                             ),
                             if (widget.orderData.products.length > 3)
-                            Container(
-                              alignment: Alignment.center,
-                              height: 25.w,
-                              width: 25.w,
-                              margin: EdgeInsets.symmetric(horizontal: 2.w),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffEDF5E6),
-                                borderRadius: BorderRadius.circular(7.r),
-                              ),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  " ${(widget.orderData.products.length - 3)}""+",
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold),
+                              Container(
+                                alignment: Alignment.center,
+                                height: 25.w,
+                                width: 25.w,
+                                margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffEDF5E6),
+                                  borderRadius: BorderRadius.circular(7.r),
+                                ),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    " ${(widget.orderData.products.length - 3)}"
+                                    "+",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         )
                       ],
@@ -327,12 +332,40 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(bottom: 16.r),
-          child: MainButton(
-              text: widget.type == 0 ? "إلغاء الطلب" : "تقييم المنتجات",
-              onPressed: () {},
-              type: widget.type == 0 ? BtnType.cansle : BtnType.elvated),
+        bottomNavigationBar: SizedBox(
+          height: 70.h,
+          width: double.infinity,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 16.r),
+            child: BlocConsumer(
+              bloc: cancelOrderBloc,
+              listener: (context, state) {
+                if (state is CancelOrderSuccessState) {
+                  Navigator.pop(context);
+                }
+              },
+              builder: (context, state) {
+                return MainButton(
+                    text: widget.type == 0 ? "إلغاء الطلب" : "تقييم المنتجات",
+                    isLoading: state is CancelOrderLoadingState,
+                    onPressed: widget.type == 1
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ProductRateScreen(),
+                              ),
+                            );
+                          }
+                        : () {
+                            cancelOrderBloc.id = widget.orderData.id;
+                            cancelOrderBloc.add(CancelOrderEvent());
+
+                          },
+                    type: widget.type == 0 ? BtnType.cansle : BtnType.elvated);
+              },
+            ),
+          ),
         ),
       ),
     );

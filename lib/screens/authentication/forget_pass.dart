@@ -49,11 +49,14 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
                   color: Theme.of(context).hintColor),
             ),
           ),
-          MainTextField(
-              text: 'رقم الجوال ',
-              prefixIcon: 'assets/icons/png/phone.png',
-              controller: bloc.phoneController,
-              type: InputType.phone),
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 16.w),
+            child: MainTextField(
+                text: 'رقم الجوال ',
+                prefixIcon: 'assets/icons/png/phone.png',
+                controller: bloc.phoneController,
+                type: InputType.phone),
+          ),
           BlocConsumer(
             bloc: bloc,
             listener: (context, state) async {

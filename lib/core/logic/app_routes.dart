@@ -23,6 +23,7 @@ import '../../screens/profile_pages/change_lang.dart';
 import '../../screens/profile_pages/contact.dart';
 import '../../screens/profile_pages/paiement_now_from_wallet.dart';
 import '../../screens/profile_pages/transaction_history_from_wallet.dart';
+import '../design/search_screen.dart';
 
 abstract class AppRoutes {
   static String splach = '/';
@@ -53,6 +54,7 @@ abstract class AppRoutes {
   static String vip = '/vip';
   static String paiementNowScreen = '/PaiementNowScreen';
   static String transactionHistory = '/transactionHistory';
+  static String searchScreen = '/searchScreen';
   static GoRouter router = GoRouter(routes: [
     GoRoute(
       path: splach,
@@ -156,6 +158,9 @@ abstract class AppRoutes {
     ), GoRoute(
       path: transactionHistory,
       builder: (context, state) => const TransactionsHistoryScreen(),
+    ), GoRoute(
+      path: searchScreen,
+      builder: (context, state) => const SearchScreen(),
     ),
   ]);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../core/design/custom_app_bar_profile.dart';
@@ -25,6 +26,7 @@ class _SuggestionsScreenState extends State<SuggestionsScreen> {
         child: Scaffold(
           appBar:const CustomAppBarProfile(title: 'الأقتراحات والشكاوي'),
           body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             children: [
               const SizedBox(
                 height: 32,
