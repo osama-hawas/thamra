@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thamra/core/logic/dio_helper.dart';
 
 import '../../core/logic/cache_helper.dart';

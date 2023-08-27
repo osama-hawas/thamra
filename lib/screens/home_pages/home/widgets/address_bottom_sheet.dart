@@ -37,7 +37,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
             SizedBox(
               height: 14.h,
             ),
-            const MainTextStyle(text: "العناوين"),
+            const MainTextStyle(text: "العناوين",fontSize: 20),
             Expanded(
               child: SingleChildScrollView(
                 child: BlocBuilder(
@@ -51,7 +51,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                             (index) => GestureDetector(
                               onTap: () {
                                 Navigator.pop(
-                                    context, state.list[index].location);
+                                    context, state.list[index]);
 
                               },
                               child: Container(
@@ -81,7 +81,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                                             height: 4.h,
                                           ),
                                           MainTextStyle(
-                                              text: state.list[index].type),
+                                              text: state.list[index].type,fontSize: 16),
                                           Text.rich(TextSpan(
                                             children: [
                                               TextSpan(
@@ -218,7 +218,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                     padding:
                         EdgeInsets.symmetric(vertical: 16.h, horizontal: 80.w),
                     color: Colors.white,
-                    child: const MainTextStyle(text: "إضافة عنوان جديد"),
+                    child: const MainTextStyle(text: "إضافة عنوان جديد",fontSize: 15),
                   ),
                 ),
               ),

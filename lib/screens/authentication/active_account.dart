@@ -2,19 +2,19 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
 
 import 'package:thamra/features/active_acount/bloc.dart';
+import 'package:thamra/screens/authentication/login.dart';
 
 import '../../core/design/logo_image.dart';
 import '../../core/design/main_button.dart';
 import '../../core/design/main_text_style.dart';
 import '../../core/design/text_for_login_or_signup.dart';
-import '../../core/logic/app_routes.dart';
 
+import '../../core/logic/helper_methods.dart';
 import '../../features/resend_code/bloc.dart';
 
 class ActivateAccountScreen extends StatefulWidget {
@@ -38,7 +38,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
             const Logo(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: const MainTextStyle(text: 'تفعيل الحساب'),
+              child: const MainTextStyle(text: 'تفعيل الحساب',fontSize: 16),
             ),
             SizedBox(
               height: 10.h,
@@ -70,7 +70,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      GoRouter.of(context).pop();
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'تغيير رقم الجوال',
@@ -118,7 +118,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
               bloc: bloc,
               listener: (context, state) {
                 if (state is ActiveAcountSuccessState) {
-                  GoRouter.of(context).push(AppRoutes.login);
+                  navigateTo(context,route:const LoginScreen());
                 }
               },
               builder: (context, state) {
@@ -193,7 +193,7 @@ class _ActivateAccountScreenState extends State<ActivateAccountScreen> {
                 text: 'لديك حساب بالفعل ؟',
                 signText: 'تسجيل الدخول',
                 onTap: () {
-                  GoRouter.of(context).pushReplacement(AppRoutes.login);
+                  navigateTo(context,route:const LoginScreen());
                 },
               ),
             )

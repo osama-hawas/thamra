@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 
 import '../../core/design/main_text_style.dart';
-import '../../core/logic/app_routes.dart';
 
 import '../../features/delete_address/bloc.dart';
 
@@ -68,7 +67,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                                     SizedBox(
                                       height: 4.h,
                                     ),
-                                    MainTextStyle(text: state.list[index].type),
+                                    MainTextStyle(text: state.list[index].type,fontSize: 14),
                                     Text.rich(TextSpan(
                                       children: [
                                         TextSpan(
@@ -180,7 +179,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
           padding: EdgeInsets.all(16.r),
           child: InkWell(
             onTap: () {
-              GoRouter.of(context).push(AppRoutes.addAddress);
+              navigateTo(context, route: const AddAddressScreen());
             },
             child: DottedBorder(
               strokeWidth: 1,
@@ -194,7 +193,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16.h),
                   height: 55.h,
                   color: const Color(0xffF9FCF5),
-                  child: const MainTextStyle(text: "إضافة عنوان"),
+                  child: const MainTextStyle(text: "إضافة عنوان",fontSize: 15),
                 ),
               ),
             ),

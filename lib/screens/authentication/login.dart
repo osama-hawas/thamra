@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 
 import 'package:thamra/features/login/bloc.dart';
+import 'package:thamra/screens/authentication/sign_up.dart';
 
 import '../../core/design/logo_image.dart';
 import '../../core/design/main_button.dart';
 import '../../core/design/main_text_field.dart';
 import '../../core/design/main_text_style.dart';
 import '../../core/design/text_for_login_or_signup.dart';
+import '../home_pages/view.dart';
+import 'forget_pass.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -35,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Logo(),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
-                child: const MainTextStyle(text: 'مرحبا بك مرة أخرى'),
+                child: const MainTextStyle(text: 'مرحبا بك مرة أخرى',fontSize: 16),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 28.h),
@@ -73,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         EdgeInsetsDirectional.only(end: 16.w, bottom: 22.h),
                     child: InkWell(
                       onTap: () {
-                        GoRouter.of(context).push(AppRoutes.forgetPass);
+                        navigateTo(context, route:const ForgetPassScreen());
                       },
                       child: Text(
                         'نسيت كلمة المرور ؟',
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer(
                   listener: (context, state) {
                     if (state is LoginSuccessStates) {
-                      GoRouter.of(context).pushReplacement(AppRoutes.home);
+                      navigateTo(context, route:const NavView());
                     }
                   },
                   bloc: bloc,
@@ -108,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'ليس لديك حساب ؟',
                     signText: ' تسجيل الأن',
                     onTap: () {
-                      GoRouter.of(context).push(AppRoutes.signUp);
+                     navigateTo(context, route: const SignUpScreen());
                     }),
               ),
             ],

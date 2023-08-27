@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBarProfile({Key? key, required this.title}) : super(key: key);
@@ -24,7 +23,7 @@ class CustomAppBarProfile extends StatelessWidget implements PreferredSizeWidget
             padding:  EdgeInsets.all(8.r),
             child: Image.asset('assets/icons/png/right.png'),
           ),
-          onTap: () {GoRouter.of(context).pop();},
+          onTap: () {Navigator.pop(context);},
 
         ),
       ),

@@ -2,20 +2,18 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:thamra/core/design/search_screen.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 import 'package:thamra/features/home_slider/bloc.dart';
 import 'package:thamra/screens/home_pages/home/widgets/categoru_item.dart';
 import 'package:thamra/screens/home_pages/home/widgets/custom_app_bar.dart';
 import 'package:thamra/screens/home_pages/home/widgets/product_item.dart';
 
 import '../../../core/design/main_text_field.dart';
-import '../../../core/logic/app_routes.dart';
 import '../../../features/get_categories/bloc.dart';
 
 import '../../../features/get_product/bloc.dart';
-
-// slider circle avatare
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -47,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               prefixIcon: 'assets/icons/png/search.png',
               homeInput: true,
               onPress: () {
-                GoRouter.of(context).push(AppRoutes.searchScreen);
+                navigateTo(context, route: const SearchScreen());
               },
             ),
           ),

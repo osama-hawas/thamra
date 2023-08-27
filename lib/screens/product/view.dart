@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/main_button.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
+import 'package:thamra/screens/cart/view.dart';
 
 import 'package:thamra/screens/product/widgets/custom_product_rate.dart';
 
 import '../../core/design/main_product_item.dart';
 import '../../core/design/main_text_style.dart';
-import '../../core/logic/app_routes.dart';
 import '../../features/add_to_cart/bloc.dart';
 import '../../features/get_product/bloc.dart';
 import '../../features/is_fav/bloc.dart';
@@ -64,7 +64,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).pop();
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 32.w,
@@ -133,7 +133,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   children: [
                     Row(
                       children: [
-                        MainTextStyle(text: widget.productData.title),
+                        MainTextStyle(
+                            text: widget.productData.title, fontSize: 22),
                         const Spacer(),
                         Text(
                           "${((widget.productData.discount) * 100).toInt()}%",
@@ -253,7 +254,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                 child: Row(
                   children: [
-                    const MainTextStyle(text: "كود المنتج :"),
+                    const MainTextStyle(text: "كود المنتج :", fontSize: 17),
                     SizedBox(
                       width: 14.w,
                     ),
@@ -278,7 +279,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     SizedBox(
                       height: 12.h,
                     ),
-                    const MainTextStyle(text: "تفاصيل المنتج"),
+                    const MainTextStyle(text: "تفاصيل المنتج", fontSize: 17),
                     SizedBox(height: 10.h),
                     Text(
                       widget.productData.description,
@@ -291,7 +292,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const MainTextStyle(text: "التقييمات"),
+                        const MainTextStyle(text: "التقييمات", fontSize: 17),
                         InkWell(
                           onTap: () {},
                           child: Text(
@@ -307,7 +308,8 @@ class _ProductScreenState extends State<ProductScreen> {
                     const CustomProductRate(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.h),
-                      child: const MainTextStyle(text: "منتجات مشابهة"),
+                      child: const MainTextStyle(
+                          text: "منتجات مشابهة", fontSize: 17),
                     ),
                     BlocBuilder(
                       bloc: bloc,
@@ -341,9 +343,9 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
         bottomNavigationBar: BlocConsumer(
           bloc: addToCartBloc,
-          listener: (context, state)async {
+          listener: (context, state) async {
             if (state is AddToCartSuccessState) {
-            await  _addProductToCart(widget.productData);
+              await _addProductToCart(widget.productData);
             }
           },
           builder: (context, state) {
@@ -376,7 +378,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       "${widget.productData.price * count}" "ر.س",
                       style: TextStyle(
@@ -497,15 +499,14 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: MainButton(
                     text: "التحويل إلى السلة",
                     onPressed: () {
-                      GoRouter.of(context).push(AppRoutes.cart);
-
+                      navigateTo(context, route: const CartScreen());
                     }),
               ),
               Expanded(
                 child: MainButton(
                   text: "تصفح العروض",
                   onPressed: () {
-                    GoRouter.of(context).pop();
+                    Navigator.pop(context);
                   },
                   type: BtnType.outLine,
                 ),

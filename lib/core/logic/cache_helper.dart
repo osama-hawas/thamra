@@ -95,10 +95,15 @@ class CacheHelper {
 
   static Future<void> saveLocation({required String location}) async {
     prefs.setString('location', location);
+  }static String? getLocation() {
+    return prefs.getString("location");
+  }
+  static Future<void> saveLocationId({required String locationId}) async {
+    prefs.setString('locationId', locationId);
   }
 
-  static String? getLocation() {
-    return prefs.getString("location");
+  static String getLocationId() {
+    return prefs.getString("locationId")??"751";
   }
 
   static Future<void> logout() async {

@@ -3,6 +3,7 @@ import 'package:thamra/core/logic/dio_helper.dart';
 import 'package:thamra/features/about_app/bloc.dart';
 import 'package:thamra/features/add_address/bloc.dart';
 import 'package:thamra/features/cancel_order/bloc.dart';
+import 'package:thamra/features/comleting_order/bloc.dart';
 import 'package:thamra/features/confirm_new_pass/bloc.dart';
 import 'package:thamra/features/confirm_pass_code/bloc.dart';
 import 'package:thamra/features/delete_address/bloc.dart';
@@ -61,17 +62,21 @@ void initKiwi() {
   container.registerFactory((c) => DeleteAddressesBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => AddAddressBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetFavBloc(c.resolve<DioHelper>()));
-  container.registerFactory((c) => GetNotificationsBloc(c.resolve<DioHelper>()));
+  container
+      .registerFactory((c) => GetNotificationsBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetOrdersBloc(c.resolve<DioHelper>()));
-  container.registerFactory((c) => GetCatigoryProductBloc(c.resolve<DioHelper>()));
+  container
+      .registerFactory((c) => GetCatigoryProductBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetProductRateBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => FAQsBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => GetContactBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => IsFavBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => ShowCartBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => DeleteFromCartBloc(c.resolve<DioHelper>()));
-  container.registerFactory((c) => UpdateCartAmountBloc(c.resolve<DioHelper>()));
+  container
+      .registerFactory((c) => UpdateCartAmountBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => EditPassBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => AddProductRateBloc(c.resolve<DioHelper>()));
   container.registerFactory((c) => CancelOrderBloc(c.resolve<DioHelper>()));
+  container.registerFactory((c) => CompletingOrderBloc(c.resolve<DioHelper>()));
 }

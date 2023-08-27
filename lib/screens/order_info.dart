@@ -159,7 +159,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w),
-                child: const MainTextStyle(text: "عنوان التوصيل"),
+                child: const MainTextStyle(text: "عنوان التوصيل",fontSize: 17),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
@@ -228,7 +228,7 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.only(start: 16.w),
-                child: const MainTextStyle(text: "ملخص الطلب"),
+                child: const MainTextStyle(text: "ملخص الطلب",fontSize: 17),
               ),
               SizedBox(
                 height: 19.h,

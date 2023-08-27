@@ -10,8 +10,10 @@ import '../../../features/delete_from_cart/bloc.dart';
 import '../../../features/update_item_cart_amount/bloc.dart';
 
 class CartItem extends StatefulWidget {
-  const CartItem({Key? key, required this.cartData}) : super(key: key);
+  const CartItem({Key? key, required this.cartData, required this.refreshCart})
+      : super(key: key);
   final List<CartData> cartData;
+  final Bloc refreshCart;
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -64,7 +66,7 @@ class _CartItemState extends State<CartItem> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MainTextStyle(text: widget.cartData[index].title),
+                    MainTextStyle(text: widget.cartData[index].title,fontSize: 16),
                     SizedBox(
                       height: 4.h,
                     ),
@@ -76,7 +78,13 @@ class _CartItemState extends State<CartItem> {
                     SizedBox(
                       height: 4.h,
                     ),
-                    BlocBuilder(
+                    BlocConsumer(
+                      listener: (context, state) {
+                        if (state is UpdateCartAmountSuccessState) {
+                          widget.refreshCart
+                              .add(ShowCartEvent(isOutLoading: true));
+                        }
+                      },
                       bloc: updateCartBloc,
                       builder: (context, state) {
                         return StatefulBuilder(

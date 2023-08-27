@@ -28,7 +28,7 @@ class _EditPassScreenState extends State<EditPassScreen> {
             const Logo(),
             Padding(
               padding: EdgeInsetsDirectional.only(start: 19.w, bottom: 10.h),
-              child: const MainTextStyle(text: 'تغير كلمة المرور'),
+              child: const MainTextStyle(text: 'تغير كلمة المرور',fontSize: 16),
             ),
             Padding(
               padding: EdgeInsetsDirectional.only(start: 20.w, bottom: 22.h),

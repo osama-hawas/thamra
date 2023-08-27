@@ -10,7 +10,7 @@ class GetNotificationsBloc
     extends Bloc<NotificationsEvents, GetNotificationsStates> {
   final DioHelper dioHelper;
 
-  GetNotificationsBloc(this.dioHelper) : super(GetNotificationsStates()) {
+  GetNotificationsBloc(this.dioHelper) : super(GetNotificationsLoadingStates()) {
     on<GetNotificationsEvents>(_getFavProduct);
   }
 

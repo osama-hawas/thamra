@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thamra/screens/home_pages/fav.dart';
 import 'package:thamra/screens/home_pages/home/view.dart';
 import 'package:thamra/screens/home_pages/my_order/view.dart';
-import 'package:thamra/screens/home_pages/notifications/view.dart';
+import 'package:thamra/screens/home_pages/notifications.dart';
 import 'package:thamra/screens/home_pages/profile.dart';
 
 class NavView extends StatefulWidget {

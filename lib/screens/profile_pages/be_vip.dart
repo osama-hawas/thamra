@@ -74,7 +74,7 @@ class VipScreen extends StatelessWidget {
                 SizedBox(
                   width: 7.w,
                 ),
-              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا")
+              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا",fontSize: 15)
               ],
             ),
             SizedBox(height:19.h,),
@@ -98,7 +98,7 @@ class VipScreen extends StatelessWidget {
                 SizedBox(
                   width: 7.w,
                 ),
-               const MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا")
+               const MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا",fontSize: 15)
               ],
             ),SizedBox(height:19.h,),
             Row(
@@ -121,7 +121,7 @@ class VipScreen extends StatelessWidget {
                 SizedBox(
                   width: 7.w,
                 ),
-              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا")
+              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا",fontSize: 15)
               ],
             ),SizedBox(height:19.h,),
             Row(
@@ -144,7 +144,7 @@ class VipScreen extends StatelessWidget {
                 SizedBox(
                   width: 7.w,
                 ),
-              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا")
+              const  MainTextStyle(text: "تسوق من المتجر ودفع التكاليف شهريا",fontSize: 16)
               ],
             ),
           ],

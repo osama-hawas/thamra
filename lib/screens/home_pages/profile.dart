@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 
 import 'package:thamra/features/logout/bloc.dart';
+import 'package:thamra/screens/authentication/login.dart';
+import 'package:thamra/screens/product_rate.dart';
+import 'package:thamra/screens/profile_pages/about_app.dart';
+import 'package:thamra/screens/profile_pages/addreses.dart';
+import 'package:thamra/screens/profile_pages/be_vip.dart';
+import 'package:thamra/screens/profile_pages/change_lang.dart';
+import 'package:thamra/screens/profile_pages/faqs.dart';
+import 'package:thamra/screens/profile_pages/paiment.dart';
+import 'package:thamra/screens/profile_pages/privacy.dart';
+import 'package:thamra/screens/profile_pages/profile_info.dart';
+import 'package:thamra/screens/profile_pages/suggestions.dart';
+import 'package:thamra/screens/profile_pages/wallet.dart';
 
 import '../../core/logic/cache_helper.dart';
+import '../profile_pages/contact.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -52,28 +63,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'الشروط والأحكام',
       'تقييم التطبيق',
     ],
-    "route": [
-      AppRoutes.profileinfo,
-      AppRoutes.wallet,
-      AppRoutes.adresses,
-      AppRoutes.paiements,
-      AppRoutes.faqs,
-      AppRoutes.vip,
-      AppRoutes.privacyscreen,
-      AppRoutes.contentwithus,
-      AppRoutes.suggestionPage,
-      AppRoutes.shareapp,
-      AppRoutes.aboutApp,
-      AppRoutes.changelang,
-      AppRoutes.strokeandtightness,
-      AppRoutes.rateapp,
+    "route":const [
+      ProfileInfoScreen(),
+      WalletScreen(),
+      AddressesScreen(),
+      PaiementsScreen(),
+      FAQsScreen(),
+      VipScreen(),
+      PrivacyScreen(),
+      ConnectUsScreen(),
+      SuggestionsScreen(),
+      AboutAppScreen(),
+      AboutAppScreen(),
+      ChangeLangScreen(),
+      AboutAppScreen(),
+      ProductRateScreen(),
     ],
   };
 
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -89,7 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottomLeft: Radius.circular(40.r),
                       bottomRight: Radius.circular(40.r)),
                   image: const DecorationImage(
-                      image: AssetImage('assets/icons/png/background_shadow.png'),
+                      image:
+                          AssetImage('assets/icons/png/background_shadow.png'),
                       fit: BoxFit.fill),
                 ),
                 child: Column(
@@ -143,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   profileItems["icon"].length,
                   (index) => GestureDetector(
                     onTap: () {
-                      GoRouter.of(context).push(profileItems['route'][index]);
+                      navigateTo(context, route: profileItems['route'][index]);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
@@ -196,16 +206,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 bloc: logoutBloc,
                 listener: (context, state) {
                   if (state is LogoutSuccessState) {
-
-                    GoRouter.of(context).pushReplacement(AppRoutes.login);
+                    navigateTo(context, route:const  LoginScreen());
                   }
-
                 },
                 builder: (context, state) {
                   return GestureDetector(
                     onTap: () {
                       logoutBloc.add(LogoutEvent());
-
                     },
                     child: Container(
                       alignment: Alignment.center,

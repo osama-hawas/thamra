@@ -82,7 +82,7 @@ class MainButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.r),
             ),
           ),
-          child: FittedBox(child: Text(text),fit: BoxFit.scaleDown,),
+          child: FittedBox(fit: BoxFit.scaleDown,child: Text(text),),
         ),
       );
     }

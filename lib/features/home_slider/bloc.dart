@@ -1,5 +1,5 @@
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thamra/core/logic/dio_helper.dart';
 part  'events.dart';
 part  'states.dart';
