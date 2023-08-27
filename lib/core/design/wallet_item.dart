@@ -30,8 +30,8 @@ class WalletItem extends StatelessWidget {
               SizedBox(
                 width: 9.w,
               ),
-              MainTextStyle(text: "شحن المحفظة"),
-              Spacer(),
+             const MainTextStyle(text: "شحن المحفظة",fontSize: 17),
+            const  Spacer(),
               Text(
                 "22/5/2022",
                 style: TextStyle(color: Theme.of(context).hintColor),
@@ -40,7 +40,7 @@ class WalletItem extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 50.w),
-            child: const MainTextStyle(text: "255 ر.س"),
+            child: const MainTextStyle(text: "255 ر.س",fontSize: 24),
           )
         ],
       ),

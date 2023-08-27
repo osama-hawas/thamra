@@ -2,13 +2,10 @@ part of 'bloc.dart';
 
 class CategoriesModel {
   late final List<CategoryData> categoryData;
- 
-
 
   CategoriesModel.fromJson(Map<String, dynamic> json) {
-    categoryData = List.from(json['data']).map((e) => CategoryData.fromJson(e)).toList();
-
-
+    categoryData =
+        List.from(json['data']).map((e) => CategoryData.fromJson(e)).toList();
   }
 }
 
@@ -25,7 +22,3 @@ class CategoryData {
     media = json['media'];
   }
 }
-
-
-
-

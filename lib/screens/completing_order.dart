@@ -1,15 +1,36 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
 import 'package:thamra/core/design/main_button.dart';
 import 'package:thamra/core/design/main_text_field.dart';
 import 'package:thamra/core/design/main_text_style.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 import 'package:thamra/screens/home_pages/home/widgets/address_bottom_sheet.dart';
+import 'package:thamra/screens/profile_pages/add_address.dart';
 
-class CompletingOrderScreen extends StatelessWidget {
-  const CompletingOrderScreen({Key? key}) : super(key: key);
+import '../core/logic/cache_helper.dart';
+import '../features/comleting_order/bloc.dart';
+import '../features/get_addresses/bloc.dart';
+import '../features/show_cart/bloc.dart';
+import 'home_pages/view.dart';
+
+class CompletingOrderScreen extends StatefulWidget {
+  const CompletingOrderScreen({Key? key, required this.cartModel})
+      : super(key: key);
+  final CartModel cartModel;
+
+  @override
+  State<CompletingOrderScreen> createState() => _CompletingOrderScreenState();
+}
+
+class _CompletingOrderScreenState extends State<CompletingOrderScreen> {
+  final bloc = KiwiContainer().resolve<CompletingOrderBloc>();
+  String? formattedDate;
+  TimeOfDay? time;
+  AddressData? addressData;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +42,12 @@ class CompletingOrderScreen extends StatelessWidget {
           SizedBox(
             height: 30.h,
           ),
-          const MainTextStyle(text: "الإسم : محمد"),
+          MainTextStyle(text: "الإسم : ${CacheHelper.getName()}", fontSize: 17),
           SizedBox(
             height: 10.h,
           ),
-          const MainTextStyle(text: "الجوال : 05068285914"),
+          MainTextStyle(
+              text: "الجوال : ${CacheHelper.getPhone()}", fontSize: 17),
           SizedBox(
             height: 37.h,
           ),
@@ -35,13 +57,15 @@ class CompletingOrderScreen extends StatelessWidget {
                 "اختر عنوان التوصيل",
                 style: TextStyle(
                     fontSize: 17.sp,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                     fontWeight: FontWeight.w900),
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
-                  GoRouter.of(context).push(AppRoutes.addAddress);
+                  navigateTo(context, route: const AddAddressScreen());
                 },
                 child: Container(
                   height: 26.w,
@@ -49,7 +73,10 @@ class CompletingOrderScreen extends StatelessWidget {
                   padding: EdgeInsets.all(7.r),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7.r),
-                      color: Theme.of(context).primaryColor.withOpacity(.16)),
+                      color: Theme
+                          .of(context)
+                          .primaryColor
+                          .withOpacity(.16)),
                   child: Image.asset(
                     "assets/icons/png/add.png",
                     fit: BoxFit.fill,
@@ -62,24 +89,39 @@ class CompletingOrderScreen extends StatelessWidget {
             height: 18.h,
           ),
           GestureDetector(
-            onTap: () {
-              showModelBottomSheet(context);
+            onTap: () async {
+              addressData = await showModelBottomSheet(context);
+              if (addressData != null) {
+                CacheHelper.saveLocation(
+                    location: addressData!.location.toString());
+              }
+
+              setState(() {});
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17.r),
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme
+                      .of(context)
+                      .primaryColor,
                 ),
               ),
               child: Row(
                 children: [
-                  MainTextStyle(text: "المنزل : 119 طريق الملك عبدالعزيز"),
-                  Spacer(),
+                  MainTextStyle(
+                      text:
+                      "العنوان : ${(addressData != null ? addressData!.location
+                          .toString() : CacheHelper.getLocation() ??
+                          'شارع الملك فهد - جدة')}",
+                      fontSize: 15),
+                  const Spacer(),
                   Icon(
                     Icons.keyboard_arrow_down,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                   )
                 ],
               ),
@@ -92,7 +134,9 @@ class CompletingOrderScreen extends StatelessWidget {
             "تحديد وقت التوصيل",
             style: TextStyle(
                 fontSize: 17.sp,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 fontWeight: FontWeight.w900),
           ),
           SizedBox(
@@ -101,38 +145,63 @@ class CompletingOrderScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20.r),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    border: Border.all(
-                      color: Theme.of(context).hintColor.withOpacity(.5),
+                child: GestureDetector(
+                  onTap: () async {
+                    DateTime? pickedDate = await (showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2018),
+                        lastDate: DateTime(2030)));
+
+                    if (pickedDate != null) {
+                      formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                    }
+                    bloc.date = formattedDate!;
+                    setState(() {
+
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(20.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(
+                        color: Theme
+                            .of(context)
+                            .hintColor
+                            .withOpacity(.5),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            "اختر اليوم والتاريخ",
-                            style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w900),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              formattedDate == null
+                                  ? "اختر اليوم والتاريخ"
+                                  : formattedDate.toString(),
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Image.asset(
-                        "assets/icons/png/day_cart.png",
-                        height: 17.w,
-                        width: 17.w,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ],
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Image.asset(
+                          "assets/icons/png/day_cart.png",
+                          height: 17.w,
+                          width: 17.w,
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -140,38 +209,60 @@ class CompletingOrderScreen extends StatelessWidget {
                 width: 16.w,
               ),
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20.r),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    border: Border.all(
-                      color: Theme.of(context).hintColor.withOpacity(.5),
+                child: GestureDetector(
+                  onTap: () async {
+                    TimeOfDay? getTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (getTime != null) {
+                      time = getTime;
+                      bloc.time = time!;
+                    }
+                    setState(() {
+
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(20.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(
+                        color: Theme
+                            .of(context)
+                            .hintColor
+                            .withOpacity(.5),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            "اختر اليوم والتاريخ",
-                            style: TextStyle(
-                                fontSize: 15.sp,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w900),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              time == null
+                                  ? "اختر الوقت"
+                                  : "${time!.hour}:${time!.minute}",
+                              style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Image.asset(
-                        "assets/icons/png/day_cart.png",
-                        height: 17.w,
-                        width: 17.w,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ],
+                        SizedBox(
+                          width: 8.w,
+                        ),
+                        Image.asset(
+                          "assets/icons/png/date_cart.png",
+                          height: 17.w,
+                          width: 17.w,
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -184,7 +275,9 @@ class CompletingOrderScreen extends StatelessWidget {
             "ملاحظات وتعليمات",
             style: TextStyle(
                 fontSize: 17.sp,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 fontWeight: FontWeight.w900),
           ),
           SizedBox(
@@ -193,12 +286,15 @@ class CompletingOrderScreen extends StatelessWidget {
           MainTextField(
             text: "",
             minLines: 5,
+            controller: bloc.noteController,
           ),
           Text(
             "اختر طريقة الدفع",
             style: TextStyle(
                 fontSize: 17.sp,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 fontWeight: FontWeight.w900),
           ),
           SizedBox(
@@ -214,7 +310,10 @@ class CompletingOrderScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     border: Border.all(
-                      color: Theme.of(context).hintColor.withOpacity(.5),
+                      color: Theme
+                          .of(context)
+                          .primaryColor
+                          .withOpacity(.5),
                     ),
                   ),
                   child: Row(
@@ -225,7 +324,7 @@ class CompletingOrderScreen extends StatelessWidget {
                       SizedBox(
                         width: 6.w,
                       ),
-                      const MainTextStyle(text: "كاش"),
+                      const MainTextStyle(text: "كاش", fontSize: 18),
                     ],
                   ),
                 ),
@@ -241,7 +340,10 @@ class CompletingOrderScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     border: Border.all(
-                      color: Theme.of(context).hintColor.withOpacity(.5),
+                      color: Theme
+                          .of(context)
+                          .hintColor
+                          .withOpacity(.5),
                     ),
                   ),
                   child: Image.asset(
@@ -261,7 +363,10 @@ class CompletingOrderScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(11.r),
                     border: Border.all(
-                      color: Theme.of(context).hintColor.withOpacity(.5),
+                      color: Theme
+                          .of(context)
+                          .hintColor
+                          .withOpacity(.5),
                     ),
                   ),
                   child: Image.asset(
@@ -279,7 +384,9 @@ class CompletingOrderScreen extends StatelessWidget {
             "اختر طريقة الدفع",
             style: TextStyle(
                 fontSize: 17.sp,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 fontWeight: FontWeight.w900),
           ),
           SizedBox(
@@ -300,16 +407,20 @@ class CompletingOrderScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme
+                              .of(context)
+                              .primaryColor),
                     ),
                     const Spacer(),
                     Text(
-                        "4000"
-                        "ر.س",
+                        "${widget.cartModel.totalPriceBeforeDiscount
+                            .toString()}ر.س",
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme
+                                .of(context)
+                                .primaryColor)),
                   ],
                 ),
                 SizedBox(
@@ -322,16 +433,18 @@ class CompletingOrderScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme
+                              .of(context)
+                              .primaryColor),
                     ),
                     const Spacer(),
-                    Text(
-                        "-50"
-                        "ر.س",
+                    Text("${widget.cartModel.deliveryCost.toString()}ر.س",
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme
+                                .of(context)
+                                .primaryColor)),
                   ],
                 ),
                 SizedBox(
@@ -344,16 +457,18 @@ class CompletingOrderScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme
+                              .of(context)
+                              .primaryColor),
                     ),
                     const Spacer(),
-                    Text(
-                        "-50"
-                        "ر.س",
+                    Text("- ${widget.cartModel.totalDiscount.toString()}ر.س",
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme
+                                .of(context)
+                                .primaryColor)),
                   ],
                 ),
                 const Divider(
@@ -369,16 +484,18 @@ class CompletingOrderScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme
+                              .of(context)
+                              .primaryColor),
                     ),
                     const Spacer(),
-                    Text(
-                        "300"
-                        "ر.س",
+                    Text("${widget.cartModel.totalPriceWithVat.toString()}ر.س",
                         style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColor)),
+                            color: Theme
+                                .of(context)
+                                .primaryColor)),
                   ],
                 ),
               ],
@@ -387,7 +504,37 @@ class CompletingOrderScreen extends StatelessWidget {
           SizedBox(
             height: 32.h,
           ),
-          MainButton(text: "إنهاء الطلب", onPressed: () {}),
+          BlocConsumer(
+            bloc: bloc,
+            listener: (context, state) {
+              if (state is CompletingOrderSuccessState) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NavView(),
+                    ));
+              }
+              if (state is CompletingOrderFailedState) {
+                showMSG(message: state.msg);
+              }
+            },
+            builder: (context, state) {
+              return MainButton(
+                  text: "إنهاء الطلب",
+                  isLoading: state is CompletingOrderLoadingState,
+                  onPressed: () {
+                    if (formattedDate != null && time
+                        .toString()
+                        .isNotEmpty) {
+                      bloc.addressId =
+                      addressData != null ? addressData!.id.toString():CacheHelper.getLocationId();
+                      bloc.add(CompletingOrderEvent());
+                    } else {
+                      showMSG(message: "الوقت والتاريخ مطلوبين");
+                    }
+                  });
+            },
+          ),
           SizedBox(
             height: 16.h,
           ),

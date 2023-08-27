@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,7 +51,7 @@ class PaiementsScreen extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(vertical: 16.h, horizontal: 80.w),
                   color: Theme.of(context).primaryColor.withOpacity(.16),
-                  child: const Center(child: MainTextStyle(text: "اشحن الآن")),
+                  child: const Center(child: MainTextStyle(text: "اشحن الآن",fontSize: 15)),
                 ),
               ),
             ),

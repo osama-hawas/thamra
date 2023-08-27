@@ -18,7 +18,7 @@ class PaiementNowScreen extends StatelessWidget {
           SizedBox(
             height: 64.h,
           ),
-          const MainTextStyle(text: "معلومات المبلغ"),
+          const MainTextStyle(text: "معلومات المبلغ",fontSize: 15),
           SizedBox(
             height: 8.h,
           ),
@@ -29,7 +29,7 @@ class PaiementNowScreen extends StatelessWidget {
           SizedBox(
             height: 24.h,
           ),
-          const MainTextStyle(text: "معلومات البطاقة"),
+          const MainTextStyle(text: "معلومات البطاقة",fontSize: 15),
           MainTextField(
             text: "الاسم",
             homeInput: true,

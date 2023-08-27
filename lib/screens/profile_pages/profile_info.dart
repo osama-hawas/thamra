@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
@@ -35,7 +34,6 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      // key: formkey,
       child: Scaffold(
         appBar: const CustomAppBarProfile(
           title: "البيانات الشخصية",
@@ -53,8 +51,8 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                 return Center(
                   child: GestureDetector(
                     onTap: () async {
-                      final image = await ImagePicker.platform.pickImage(
-                          source: ImageSource.gallery, imageQuality: 30);
+                      final image = await ImagePicker.platform.getImageFromSource(
+                          source: ImageSource.camera );
                       if (image != null) {
                         editProfileBloc.selectedImage = File(image.path);
                       }
@@ -193,7 +191,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                                                   onTap: () {
                                                     editProfileBloc.cityId =
                                                         state.list[index].id;
-                                                    GoRouter.of(context).pop(
+                                                    Navigator.pop(context,
                                                         state.list[index].name);
                                                   },
                                                   child: Container(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
 
@@ -11,9 +10,10 @@ import '../../core/design/main_button.dart';
 import '../../core/design/main_text_field.dart';
 import '../../core/design/main_text_style.dart';
 import '../../core/design/text_for_login_or_signup.dart';
-import '../../core/logic/app_routes.dart';
 
+import '../../core/logic/helper_methods.dart';
 import '../../features/forget_pass/bloc.dart';
+import 'confirm_pass_code.dart';
 
 class ForgetPassScreen extends StatefulWidget {
   const ForgetPassScreen({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
           const Logo(),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 27.w, bottom: 10.h),
-            child: const MainTextStyle(text: 'نسيت كلمة المرور'),
+            child: const MainTextStyle(text: 'نسيت كلمة المرور',fontSize: 16),
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(start: 30.w, bottom: 28.h),
@@ -64,7 +64,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
 
                 await CacheHelper.savePhoneFromRegister(
                     phone: bloc.phoneController.text).then((value) {
-                  GoRouter.of(context).push(AppRoutes.passCode);
+                  navigateTo(context,route:const ConfirmPassCodeScreen());
 
                 });
               }
@@ -87,7 +87,7 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
               text: 'لديك حساب بالفعل ؟',
               signText: 'تسجيل الدخول',
               onTap: () {
-                GoRouter.of(context).pop();
+                Navigator.pop(context);
               },
             ),
           )

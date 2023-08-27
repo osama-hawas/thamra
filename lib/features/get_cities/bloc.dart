@@ -14,6 +14,7 @@ class GetCitiesBloc extends Bloc<CitiesEvents, GetCitiesStates> {
   }
 
   void _getCities(GetCitiesEvent event, Emitter<GetCitiesStates> emit) async {
+
     emit(GetCitiesLoadingState());
     final response = await dioHelper.get("cities/1");
     if (response.isSuccess) {

@@ -11,14 +11,10 @@ class SearchScreen extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-          child: Column(
-            children: [
-              MainTextField(
-                text: 'ابحث عن ماتريد؟',
-                prefixIcon: 'assets/icons/png/search.png',
-                homeInput: true,
-              ),
-            ],
+          child: MainTextField(
+            text: 'ابحث عن ماتريد؟',
+            prefixIcon: 'assets/icons/png/search.png',
+            homeInput: true,
           ),
         ),
       ),

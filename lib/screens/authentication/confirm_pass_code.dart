@@ -2,11 +2,10 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/screens/authentication/confirm_new_pass.dart';
 
 import '../../core/design/logo_image.dart';
 import '../../core/design/main_button.dart';
@@ -15,6 +14,7 @@ import '../../core/design/text_for_login_or_signup.dart';
 import '../../core/logic/helper_methods.dart';
 import '../../features/confirm_pass_code/bloc.dart';
 import '../../features/resend_code/bloc.dart';
+import 'login.dart';
 
 
 class ConfirmPassCodeScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child:const MainTextStyle(
-                text: 'نسيت كلمة المرور',
+                text: 'نسيت كلمة المرور',fontSize: 16,
               ),
             ),
             Padding(
@@ -68,7 +68,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      GoRouter.of(context).pop();
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'تغيير رقم الجوال',
@@ -119,7 +119,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                 if (state is ConfirmPassCodeSuccessState) {
                   showMSG(message: "الكود صحيح");
                   CacheHelper.saveCode(code: bloc.code.text);
-                  GoRouter.of(context).push(AppRoutes.confirmNewPass);
+                  navigateTo(context,route:const ConfirmNewPassScreen());
                 }
                 if (state is ConfirmPassCodeFailedState) {
 
@@ -210,7 +210,7 @@ class _ConfirmPassCodeScreenState extends State<ConfirmPassCodeScreen> {
                 text: 'لديك حساب بالفعل ؟',
                 signText: 'تسجيل الدخول',
                 onTap: () {
-                  GoRouter.of(context).push(AppRoutes.login);
+                  navigateTo(context,route:const LoginScreen());
                 },
               ),
             )

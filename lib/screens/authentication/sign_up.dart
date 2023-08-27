@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 
 import 'package:thamra/features/sign_up/bloc.dart';
 
@@ -15,6 +14,7 @@ import '../../core/design/main_text_field.dart';
 import '../../core/design/main_text_style.dart';
 import '../../core/design/text_for_login_or_signup.dart';
 import '../../features/get_cities/bloc.dart';
+import 'active_account.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const Logo(),
             Padding(
               padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 10.h),
-              child: const MainTextStyle(text: 'مرحبا بك مرة أخرى'),
+              child: const MainTextStyle(text: 'مرحبا بك مرة أخرى',fontSize: 16),
             ),
             Padding(
               padding: EdgeInsetsDirectional.only(start: 16.w, bottom: 22.h),
@@ -127,8 +127,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       onTap: () {
                                                         bloc.cityId = state
                                                             .list[index].id;
-                                                        GoRouter.of(context)
-                                                            .pop(state
+                                                        Navigator
+                                                            .pop(context,state
                                                                 .list[index]
                                                                 .name);
                                                       },
@@ -218,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 if (state is SignUpSuccessState) {
                   CacheHelper.savePhoneFromRegister(
                       phone: bloc.phoneController.text);
-                  GoRouter.of(context).push(AppRoutes.activateAccount);
+                 navigateTo(context, route:const ActivateAccountScreen());
                 }
               },
               builder: (context, state) {
@@ -236,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: 'لديك حساب بالفعل ؟',
                 signText: 'تسجيل الدخول',
                 onTap: () {
-                  GoRouter.of(context).pop();
+                  Navigator.pop(context);
                 },
               ),
             ),

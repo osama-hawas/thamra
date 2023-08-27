@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thamra/core/logic/color_genrate.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
 import 'package:thamra/features/kiwi.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/screens/authentication/splach.dart';
 
 import 'firebase_options.dart';
 
@@ -21,9 +21,6 @@ void main() async {
     print(value);
   });
 
-
-
-
   await CacheHelper.init();
   initKiwi();
   runApp(
@@ -31,7 +28,6 @@ void main() async {
         supportedLocales: const [Locale('en'), Locale('ar')],
         path: 'assets/translations',
         fallbackLocale: const Locale('ar'),
-
         startLocale: const Locale('ar'),
         child: const MyApp()),
   );
@@ -43,12 +39,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-     const SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
           statusBarColor: Color(0xff4C8613),
           statusBarIconBrightness: Brightness.light),
     );
-
-
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -56,7 +50,7 @@ class MyApp extends StatelessWidget {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
-        child: MaterialApp.router(
+        child: MaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
@@ -69,7 +63,7 @@ class MyApp extends StatelessWidget {
             hintColor: const Color(0xffA7A7A7),
           ),
           debugShowCheckedModeBanner: false,
-          routerConfig: AppRoutes.router,
+          home: const SplachScreen(),
         ),
       ),
     );

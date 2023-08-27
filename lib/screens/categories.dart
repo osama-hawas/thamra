@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
+import 'package:thamra/core/design/search_screen.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 import 'package:thamra/screens/shimmers/shimmer_grid.dart';
 
 import '../core/design/main_product_item.dart';
-import '../core/logic/app_routes.dart';
 import '../features/get_categories/bloc.dart';
 import '../features/get_catigory_product/bloc.dart';
 
@@ -52,7 +52,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).push(AppRoutes.searchScreen);
+                        navigateTo(context, route: const SearchScreen());
                       },
                       child: Row(
                         children: [
@@ -72,11 +72,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 color: const Color(0xffB9C9A8),
                                 fontWeight: FontWeight.w400),
                           ),
-
                         ],
                       ),
                     ),
-
                     Container(
                         padding: EdgeInsets.all(10.r),
                         decoration: BoxDecoration(

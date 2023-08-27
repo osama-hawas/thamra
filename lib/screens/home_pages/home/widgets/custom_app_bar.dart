@@ -2,10 +2,11 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
+import 'package:thamra/screens/cart/view.dart';
 
 import '../../../../core/logic/cache_helper.dart';
+import '../../../../features/get_addresses/bloc.dart';
 import 'address_bottom_sheet.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -16,7 +17,7 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  String? location;
+  AddressData? addressData;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +49,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
               flex: 2,
               child: GestureDetector(
                 onTap: () async {
-                  location = await showModelBottomSheet(context);
-                  if (location != null) {
-                    CacheHelper.saveLocation(location: location.toString());
+                  addressData = await showModelBottomSheet(context);
+                  if (addressData != null) {
+                    CacheHelper.saveLocation(
+                        location: addressData!.location.toString());
+                    CacheHelper.saveLocationId(
+                        locationId: addressData!.id.toString());
                   }
                   setState(() {});
                 },
@@ -67,8 +71,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        location != null
-                            ? location.toString()
+                        addressData != null
+                            ? addressData!.location.toString()
                             : CacheHelper.getLocation() ??
                                 'شارع الملك فهد - جدة',
                         style: TextStyle(
@@ -84,7 +88,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             const Spacer(),
             GestureDetector(
               onTap: () {
-                GoRouter.of(context).push(AppRoutes.cart);
+                navigateTo(context, route:const CartScreen());
               },
               child: Badge(
                 badgeStyle: BadgeStyle(

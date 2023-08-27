@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:thamra/core/logic/cache_helper.dart';
-import 'package:thamra/core/logic/app_routes.dart';
+import 'package:thamra/screens/authentication/login.dart';
+import 'package:thamra/screens/home_pages/view.dart';
 
 class SplachScreen extends StatefulWidget {
   const SplachScreen({Key? key}) : super(key: key);
@@ -19,11 +19,18 @@ class _SplachScreenState extends State<SplachScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-
       if (CacheHelper.getUserToken() != null) {
-        GoRouter.of(context).pushReplacement(AppRoutes.home);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NavView(),
+            ));
       } else {
-        GoRouter.of(context).pushReplacement(AppRoutes.login);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ));
       }
     });
   }

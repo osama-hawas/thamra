@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thamra/core/design/custom_app_bar_profile.dart';
 import 'package:thamra/core/design/main_button.dart';
+import 'package:thamra/core/logic/helper_methods.dart';
 import 'package:thamra/screens/cart/widgets/cart_item.dart';
 import 'package:thamra/screens/cart/widgets/cart_text_field.dart';
 import 'package:thamra/screens/completing_order.dart';
@@ -33,11 +34,14 @@ class _CartScreenState extends State<CartScreen> {
             child: BlocBuilder(
               bloc: showCartBloc,
               builder: (context, state) {
-                if (state is ShowCartSuccessState) {
+                if (state is ShowCartSuccessState ||
+                    state is ShowCartOutLoadingState) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CartItem(cartData: state.cartModel.data),
+                      CartItem(
+                          cartData: showCartBloc.cartModel.data,
+                          refreshCart: showCartBloc),
                       const CartTextField(),
                       SizedBox(
                         height: 10.h,
@@ -75,7 +79,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                    "${state.cartModel.totalPriceBeforeDiscount}"
+                                    "${showCartBloc.cartModel.totalPriceBeforeDiscount}"
                                     "ر.س",
                                     style: TextStyle(
                                         fontSize: 15.sp,
@@ -97,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                    "-${(state.cartModel.totalDiscount).toInt()}"
+                                    "-${(showCartBloc.cartModel.totalDiscount).toInt()}"
                                     "ر.س",
                                     style: TextStyle(
                                         fontSize: 15.sp,
@@ -125,7 +129,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                    "${state.cartModel.totalPriceWithVat}"
+                                    "${showCartBloc.cartModel.totalPriceWithVat}"
                                     "ر.س",
                                     style: TextStyle(
                                         fontSize: 15.sp,
@@ -142,19 +146,26 @@ class _CartScreenState extends State<CartScreen> {
                       MainButton(
                           text: "الانتقال لإتمام الطلب",
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CompletingOrderScreen(),
-                                ));
+                            if (showCartBloc.cartModel.data.isNotEmpty) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompletingOrderScreen(
+                                        cartModel: showCartBloc.cartModel),
+                                  ));
+                            } else {
+                              showMSG(message: "Cart is Empty");
+                            }
                           }),
                       SizedBox(
                         height: 16.h,
                       ),
                     ],
                   );
-                } else {
+                } else if (state is ShowCartLoadingState) {
                   return const ShimmerListView();
+                } else {
+                  return const Text("Failed");
                 }
               },
             ),

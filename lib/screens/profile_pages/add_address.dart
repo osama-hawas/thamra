@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -34,8 +33,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   void initState() {
     super.initState();
     if (widget.addressData != null) {
-      print(widget.addressData!.type);
-      print("*" * 30);
+
 
       isSelected = widget.addressData!.type == "work" ? true : false;
     } else {
@@ -199,7 +197,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             bloc: bloc,
             listener: (context, state) {
               if (state is AddAddressSuccessState) {
-                GoRouter.of(context).pop();
+                Navigator.pop(context);
               }
             },
             builder: (context, state) {

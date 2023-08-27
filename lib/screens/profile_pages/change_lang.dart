@@ -32,7 +32,7 @@ class _ChangeLangScreenState extends State<ChangeLangScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                const  MainTextStyle(text: "العربية"),
+                const  MainTextStyle(text: "العربية",fontSize: 16),
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
@@ -68,7 +68,7 @@ class _ChangeLangScreenState extends State<ChangeLangScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                const  MainTextStyle(text: "English"),
+                const  MainTextStyle(text: "English",fontSize: 16),
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
