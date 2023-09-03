@@ -16,7 +16,7 @@ class AboutAppScreen extends StatefulWidget {
 }
 
 class _AboutAppScreenState extends State<AboutAppScreen> {
-  final cubit = KiwiContainer().resolve<AboutAppBloc>()..add(GetAboutAppDataEvent());
+  final bloc = KiwiContainer().resolve<AboutAppBloc>()..add(GetAboutAppDataEvent());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
       child: Scaffold(
           appBar:const CustomAppBarProfile(title: 'عن التطبيق'),
           body: BlocBuilder(
-            bloc: cubit,
+            bloc: bloc,
             builder: (context, state) {
               if (state is AboutApploadingState) {
                 return const Center(
@@ -41,7 +41,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     Padding(
                       padding:  EdgeInsets.all(13.r),
                       child: Html(
-                        data: cubit.data,
+                        data: bloc.data,
                       ),
                     )
                   ],
