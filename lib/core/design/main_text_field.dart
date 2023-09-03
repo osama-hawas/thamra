@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
-enum InputType { phone, pass, normal, editPass }
+enum InputType { phone, pass, normal, editPass, search }
 
 class MainTextField extends StatefulWidget {
   final String text;
   void Function(String)? onChanged;
-  final VoidCallback? onPress;
+  final VoidCallback? onPress, filterSearch,iconPressed;
   final String? prefixIcon;
   final InputType type;
   final int minLines;
@@ -25,6 +26,7 @@ class MainTextField extends StatefulWidget {
     this.minLines = 1,
     this.controller,
     this.onPress,
+    this.iconPressed, this.filterSearch,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class _MainTextFieldState extends State<MainTextField> {
     return GestureDetector(
       onTap: widget.onPress,
       child: Padding(
-        padding:  EdgeInsets.symmetric(vertical: 16.h),
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         child: TextFormField(
           keyboardType: widget.type == InputType.phone
               ? TextInputType.phone
@@ -73,7 +75,20 @@ class _MainTextFieldState extends State<MainTextField> {
                         "assets/icons/png/left.png",
                         fit: BoxFit.scaleDown,
                       )
-                    : null,
+                    : widget.type == InputType.search
+                        ? GestureDetector(
+              onTap: widget.filterSearch,
+                          child: Container(
+                              margin: EdgeInsets.all(10.r),
+                              padding: EdgeInsets.all(10.r),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11.r),
+                                  color: Theme.of(context).primaryColor),
+                              child: SvgPicture.asset(
+                                  "assets/icons/svg/search_setting.svg"),
+                            ),
+                        )
+                        : null,
             fillColor: widget.homeInput
                 ? const Color(0xffB9C9A8).withOpacity(.13)
                 : const Color(0xffFFFFFF),
@@ -109,10 +124,13 @@ class _MainTextFieldState extends State<MainTextField> {
                   )
                 : null,
             prefixIcon: widget.prefixIcon != null
-                ? Image.asset(
-                    widget.prefixIcon!,
-                    fit: BoxFit.scaleDown,
-                    height: 20.h,
+                ? GestureDetector(
+                    onTap: widget.iconPressed,
+                    child: Image.asset(
+                      widget.prefixIcon!,
+                      fit: BoxFit.scaleDown,
+                      height: 20.h,
+                    ),
                   )
                 : null,
             enabledBorder: OutlineInputBorder(
@@ -120,7 +138,6 @@ class _MainTextFieldState extends State<MainTextField> {
                 borderSide: const BorderSide(color: Color(0xffF3F3F3))),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.r),
-
               borderSide: const BorderSide(
                 color: Color(0xffF3F3F3),
               ),

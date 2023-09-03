@@ -9,17 +9,7 @@ class CacheHelper {
     prefs = await SharedPreferences.getInstance();
   }
 
-  static void addTitle(title) async {
-    prefs.setString("title", title);
-  }
 
-  static String showTitle() {
-    return prefs.getString("title") ?? "";
-  }
-
-  static Future<void> removeTitle() async {
-    prefs.remove('title');
-  }
 
   static Future<void> savePhoneFromRegister({required String phone}) async {
     prefs.setString('registerphone', phone);

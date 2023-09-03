@@ -41,20 +41,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    color: Theme.of(context).primaryColor.withOpacity(.13)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        navigateTo(context, route: const SearchScreen());
-                      },
-                      child: Row(
+              GestureDetector(
+                onTap: () {
+                  navigateTo(context, route: const SearchScreen());
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      color: Theme.of(context).primaryColor.withOpacity(.13)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
                           Image.asset(
                             "assets/icons/png/search.png",
@@ -74,15 +74,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           ),
                         ],
                       ),
-                    ),
-                    Container(
+                      Container(
                         padding: EdgeInsets.all(10.r),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(11.r),
                             color: Theme.of(context).primaryColor),
                         child: SvgPicture.asset(
-                            "assets/icons/svg/search_setting.svg"))
-                  ],
+                            "assets/icons/svg/search_setting.svg"),
+                      )
+                    ],
+                  ),
                 ),
               ),
               BlocBuilder(
